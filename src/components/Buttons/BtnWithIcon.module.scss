@@ -1,0 +1,13 @@
+@use "/src/scss/variables" as v;
+
+.btn-with-icon {
+	display: grid;
+	grid-auto-flow: column;
+	align-items: center;
+	gap: 0.5625em;
+	cursor: pointer;
+
+	&:hover {
+		filter: opacity(0.5);
+	}
+}

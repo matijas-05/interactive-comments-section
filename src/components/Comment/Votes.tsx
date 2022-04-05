@@ -7,7 +7,7 @@ function Votes() {
 	return (
 		<div className={styles["votes"]}>
 			<img src="/src/assets/images/icon-plus.svg" alt="+" onClick={() => setVotes(votes + 1)} />
-			<p style={{ width: `${votes.toString().length}ch` }}>{votes}</p>
+			<p className="accent-purple" style={{ width: `${votes.toString().length}ch` }}>{votes}</p>
 			<img src="/src/assets/images/icon-minus.svg" alt="-" onClick={() => setVotes(votes - 1)} />
 		</div>
 	);

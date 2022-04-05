@@ -1,0 +1,24 @@
+@use "/src/scss/variables" as v;
+
+/* LAYOUT */
+.f-ai-c {
+	display: flex;
+	align-items: center;
+}
+.g-1 {
+	gap: 1em;
+}
+.left-right {
+	display: flex;
+	align-items: center;
+
+	> :last-child {
+		margin-left: auto;
+	}
+}
+
+/* APPEARANCE */
+.accent-purple {
+	color: v.$clr-text-primary-500;
+	font-weight: 500;
+}

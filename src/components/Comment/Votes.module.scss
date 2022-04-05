@@ -8,15 +8,14 @@
 	border-radius: v.$border-radius;
 
 	> p {
-		color: v.$clr-text-500;
-		font-weight: 500;
 		text-align: center;
 	}
 	> img {
 		cursor: pointer;
 		padding: .8em;
-	}
-	> img:hover {
-		filter: saturate(2000%) brightness(0.7);
+
+		&:hover {
+			filter: saturate(2000%) brightness(0.7);
+		}
 	}
 }

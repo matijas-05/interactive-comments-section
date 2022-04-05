@@ -3,10 +3,24 @@
 .comment {
 	display: flex;
 	flex-direction: column;
+	gap: 1.25em;
+	padding: 1em;
 	background-color: v.$clr-comment-bg;
 	border-radius: v.$border-radius;
 
 	> p {
 		color: hsl(211, 10%, 45%);
+	}
+}
+.info {
+	> img {
+		width: 2rem;
+	}
+	> .username {
+		color: v.$clr-text-neutral-500;
+		font-weight: 500;
+	}
+	> .date {
+		color: v.$clr-text-400;
 	}
 }
