@@ -1,0 +1,22 @@
+@use "/src/scss/variables" as v;
+
+.votes {
+	display: flex;
+	align-items: center;
+	max-width: fit-content;
+	background-color: v.$clr-bg;
+	border-radius: v.$border-radius;
+
+	> p {
+		color: v.$clr-text-500;
+		font-weight: 500;
+		text-align: center;
+	}
+	> img {
+		cursor: pointer;
+		padding: .8em;
+	}
+	> img:hover {
+		filter: saturate(2000%) brightness(0.7);
+	}
+}

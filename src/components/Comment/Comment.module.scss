@@ -1,0 +1,12 @@
+@use "/src/scss/variables" as v;
+
+.comment {
+	display: flex;
+	flex-direction: column;
+	background-color: v.$clr-comment-bg;
+	border-radius: v.$border-radius;
+
+	> p {
+		color: hsl(211, 10%, 45%);
+	}
+}
