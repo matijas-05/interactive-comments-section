@@ -1,6 +1,9 @@
 import { useState } from "react";
 import styles from "./Votes.module.scss";
 
+import iconPlus from "/src/assets/images/icon-plus.svg";
+import iconMinus from "/src/assets/images/icon-minus.svg";
+
 interface Props {
 	initialVotes: number
 }
@@ -9,9 +12,9 @@ function Votes(props: Props) {
 
 	return (
 		<div className={styles["votes"]}>
-			<img src="/src/assets/images/icon-plus.svg" alt="+" onClick={() => setVotes(votes + 1)} />
+			<img src={iconPlus} alt="+" onClick={() => setVotes(votes + 1)} />
 			<p className="accent-purple" style={{ width: `${votes.toString().length}ch` }}>{votes}</p>
-			<img src="/src/assets/images/icon-minus.svg" alt="-" onClick={() => setVotes(votes - 1)} />
+			<img src={iconMinus} alt="-" onClick={() => setVotes(votes - 1)} />
 		</div>
 	);
 }

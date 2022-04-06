@@ -5,6 +5,10 @@ import CommentInfo from "./CommentInfo";
 import { CurrentUser } from "../../context";
 import styles from "./Comment.module.scss"
 
+import iconDelete from "/src/assets/images/icon-delete.svg";
+import iconEdit from "/src/assets/images/icon-edit.svg";
+import iconReply from "/src/assets/images/icon-reply.svg";
+
 interface Props {
 	userName: string,
 	profilePicture: string,
@@ -40,16 +44,16 @@ class Comment extends React.Component<Props> {
 						{this.props.userName === currentUser ?
 							(
 								<div className="f-ai-c g-1">
-									<ButtonSecondary iconSrc="/src/assets/images/icon-delete.svg" onClick={() => console.log("delete")}>
+									<ButtonSecondary iconSrc={iconDelete} onClick={() => console.log("delete")}>
 										<span className="accent-red">Delete</span>
 									</ButtonSecondary>
-									<ButtonSecondary iconSrc="/src/assets/images/icon-edit.svg" onClick={() => console.log("edit")}>
+									<ButtonSecondary iconSrc={iconEdit} onClick={() => console.log("edit")}>
 										<span className="accent-purple">Edit</span>
 									</ButtonSecondary>
 								</div>
 							) :
 							(
-								<ButtonSecondary iconSrc="/src/assets/images/icon-reply.svg" onClick={() => console.log("reply")}>
+								<ButtonSecondary iconSrc={iconReply} onClick={() => console.log("reply")}>
 									<span className="accent-purple">Reply</span>
 								</ButtonSecondary>
 							)
