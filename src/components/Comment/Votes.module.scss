@@ -2,12 +2,13 @@
 
 .votes {
 	display: flex;
+	justify-content: center;
 	align-items: center;
-	max-width: fit-content;
 	background-color: v.$clr-bg;
 	border-radius: v.$border-radius;
-
+	
 	> p {
+		transition: width 100ms ease-in-out;
 		text-align: center;
 	}
 	> img {
