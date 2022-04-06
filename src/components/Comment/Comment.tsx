@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import React, { ReactNode } from "react";
 import Votes from "./Votes";
 import ButtonSecondary from "../General/ButtonSecondary";
 import CommentInfo from "./CommentInfo";
@@ -11,42 +11,59 @@ interface Props {
 	date: string,
 	message: string,
 	votes: number,
-	children?: React.ReactNode
+	children?: React.ReactNode,
+	parent?: Comment
 }
-function Comment(props: Props) {
-	const currentUser = useContext(CurrentUser);
-	return (
-		<div className="f-col g-1">
-			<div className={`${styles["comment"]} f-col`}>
-				<CommentInfo userName={props.userName} profilePicture={props.profilePicture} date={props.date} />
-				<p>{props.message}</p>
-				
-				<div className="left-right">
-					<Votes initialVotes={props.votes} />
-					{props.userName === currentUser ?
-						(
-							<div className="f-ai-c g-1">
-								<ButtonSecondary iconSrc="/src/assets/images/icon-delete.svg" onClick={() => console.log("delete")}>
-									<span className="accent-red">Delete</span>
+class Comment extends React.Component<Props> {
+	render() {
+		const currentUser = this.context;
+		const childrenWithProps = React.Children.map(this.props.children, child => {
+			if (React.isValidElement(child)) {
+				return React.cloneElement(child, { parent: this });
+			}
+			return child;
+		});
+		const replyingTo = this.props.parent?.props;
+
+		return (
+			<div className="f-col g-1">
+				<div className={`${styles["comment"]} f-col`}>
+					<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
+
+					<p>
+						{replyingTo !== undefined && <span className="accent-purple">@{replyingTo.userName} </span>}
+						{this.props.message}
+					</p>
+
+					<div className="left-right">
+						<Votes initialVotes={this.props.votes} />
+						{this.props.userName === currentUser ?
+							(
+								<div className="f-ai-c g-1">
+									<ButtonSecondary iconSrc="/src/assets/images/icon-delete.svg" onClick={() => console.log("delete")}>
+										<span className="accent-red">Delete</span>
+									</ButtonSecondary>
+									<ButtonSecondary iconSrc="/src/assets/images/icon-edit.svg" onClick={() => console.log("edit")}>
+										<span className="accent-purple">Edit</span>
+									</ButtonSecondary>
+								</div>
+							) :
+							(
+								<ButtonSecondary iconSrc="/src/assets/images/icon-reply.svg" onClick={() => console.log("reply")}>
+									<span className="accent-purple">Reply</span>
 								</ButtonSecondary>
-								<ButtonSecondary iconSrc="/src/assets/images/icon-edit.svg" onClick={() => console.log("edit")}>
-									<span className="accent-purple">Edit</span>
-								</ButtonSecondary>
-							</div>
-						) :
-						(
-							<ButtonSecondary iconSrc="/src/assets/images/icon-reply.svg" onClick={() => console.log("reply")}>
-								<span className="accent-purple">Reply</span>
-							</ButtonSecondary>
-						)
-					}
+							)
+						}
+					</div>
+				</div>
+
+				<div className={`${styles["replies"]} f-col g-1`} style={this.props.children === undefined ? { display: "none" } : {}}>
+					{childrenWithProps}
 				</div>
 			</div>
-			<div className={`${styles["replies"]} f-col g-1`} style={props.children === undefined ? { display: "none" } : {}}>
-				{props.children}
-			</div>
-		</div>
-	);
+		);
+	};
 }
+Comment.contextType = CurrentUser;
 
 export default Comment;
