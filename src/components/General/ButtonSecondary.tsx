@@ -5,12 +5,13 @@ interface Props {
 	alt?: string,
 	text?: string,
 	onClick?: () => void,
+	children?: React.ReactNode
 }
 function ButtonSecondary(props: Props) {
 	return (
 		<div className={styles["btn-secondary"]} onClick={props.onClick}>
 			<img src={props.iconSrc} alt={props.alt} />
-			<p className="accent-purple">{props.text}</p>
+			<p>{props.children}</p>
 		</div>
 	);
 }

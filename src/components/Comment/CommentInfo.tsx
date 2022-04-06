@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { CurrentUser } from "../../context";
 import styles from "./CommentInfo.module.scss";
 
 interface Props {
@@ -6,7 +8,7 @@ interface Props {
 	date: string
 }
 function CommentInfo(props: Props) {
-	const currentUser = "juliusomo"; // TODO: Get from db
+	const currentUser = useContext(CurrentUser);
 	return (
 		<div className={`${styles["comment-info"]} f-ai-c g-1`}>
 			<img src={props.profilePicture} alt="" />
