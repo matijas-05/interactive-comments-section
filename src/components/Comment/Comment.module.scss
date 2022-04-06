@@ -7,6 +7,10 @@
 	border-radius: v.$border-radius;
 
 	> p {
-		color: hsl(211, 10%, 45%);
+		color: v.$clr-text-400;
 	}
+}
+.replies {
+	padding-left: 1em;
+	border-left: 1px solid v.$clr-reply-border;
 }
