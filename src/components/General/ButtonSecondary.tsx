@@ -11,7 +11,7 @@ function ButtonSecondary(props: Props) {
 	return (
 		<div className={styles["btn-secondary"]} onClick={props.onClick}>
 			<img src={props.iconSrc} alt={props.alt} />
-			<p>{props.children}</p>
+			{props.children}
 		</div>
 	);
 }
