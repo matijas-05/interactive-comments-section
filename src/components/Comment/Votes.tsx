@@ -1,8 +1,11 @@
 import { useState } from "react";
 import styles from "./Votes.module.scss";
 
-function Votes() {
-	const [votes, setVotes] = useState(0);
+interface Props {
+	initialVotes: number
+}
+function Votes(props: Props) {
+	const [votes, setVotes] = useState(props.initialVotes);
 
 	return (
 		<div className={styles["votes"]}>
