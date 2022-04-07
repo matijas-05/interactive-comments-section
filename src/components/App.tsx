@@ -8,13 +8,13 @@ import juliusOmo from "/src/assets/images/avatars/image-juliusomo.webp";
 import ModalNoYes from './General/ModalNoYes';
 
 function App() {
-	const [deleteComponentModalIsOpen, setDeleteComponentModalIsOpen] = useState(false);
+	const [deleteComponentModalIsOpen, setDeleteCommentModalIsOpen] = useState(false);
 
 	function handleOpenModal() {
-		setDeleteComponentModalIsOpen(true);
+		setDeleteCommentModalIsOpen(true);
 	}
 	function handleCloseModal() {
-		setDeleteComponentModalIsOpen(false);
+		setDeleteCommentModalIsOpen(false);
 	}
 
 	return (
@@ -46,7 +46,7 @@ function App() {
 			<ModalNoYes
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
-				openModal={handleOpenModal} closeModal={handleCloseModal}
+				openModal={handleOpenModal} cancelModal={handleCloseModal} confirmModal={handleCloseModal}
 				modalState={deleteComponentModalIsOpen}
 			/>
 		</>

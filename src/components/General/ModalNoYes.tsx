@@ -9,7 +9,8 @@ interface Props {
 	message: string;
 	modalState: boolean,
 	openModal: () => void,
-	closeModal: () => void
+	confirmModal: () => void
+	cancelModal: () => void
 }
 function ModalNoYes(props: Props) {
 	return (
@@ -18,15 +19,15 @@ function ModalNoYes(props: Props) {
 				className={`${styles["modal"]} f-col g-1`} overlayClassName={`${styles["overlay"]} f-center`}
 				contentLabel="Delete comment" ariaHideApp={false}
 				isOpen={props.modalState} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true}
-				onRequestClose={props.closeModal}
+				onRequestClose={props.cancelModal}
 				onAfterOpen={() => disableBodyScroll(document.querySelector("body")!)}
 				onAfterClose={() => enableBodyScroll(document.querySelector("body")!)}
 			>
 				<h1>{props.header}</h1>
 				<p>{props.message}</p>
 				<div className="f-center g-1">
-					<ButtonPrimary onClick={props.closeModal}>NO, CANCEL</ButtonPrimary>
-					<ButtonPrimary className="bg-red" onClick={props.closeModal}>YES, DELETE</ButtonPrimary>
+					<ButtonPrimary onClick={props.cancelModal}>NO, CANCEL</ButtonPrimary>
+					<ButtonPrimary className="bg-red" onClick={props.confirmModal}>YES, DELETE</ButtonPrimary>
 				</div>
 			</ReactModal>
 		</div>
