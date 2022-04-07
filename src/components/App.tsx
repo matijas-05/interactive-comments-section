@@ -46,7 +46,7 @@ function App() {
 			<ModalNoYes
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
-				openModal={handleOpenModal} cancelModal={handleCloseModal} confirmModal={handleCloseModal}
+				cancelModal={handleCloseModal} confirmModal={handleCloseModal}
 				modalState={deleteComponentModalIsOpen}
 			/>
 		</>

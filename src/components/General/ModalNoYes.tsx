@@ -5,11 +5,10 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import styles from "./ModalNoYes.module.scss";
 
 interface Props {
-	header: string;
-	message: string;
+	header: string,
+	message: string,
 	modalState: boolean,
-	openModal: () => void,
-	confirmModal: () => void
+	confirmModal: () => void,
 	cancelModal: () => void
 }
 function ModalNoYes(props: Props) {
