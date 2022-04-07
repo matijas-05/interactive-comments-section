@@ -1,6 +1,11 @@
 @use "/src/scss/variables" as v;
 
 /* LAYOUT */
+.f-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .f-ai-c {
 	display: flex;
 	align-items: center;
@@ -22,11 +27,20 @@
 }
 
 /* APPEARANCE */
-.accent-purple {
+.text-purple {
 	color: v.$clr-text-primary-500;
 	font-weight: 500;
 }
-.accent-red {
+.text-red {
 	color: v.$clr-text-red-500;
 	font-weight: 500;
+}
+.bg-red {
+	background-color: v.$clr-text-red-500 !important;
+}
+.hover-opacity:hover {
+	filter: opacity(0.5);
+}
+.stop-scrolling {
+	overflow: hidden;
 }

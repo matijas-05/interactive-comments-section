@@ -1,0 +1,27 @@
+@use "/src/scss/variables"as v;
+
+.overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(black, 0.5);
+}
+.modal {
+	margin: 1em;
+	padding: 1.75em;
+	border-radius: v.$border-radius;
+	outline: none;
+	background-color: white;
+
+	> h1 {
+		font-size: 1.25em;
+		font-weight: 700;
+		color: v.$clr-text-neutral-500;
+	}
+	> p {
+		font-weight: 400;
+		color: v.$clr-text-400;
+	}
+}

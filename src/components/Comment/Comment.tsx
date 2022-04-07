@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useContext } from "react";
 import Votes from "./Votes";
 import ButtonSecondary from "../General/ButtonSecondary";
 import CommentInfo from "./CommentInfo";
@@ -15,6 +15,7 @@ interface Props {
 	date: string,
 	message: string,
 	votes: number,
+	setDeleteComponentModalIsOpen: (isOpen: boolean) => void,
 	children?: React.ReactNode,
 	parent?: Comment
 }
@@ -35,7 +36,7 @@ class Comment extends React.Component<Props> {
 					<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 
 					<p>
-						{replyingTo !== undefined && <span className="accent-purple">@{replyingTo.userName} </span>}
+						{replyingTo !== undefined && <span className="text-purple">@{replyingTo.userName} </span>}
 						{this.props.message}
 					</p>
 
@@ -44,17 +45,17 @@ class Comment extends React.Component<Props> {
 						{this.props.userName === currentUser ?
 							(
 								<div className="f-ai-c g-1">
-									<ButtonSecondary iconSrc={iconDelete} onClick={() => console.log("delete")}>
-										<span className="accent-red">Delete</span>
+									<ButtonSecondary iconSrc={iconDelete} onClick={() => this.props.setDeleteComponentModalIsOpen(true)}>
+										<span className="text-red">Delete</span>
 									</ButtonSecondary>
 									<ButtonSecondary iconSrc={iconEdit} onClick={() => console.log("edit")}>
-										<span className="accent-purple">Edit</span>
+										<span className="text-purple">Edit</span>
 									</ButtonSecondary>
 								</div>
 							) :
 							(
 								<ButtonSecondary iconSrc={iconReply} onClick={() => console.log("reply")}>
-									<span className="accent-purple">Reply</span>
+									<span className="text-purple">Reply</span>
 								</ButtonSecondary>
 							)
 						}

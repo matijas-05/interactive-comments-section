@@ -9,7 +9,7 @@ interface Props {
 }
 function ButtonSecondary(props: Props) {
 	return (
-		<div className={styles["btn-secondary"]} onClick={props.onClick}>
+		<div className={`${styles["btn-secondary"]} hover-opacity`} onClick={props.onClick}>
 			<img src={props.iconSrc} alt={props.alt} />
 			{props.children}
 		</div>
