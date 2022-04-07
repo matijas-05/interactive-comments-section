@@ -8,7 +8,7 @@ interface Props {
 }
 function ButtonPrimary(props: Props) {
 	return (
-		<div className={`${styles["btn-primary"]} ${props.className} hover-opacity`}>
+		<div className={`${styles["btn-primary"]} ${props.className} hover-opacity`} onClick={props.onClick}>
 			{props.children}
 		</div>
 	)

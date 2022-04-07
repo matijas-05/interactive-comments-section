@@ -15,7 +15,7 @@ interface Props {
 	date: string,
 	message: string,
 	votes: number,
-	setDeleteComponentModalIsOpen: (isOpen: boolean) => void,
+	openDeleteCommentModal: () => void,
 	children?: React.ReactNode,
 	parent?: Comment
 }
@@ -45,7 +45,7 @@ class Comment extends React.Component<Props> {
 						{this.props.userName === currentUser ?
 							(
 								<div className="f-ai-c g-1">
-									<ButtonSecondary iconSrc={iconDelete} onClick={() => this.props.setDeleteComponentModalIsOpen(true)}>
+									<ButtonSecondary iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal}>
 										<span className="text-red">Delete</span>
 									</ButtonSecondary>
 									<ButtonSecondary iconSrc={iconEdit} onClick={() => console.log("edit")}>
