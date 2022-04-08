@@ -32,7 +32,7 @@ class Comment extends React.Component<Props> {
 
 		return (
 			<div className="f-col g-1">
-				<div className={`${styles["comment"]} f-col`}>
+				<div className={`${styles["comment"]} f-col card`}>
 					<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 
 					<p>

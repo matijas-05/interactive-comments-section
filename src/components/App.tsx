@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Comment from './Comment/Comment';
+import AddComment from './Comment/AddComment';
 
 import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "/src/assets/images/avatars/image-maxblagun.webp";
@@ -42,6 +43,8 @@ function App() {
 					</Comment>
 				</Comment>
 			</Comment>
+
+			<AddComment />
 
 			<ModalNoYes
 				header="Delete comment"

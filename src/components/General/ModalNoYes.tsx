@@ -15,7 +15,7 @@ function ModalNoYes(props: Props) {
 	return (
 		<div className="center">
 			<ReactModal
-				className={`${styles["modal"]} f-col g-1`} overlayClassName={`${styles["overlay"]} f-center`}
+				className={`${styles["modal"]} f-col g-1 card`} overlayClassName={`${styles["overlay"]} f-center`}
 				contentLabel="Delete comment" ariaHideApp={false}
 				closeTimeoutMS={200}
 				isOpen={props.modalState} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true}

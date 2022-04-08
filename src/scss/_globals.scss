@@ -6,6 +6,7 @@
 *::after {
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
 	font-family: "Rubik", sans-serif;
 	transition: filter v.$transition-duration ease-in-out;
 }

@@ -1,12 +1,10 @@
 @use "/src/scss/variables" as v;
 
 .modal {
-	max-width: 17.9375rem;
+	max-width: 22rem;
 	margin: 1em;
-	padding: 1.75em;
-	border-radius: v.$border-radius;
+	padding: 1.75em !important;
 	outline: none;
-	background-color: white;
 	
 	> h1 {
 		font-size: 1.25em;
