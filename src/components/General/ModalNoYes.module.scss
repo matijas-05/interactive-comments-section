@@ -1,13 +1,5 @@
-@use "/src/scss/variables"as v;
+@use "/src/scss/variables" as v;
 
-.overlay {
-	position: fixed;
-	top: 0;
-	right: 0;
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(black, 0.5);
-}
 .modal {
 	max-width: 17.9375rem;
 	margin: 1em;
@@ -15,7 +7,7 @@
 	border-radius: v.$border-radius;
 	outline: none;
 	background-color: white;
-
+	
 	> h1 {
 		font-size: 1.25em;
 		font-weight: 700;
@@ -25,4 +17,12 @@
 		font-weight: 400;
 		color: v.$clr-text-400;
 	}
+}
+.overlay {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(black, 0.5);
 }

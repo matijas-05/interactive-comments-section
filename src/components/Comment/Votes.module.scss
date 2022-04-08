@@ -8,7 +8,7 @@
 	border-radius: v.$border-radius;
 	
 	> p {
-		transition: width 100ms ease-in-out;
+		transition: width v.$transition-duration ease-in-out;
 		text-align: center;
 	}
 	> img {

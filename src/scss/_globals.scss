@@ -1,4 +1,4 @@
-@use "./variables" as v;
+@use "./variables"as v;
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
 
 *,
@@ -7,7 +7,7 @@
 	margin: 0;
 	padding: 0;
 	font-family: "Rubik", sans-serif;
-	transition: filter 100ms ease-in-out;
+	transition: filter v.$transition-duration ease-in-out;
 }
 body {
 	background-color: v.$clr-bg;
@@ -19,6 +19,33 @@ button {
 }
 p {
 	line-height: 1.5em;
+}
+
+/* Modal transitions */
+$modal-transition-duration: v.$transition-duration*2;
+.ReactModal__Overlay {
+	opacity: 0;
+	transition: opacity $modal-transition-duration ease-in-out;
+}
+.ReactModal__Overlay--after-open {
+	opacity: 1;
+}
+.ReactModal__Overlay--before-close {
+	opacity: 0;
+}
+
+.ReactModal__Content{
+	transform: scale(0.5);
+	opacity: 0;
+	transition: all $modal-transition-duration ease-in-out;
+}
+.ReactModal__Content--after-open {
+	transform: scale(1);
+	opacity: 1;
+}
+.ReactModal__Content--before-close {
+	transform: scale(0.5);
+	opacity: 0;
 }
 
 #root {

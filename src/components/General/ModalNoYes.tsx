@@ -17,6 +17,7 @@ function ModalNoYes(props: Props) {
 			<ReactModal
 				className={`${styles["modal"]} f-col g-1`} overlayClassName={`${styles["overlay"]} f-center`}
 				contentLabel="Delete comment" ariaHideApp={false}
+				closeTimeoutMS={200}
 				isOpen={props.modalState} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true}
 				onRequestClose={props.cancelModal}
 				onAfterOpen={() => disableBodyScroll(document.querySelector("body")!)}
