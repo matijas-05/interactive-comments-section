@@ -13,7 +13,8 @@ interface Props {
 function ModalNoYes(props: Props) {
 	return (
 		<ReactModal
-			className={`${styles["modal"]} f-col g-1 card`} overlayClassName={`${styles["overlay"]} f-center`}
+			className={`${styles["ModalNoYes"]} f-col g-1 card`} bodyOpenClassName="ModalYesNo__Body"
+			overlayClassName={`${styles["ModalNoYes__Overlay"]} f-center`} portalClassName="ModalYesNoPortal"
 			contentLabel="Delete comment" ariaHideApp={false}
 			closeTimeoutMS={200}
 			isOpen={props.modalState} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true}

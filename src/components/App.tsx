@@ -1,14 +1,15 @@
 import { useState } from 'react'
 import Comment from './Comment/Comment';
-import AddComment from './Comment/AddComment';
+import AddCommentModal from './Comment/AddCommentModal';
+import ModalNoYes from './General/ModalNoYes';
 
 import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "/src/assets/images/avatars/image-maxblagun.webp";
 import ramsesMiron from "/src/assets/images/avatars/image-ramsesmiron.webp";
 import juliusOmo from "/src/assets/images/avatars/image-juliusomo.webp";
-import ModalNoYes from './General/ModalNoYes';
 
 function App() {
+	// Delete comment modal
 	const [deleteCommentModalIsOpen, setDeleteCommentModalIsOpen] = useState(false);
 	function handleOpenDeleteCommentModal() {
 		setDeleteCommentModalIsOpen(true);
@@ -17,13 +18,14 @@ function App() {
 		setDeleteCommentModalIsOpen(false);
 	}
 
+	// Reply to comment modal
 	const [replyModalIsOpen, setReplyModalIsOpen] = useState(false);
-	const [replyModalParent, setReplyModalParent] = useState(false);
-
+	const [replyModalParent, setReplyModalParent] = useState<HTMLDivElement>();
 	function handleCloseReplyModal() {
 		setReplyModalIsOpen(false);
 	}
-	function handleToggleReplyModal() {
+	function handleToggleReplyModal(parentComment: HTMLDivElement) {
+		setReplyModalParent(parentComment);
 		setReplyModalIsOpen(!replyModalIsOpen);
 	}
 
@@ -56,9 +58,8 @@ function App() {
 					</Comment>
 				</Comment>
 			</Comment>
-			
 
-			<AddComment modalState={replyModalIsOpen} closeModal={handleCloseReplyModal} />
+			<AddCommentModal modalState={replyModalIsOpen} closeModal={handleCloseReplyModal} parent={replyModalParent ?? document.getElementById("root")} />
 			<ModalNoYes
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."

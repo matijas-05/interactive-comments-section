@@ -17,6 +17,9 @@
 .g-1 {
 	gap: 1em;
 }
+.hide-empty > *:empty {
+	display: none;
+}
 .pad-1-2 {
 	padding: 1em 2em;
 }
