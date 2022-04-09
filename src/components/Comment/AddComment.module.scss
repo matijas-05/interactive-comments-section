@@ -1,5 +1,12 @@
 @use "/src/scss/variables"as v;
 
+.modal {
+	background-color: transparent;
+}
+.overlay {
+	background-color: transparent;
+}
+
 .input {
 	height: 5rem;
 	padding: 1em;

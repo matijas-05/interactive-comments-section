@@ -12,6 +12,7 @@
 }
 body {
 	background-color: v.$clr-bg;
+	scroll-behavior: smooth;
 }
 button {
 	border: none;
@@ -38,6 +39,7 @@ $modal-transition-duration: v.$transition-duration*2;
 .ReactModal__Content{
 	transform: scale(0.5);
 	opacity: 0;
+	outline: none;
 	transition: all $modal-transition-duration ease-in-out;
 }
 .ReactModal__Content--after-open {

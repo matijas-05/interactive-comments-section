@@ -15,6 +15,7 @@ interface Props {
 	date: string,
 	message: string,
 	votes: number,
+	openReplyModal: () => void,
 	openDeleteCommentModal: () => void,
 	children?: React.ReactNode,
 	parent?: Comment
@@ -54,7 +55,7 @@ class Comment extends React.Component<Props> {
 								</div>
 							) :
 							(
-								<ButtonSecondary iconSrc={iconReply} onClick={() => console.log("reply")}>
+								<ButtonSecondary iconSrc={iconReply} onClick={this.props.openReplyModal}>
 									<span className="text-purple">Reply</span>
 								</ButtonSecondary>
 							)
