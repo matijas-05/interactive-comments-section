@@ -4,7 +4,7 @@
 	"version": "0.1.0",
 	"scripts": {
 		"start": "vite",
-		"build": "tsc && vite build --base=/interactive-comments-section/",
+		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"deploy": "push-dir --dir=dist --branch=gh-pages --cleanup && npx gh-pages -d dist"
 	},
