@@ -52,8 +52,9 @@ class Comment extends React.Component<Props> {
 							<span className="text-purple hover-opacity" style={{ cursor: "pointer" }}
 								onClick={() => {
 									const parentElement = this.props.parentRef!.current!.firstChild as HTMLDivElement;
-									parentElement.scrollIntoView({ behavior: "smooth" });
-									parentElement.animate([{ backgroundColor: `#e6e60073` }, {}], { duration: 500 });
+									if (parentElement.getBoundingClientRect().top < 0)
+										parentElement.scrollIntoView({ behavior: "smooth" });
+									parentElement.animate([{ backgroundColor: `#e6e60073` }, {}], { duration: 1000 });
 								}}>
 								@{parentComment.userName} &nbsp;
 							</span>
