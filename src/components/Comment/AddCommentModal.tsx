@@ -56,8 +56,8 @@ function AddCommentModal(props: Props) {
 				<textarea className={`${styles["input"]}`} ref={inputRef} placeholder="Add a comment..." rows={5}></textarea>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
-					<div className="f-center g-1-25">
-						<ButtonSecondary onClick={props.closeModal} noHoverEffect={true}><p className="hover-underline">Close</p></ButtonSecondary>
+					<div className="f-center g-1-5">
+						<ButtonSecondary onClick={props.closeModal} noHoverEffect={true}><p className="hover-underline">Cancel</p></ButtonSecondary>
 						<ButtonPrimary className="bg-purple pad-1-2" onClick={props.closeModal}>SEND</ButtonPrimary>
 					</div>
 				</div>
