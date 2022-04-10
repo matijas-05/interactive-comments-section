@@ -35,14 +35,14 @@ function AddCommentModal(props: Props) {
 			className={{
 				base: styles["AddCommentModal__Content"],
 				afterOpen: styles["AddCommentModal__Content--after-open"],
-				beforeClose: styles["AddCommentModal__Content--before-close"]
+				beforeClose: ""
 			}}
 			bodyOpenClassName="AddCommentModal__Body"
 			portalClassName="AddCommentModalPortal"
 			overlayClassName={styles["AddCommentModal__Overlay"]}
 			contentLabel="Add comment" ariaHideApp={false}
 			isOpen={props.modalState} shouldCloseOnEsc={true}
-			closeTimeoutMS={200} onRequestClose={props.closeModal}
+			onRequestClose={props.closeModal}
 			onAfterOpen={() => {
 				const commentInput = inputRef.current!;
 				const y = commentInput.getBoundingClientRect().top + window.scrollY;
