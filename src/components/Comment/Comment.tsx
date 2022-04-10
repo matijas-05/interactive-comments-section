@@ -18,34 +18,46 @@ interface Props {
 	openReplyModal: (ref: HTMLDivElement) => void,
 	openDeleteCommentModal: () => void,
 	children?: React.ReactNode,
-	parent?: Comment
+	parent?: Comment,
+	parentRef?: React.RefObject<HTMLDivElement>
 }
 class Comment extends React.Component<Props> {
-	private repliesRef: React.RefObject<HTMLDivElement> = React.createRef();
+	private thisRef = React.createRef<HTMLDivElement>();
+	private repliesRef = React.createRef<HTMLDivElement>();
 
 	constructor(props: Props) {
 		super(props);
+		this.thisRef = React.createRef();
 		this.repliesRef = React.createRef();
 	}
 
 	render() {
 		const childrenWithProps = React.Children.map(this.props.children, child => {
 			if (React.isValidElement(child)) {
-				return React.cloneElement(child, { parent: this });
+				return React.cloneElement(child, { parent: this, parentRef: this.thisRef });
 			}
 			return child;
 		});
 
-		const replyingTo = this.props.parent?.props;
+		const parentComment = this.props.parent?.props;
 		const currentUser = this.context;
 
 		return (
-			<div className="f-col g-1 hide-empty">
+			<div ref={this.thisRef} className="f-col g-1 hide-empty">
 				<div className={`${styles["comment"]} f-col card`}>
 					<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 
 					<p>
-						{replyingTo !== undefined && <span className="text-purple">@{replyingTo.userName} </span>}
+						{parentComment !== undefined &&
+							<span className="text-purple hover-opacity" style={{ cursor: "pointer" }}
+								onClick={() => {
+									const parentElement = this.props.parentRef!.current!.firstChild as HTMLDivElement;
+									parentElement.scrollIntoView({ behavior: "smooth" });
+									parentElement.animate([{ backgroundColor: `#e6e60073` }, {}], { duration: 500 });
+								}}>
+								@{parentComment.userName} &nbsp;
+							</span>
+						}
 						{this.props.message}
 					</p>
 
