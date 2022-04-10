@@ -1,4 +1,4 @@
-import React, { Children } from "react";
+import React from "react";
 import Votes from "./Votes";
 import ButtonSecondary from "../General/ButtonSecondary";
 import CommentInfo from "./CommentInfo";
@@ -17,7 +17,7 @@ interface Props {
 	votes: number,
 	openReplyModal: (ref: HTMLDivElement) => void,
 	openDeleteCommentModal: () => void,
-	children?: any,
+	children?: React.ReactNode,
 	parent?: Comment
 }
 class Comment extends React.Component<Props> {

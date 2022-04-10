@@ -59,7 +59,7 @@ function App() {
 				</Comment>
 			</Comment>
 
-			<AddCommentModal modalState={replyModalIsOpen} closeModal={handleCloseReplyModal} parent={replyModalParent ?? document.getElementById("root")} />
+			<AddCommentModal modalState={replyModalIsOpen} closeModal={handleCloseReplyModal} parent={replyModalParent ?? document.getElementById("root")!} />
 			<ModalNoYes
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."

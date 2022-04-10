@@ -13,12 +13,22 @@ interface Props {
 function ModalNoYes(props: Props) {
 	return (
 		<ReactModal
-			className={`${styles["ModalNoYes"]} f-col g-1 card`} bodyOpenClassName="ModalYesNo__Body"
-			overlayClassName={`${styles["ModalNoYes__Overlay"]} f-center`} portalClassName="ModalYesNoPortal"
+			className={{
+				base: `${styles["ModalNoYes__Content"]} f-col g-1 card`,
+				afterOpen: styles["ModalNoYes__Content--after-open"],
+				beforeClose: styles["ModalNoYes__Content--before-close"]
+			}}
+			bodyOpenClassName="ModalYesNo__Body"
+			portalClassName="ModalYesNoPortal"
+			overlayClassName={{
+				base: `${styles["ModalNoYes__Overlay"]} f-center`,
+				afterOpen: styles["ModalNoYes__Overlay--after-open"],
+				beforeClose: styles["ModalNoYes__Overlay--before-close"]
+			}}
+
 			contentLabel="Delete comment" ariaHideApp={false}
-			closeTimeoutMS={200}
 			isOpen={props.modalState} shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true}
-			onRequestClose={props.cancelModal}
+			closeTimeoutMS={200} onRequestClose={props.cancelModal}
 			onAfterOpen={() => disableBodyScroll(document.querySelector("body")!)}
 			onAfterClose={() => enableBodyScroll(document.querySelector("body")!)}
 		>

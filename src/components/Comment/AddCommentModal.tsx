@@ -1,13 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import ReactModal from 'react-modal';
 import ButtonPrimary from '../General/ButtonPrimary'
 import userImg from "../../assets/images/avatars/image-juliusomo.webp";
 import styles from "./AddCommentModal.module.scss";
 
+// Overrite default overlay styles
+ReactModal.defaultStyles.overlay = {}
+
 interface Props {
 	modalState: boolean,
 	closeModal: () => void,
-	parent: any
+	parent: HTMLElement
 }
 function AddCommentModal(props: Props) {
 	const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -29,10 +32,18 @@ function AddCommentModal(props: Props) {
 
 	return (
 		<ReactModal
-			className={styles["AddCommentModal"]} bodyOpenClassName="AddCommentModal__Body"
-			overlayClassName={styles["AddCommentModal__Overlay"]} portalClassName="AddCommentModalPortal"
+			className={{
+				base: styles["AddCommentModal__Content"],
+				afterOpen: styles["AddCommentModal__Content--after-open"],
+				beforeClose: styles["AddCommentModal__Content--before-close"]
+			}}
+			bodyOpenClassName="AddCommentModal__Body"
+			portalClassName="AddCommentModalPortal"
+			overlayClassName={styles["AddCommentModal__Overlay"]}
 			contentLabel="Add comment" ariaHideApp={false}
-			isOpen={props.modalState} onAfterOpen={() => {
+			isOpen={props.modalState} shouldCloseOnEsc={true}
+			closeTimeoutMS={200} onRequestClose={props.closeModal}
+			onAfterOpen={() => {
 				const commentInput = inputRef.current!;
 				const y = commentInput.getBoundingClientRect().top + window.scrollY;
 				if (y > window.visualViewport.height) window.scrollTo({ top: y, behavior: "smooth" });

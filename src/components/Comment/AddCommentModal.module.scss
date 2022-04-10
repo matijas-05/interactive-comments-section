@@ -1,10 +1,15 @@
-@use "/src/scss/variables"as v;
+@use "/src/scss/variables" as v;
 
-.AddCommentModal {
+.AddCommentModal__Content {
 	background-color: transparent;
+	max-height: 0;
+	transition: all v.$modal-transition-duration ease-in-out;
 }
-.AddCommentModal__Overlay {
-	background-color: transparent;
+.AddCommentModal__Content--after-open {
+	max-height: 11.25rem;
+}
+.AddCommentModal__Content--before-close {
+	max-height: 0;
 }
 
 .input {

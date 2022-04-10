@@ -1,6 +1,6 @@
 @use "/src/scss/variables" as v;
 
-.ModalNoYes {
+.ModalNoYes__Content {
 	max-width: 22rem;
 	margin: 1em;
 	padding: 1.75em !important;
@@ -14,7 +14,21 @@
 		font-weight: 400;
 		color: v.$clr-text-400;
 	}
+
+	transform: scale(0.5);
+	opacity: 0;
+	outline: none;
+	transition: all v.$modal-transition-duration ease-in-out;
 }
+.ModalNoYes__Content--after-open {
+	transform: scale(1);
+	opacity: 1;
+}
+.ModalNoYes__Content--before-close {
+	transform: scale(0.5);
+	opacity: 0;
+}
+
 .ModalNoYes__Overlay {
 	position: fixed;
 	top: 0;
@@ -24,4 +38,13 @@
 	background-color: rgba(black, 0.5);
 	-webkit-backdrop-filter: blur(10px);
 	backdrop-filter: blur(10px);
+
+	opacity: 0;
+	transition: opacity v.$modal-transition-duration ease-in-out;
+}
+.ModalNoYes__Overlay--after-open {
+	opacity: 1;
+}
+.ModalNoYes__Overlay--before-close {
+	opacity: 0;
 }
