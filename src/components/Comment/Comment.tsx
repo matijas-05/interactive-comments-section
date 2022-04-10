@@ -27,8 +27,15 @@ class Comment extends React.Component<Props> {
 		super(props);
 		this.repliesRef = React.createRef();
 	}
-	
+
 	render() {
+		const childrenWithProps = React.Children.map(this.props.children, child => {
+			if (React.isValidElement(child)) {
+				return React.cloneElement(child, { parent: this });
+			}
+			return child;
+		});
+
 		const replyingTo = this.props.parent?.props;
 		const currentUser = this.context;
 
@@ -66,7 +73,7 @@ class Comment extends React.Component<Props> {
 				</div>
 
 				<div ref={this.repliesRef} className={`${styles["replies"]} f-col g-1`}>
-					{this.props.children ? React.cloneElement(this.props.children as React.ReactElement<any>, { parent: this }) : null}
+					{childrenWithProps}
 				</div>
 			</div>
 		);

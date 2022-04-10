@@ -49,6 +49,7 @@ function App() {
 					openDeleteCommentModal={handleOpenDeleteCommentModal}
 					message="If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first."
 				>
+					
 					<Comment
 						profilePicture={juliusOmo} userName="juliusomo" date="2 days ago" votes={2}
 						openReplyModal={handleToggleReplyModal}
