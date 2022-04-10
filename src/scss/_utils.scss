@@ -17,6 +17,9 @@
 .g-1 {
 	gap: 1em;
 }
+.g-1-25 {
+	gap: 1.25em;
+}
 .hide-empty > *:empty {
 	display: none;
 }
@@ -51,6 +54,10 @@
 .hover-opacity:hover {
 	filter: opacity(0.5);
 }
+.hover-underline:hover {
+	text-decoration: underline;
+}
+
 .profile-pic {
 	width: 2rem;
 }

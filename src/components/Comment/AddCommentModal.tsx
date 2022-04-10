@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import ReactModal from 'react-modal';
 import ButtonPrimary from '../General/ButtonPrimary'
+import ButtonSecondary from '../General/ButtonSecondary';
 import userImg from "../../assets/images/avatars/image-juliusomo.webp";
 import styles from "./AddCommentModal.module.scss";
 
@@ -55,9 +56,10 @@ function AddCommentModal(props: Props) {
 				<textarea className={`${styles["input"]}`} ref={inputRef} placeholder="Add a comment..." rows={5}></textarea>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
-					<ButtonPrimary className="bg-purple pad-1-2" onClick={props.closeModal}>
-						SEND
-					</ButtonPrimary>
+					<div className="f-center g-1-25">
+						<ButtonSecondary onClick={props.closeModal} noHoverEffect={true}><p className="hover-underline">Close</p></ButtonSecondary>
+						<ButtonPrimary className="bg-purple pad-1-2" onClick={props.closeModal}>SEND</ButtonPrimary>
+					</div>
 				</div>
 			</div>
 		</ReactModal>

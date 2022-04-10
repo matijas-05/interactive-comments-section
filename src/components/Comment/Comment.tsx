@@ -55,17 +55,17 @@ class Comment extends React.Component<Props> {
 							this.props.userName === currentUser ?
 								(
 									<div className="f-ai-c g-1">
-										<ButtonSecondary iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal}>
-											<span className="text-red">Delete</span>
+										<ButtonSecondary className="text-red" iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal}>
+											Delete
 										</ButtonSecondary>
-										<ButtonSecondary iconSrc={iconEdit} onClick={() => console.log("edit")}>
-											<span className="text-purple">Edit</span>
+										<ButtonSecondary className="text-purple" iconSrc={iconEdit} onClick={() => console.log("edit")}>
+											Edit
 										</ButtonSecondary>
 									</div>
 								) :
 								(
-									<ButtonSecondary iconSrc={iconReply} onClick={() => this.props.openReplyModal(this.repliesRef.current!)}>
-										<span className="text-purple">Reply</span>
+									<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => this.props.openReplyModal(this.repliesRef.current!)}>
+										Reply
 									</ButtonSecondary>
 								)
 						}
