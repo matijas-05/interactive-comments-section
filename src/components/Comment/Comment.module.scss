@@ -1,13 +1,11 @@
 @use "/src/scss/variables" as v;
 
-.comment {
-	gap: 1.25em;
-
-	> p {
-		color: v.$clr-text-400;
-	}
-}
 .replies {
 	padding-left: 1em;
 	border-left: 2px solid v.$clr-reply-border;
+
+	@media (min-width: v.$breakpoint) {
+		margin-left: 2.85vw;
+		padding-left: 2.85vw;
+	}
 }

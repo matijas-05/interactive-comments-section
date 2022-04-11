@@ -5,13 +5,14 @@ import iconPlus from "/src/assets/images/icon-plus.svg";
 import iconMinus from "/src/assets/images/icon-minus.svg";
 
 interface Props {
+	className?: string,
 	initialVotes: number,
 }
 function Votes(props: Props) {
 	const [votes, setVotes] = useState(props.initialVotes);
-	
+
 	return (
-		<div className={styles["votes"]}>
+		<div className={`${styles["votes"]} ${props.className} f-center`} style={{ alignSelf: "flex-start" }}>
 			<img src={iconPlus} alt="+" onClick={() => setVotes(votes + 1)} />
 			<p className="text-purple" style={{ width: `${votes.toString().length}ch` }}>{votes}</p>
 			<img src={iconMinus} alt="-" onClick={() => setVotes(votes - 1)} />

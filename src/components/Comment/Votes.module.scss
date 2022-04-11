@@ -1,15 +1,13 @@
 @use "/src/scss/variables" as v;
 
 .votes {
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	background-color: v.$clr-bg;
 	border-radius: v.$border-radius;
 	
 	> p {
 		transition: width v.$transition-duration ease-in-out;
 		text-align: center;
+		margin: 0 .25em;
 	}
 	> img {
 		cursor: pointer;

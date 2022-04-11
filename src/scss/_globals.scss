@@ -15,9 +15,9 @@ body {
 	scroll-behavior: smooth;
 }
 #root {
-	display: flex;
-	flex-direction: column;
+	display: grid;
 	justify-content: center;
+	align-content: center;
 	padding: 2em 1em;
 	gap: 1em;
 }
