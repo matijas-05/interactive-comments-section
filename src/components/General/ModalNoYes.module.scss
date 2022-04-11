@@ -19,6 +19,10 @@
 	opacity: 0;
 	outline: none;
 	transition: all v.$modal-transition-duration ease-in-out;
+
+	@media (min-width: v.$breakpoint) {
+		padding: 2em !important;
+	}
 }
 .ModalNoYes__Content--after-open {
 	transform: scale(1);
