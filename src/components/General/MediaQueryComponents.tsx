@@ -9,6 +9,6 @@ export const Mobile = (props: PropsWithChildren<ReactNode>) => {
 }
 export const Desktop = (props: PropsWithChildren<ReactNode>) => {
 	return (
-		<MediaQuery minWidth={breakpoint}>{props.children}</MediaQuery>
+		<MediaQuery minWidth={breakpoint + 1}>{props.children}</MediaQuery>
 	)
 }
