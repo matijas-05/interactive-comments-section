@@ -5,11 +5,11 @@ import iconPlus from "/src/assets/images/icon-plus.svg";
 import iconMinus from "/src/assets/images/icon-minus.svg";
 
 interface Props {
-	initialVotes: number
+	initialVotes: number,
 }
 function Votes(props: Props) {
 	const [votes, setVotes] = useState(props.initialVotes);
-
+	
 	return (
 		<div className={styles["votes"]}>
 			<img src={iconPlus} alt="+" onClick={() => setVotes(votes + 1)} />
