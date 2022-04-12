@@ -1,7 +1,9 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ReactModal from 'react-modal';
 import ButtonPrimary from '../General/ButtonPrimary'
 import ButtonSecondary from '../General/ButtonSecondary';
+import TextareaAutosize from "react-textarea-autosize";
+
 import userImg from "../../assets/images/avatars/image-juliusomo.webp";
 import styles from "./AddCommentModal.module.scss";
 
@@ -47,17 +49,20 @@ function AddCommentModal(props: Props) {
 			onAfterOpen={() => {
 				const commentInput = inputRef.current!;
 				const y = commentInput.getBoundingClientRect().top + window.scrollY;
+
 				if (y > window.visualViewport.height) window.scrollTo({ top: y, behavior: "smooth" });
 				commentInput.focus({ preventScroll: true });
 			}}
 			parentSelector={() => props.parent}
 		>
 			<div className="f-col g-1 card">
-				<textarea className={`text-input`} ref={inputRef} placeholder="Add a comment..." rows={5}></textarea>
+				<TextareaAutosize ref={inputRef} placeholder="Add a comment..."></TextareaAutosize>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
 					<div className="f-center g-1-5">
-						<ButtonSecondary onClick={props.closeModal} noHoverEffect={true}><p className="hover-underline">Cancel</p></ButtonSecondary>
+						<ButtonSecondary onClick={props.closeModal} noHoverEffect={true}>
+							<p className="hover-underline">Cancel</p>
+						</ButtonSecondary>
 						<ButtonPrimary className="bg-purple pad-1-2" onClick={props.closeModal}>SEND</ButtonPrimary>
 					</div>
 				</div>

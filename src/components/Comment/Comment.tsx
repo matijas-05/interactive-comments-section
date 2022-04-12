@@ -1,15 +1,11 @@
 import React from "react";
 import Votes from "./Votes";
-import ButtonSecondary from "../General/ButtonSecondary";
 import CommentInfo from "./CommentInfo";
 import { Desktop, Mobile } from "../General/MediaQueryComponents";
-import { CurrentUser } from "../../context";
 import styles from "./Comment.module.scss"
 
-import iconDelete from "/src/assets/images/icon-delete.svg";
-import iconEdit from "/src/assets/images/icon-edit.svg";
-import iconReply from "/src/assets/images/icon-reply.svg";
-import ButtonPrimary from "../General/ButtonPrimary";
+import CommentMessage from "./CommentMessage";
+import CommentButtons from "./CommentButtons";
 
 interface Props {
 	userName: string,
@@ -24,7 +20,7 @@ interface Props {
 	parentRef?: React.RefObject<HTMLDivElement>,
 }
 interface State {
-	editing: boolean
+	isEditing: boolean
 }
 class Comment extends React.Component<Props, State> {
 	private thisRef = React.createRef<HTMLDivElement>();
@@ -34,11 +30,12 @@ class Comment extends React.Component<Props, State> {
 		super(props);
 		this.thisRef = React.createRef();
 		this.repliesRef = React.createRef();
-		this.state = { editing: false };
+		this.state = { isEditing: false };
+		this.toggleEditing = this.toggleEditing.bind(this);
 	}
 
 	private toggleEditing() {
-		this.setState({ editing: !this.state.editing });
+		this.setState({ isEditing: !this.state.isEditing });
 	}
 
 	render() {
@@ -48,111 +45,35 @@ class Comment extends React.Component<Props, State> {
 			}
 			return child;
 		});
-		const parentComment = this.props.parent?.props;
 
 		return (
-			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={!this.state.editing ? { width: "fit-content" } : { width: "100%" }}>
+			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={!this.state.isEditing ? { width: "" } : { width: "100%" }}>
 				<Mobile>
 					<div className={`f-col g-1-25 card`}>
 						<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
-
-						{/* Comment message */}
-						<p>
-							{parentComment &&
-								<span className="text-purple hover-opacity" style={{ cursor: "pointer" }}
-									onClick={() => {
-										const parentElement = this.props.parentRef!.current!.firstChild as HTMLDivElement;
-										if (parentElement.getBoundingClientRect().top < 0)
-											parentElement.scrollIntoView({ behavior: "smooth" });
-										parentElement.animate([{ backgroundColor: `#e6e60073` }, {}], { duration: 1000 });
-									}}>
-									@{parentComment.userName} &nbsp;
-								</span>
-							}
-							{!this.state.editing ?
-								this.props.message :
-								<textarea className="text-input"></textarea>
-							}
-						</p>
+						<CommentMessage message={this.props.message} isEditing={this.state.isEditing} parentRef={this.props.parentRef} />
 
 						{/* Comment buttons */}
 						<div className="left-right">
 							<Votes initialVotes={this.props.votes} />
-							<CurrentUser.Consumer>
-								{currentUser =>
-									this.props.userName === currentUser ?
-										(
-											!this.state.editing ?
-												(
-													<div className="f-ai-c g-1">
-														<ButtonSecondary className={`text-red`} iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal}>
-															Delete
-														</ButtonSecondary>
-														<ButtonSecondary className={`text-purple`} iconSrc={iconEdit} onClick={() => this.toggleEditing()}>
-															Edit
-														</ButtonSecondary>
-													</div>
-												) :
-												(
-													<div className="f-ai-c g-1-5">
-														<ButtonSecondary onClick={() => this.toggleEditing()} noHoverEffect={true}><p className="hover-underline">Cancel</p></ButtonSecondary>
-														<ButtonPrimary className="bg-purple" onClick={() => this.toggleEditing()}>UPDATE</ButtonPrimary>
-													</div>
-												)
-										) :
-										(
-											<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => this.props.openReplyModal(this.repliesRef.current!)}>
-												Reply
-											</ButtonSecondary>
-										)
-								}
-							</CurrentUser.Consumer>
+							<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
+								toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 						</div>
 					</div>
 				</Mobile>
 
 				<Desktop>
+					{/* Comment buttons */}
 					<div className="f-row g-1-25 card">
-						<Votes className="f-col" initialVotes={this.props.votes} />
-						<div className={`f-col g-1-25`}>
+						<Votes className="f-col" style={{ alignSelf: "flex-start" }} initialVotes={this.props.votes} />
+						<div className={`f-col g-1-25`} style={{ width: "100%" }}>
 							<div className="f-row left-right">
 								<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
-								<CurrentUser.Consumer>
-									{currentUser =>
-										this.props.userName === currentUser ?
-											(
-												<div className="f-ai-c g-1">
-													<ButtonSecondary className="text-red" iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal}>
-														Delete
-													</ButtonSecondary>
-													<ButtonSecondary className="text-purple" iconSrc={iconEdit} onClick={() => console.log("edit")}>
-														Edit
-													</ButtonSecondary>
-												</div>
-											) :
-											(
-												<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => this.props.openReplyModal(this.repliesRef.current!)}>
-													Reply
-												</ButtonSecondary>
-											)
-									}
-								</CurrentUser.Consumer>
+								<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
+									toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 							</div>
-							<p>
-								{parentComment &&
-									<span className="text-purple hover-opacity" style={{ cursor: "pointer" }}
-										onClick={() => {
-											const parentElement = this.props.parentRef!.current!.firstChild as HTMLDivElement;
-											if (parentElement.getBoundingClientRect().top < 0)
-												parentElement.scrollIntoView({ behavior: "smooth" });
-											parentElement.animate([{ backgroundColor: `#e6e60073` }, {}], { duration: 1000 });
-										}}>
-										@{parentComment.userName} &nbsp;
-									</span>
-								}
-								{this.props.message}
-							</p>
 
+							<CommentMessage message={this.props.message} isEditing={this.state.isEditing} parentRef={this.props.parentRef} />
 						</div>
 					</div>
 				</Desktop>

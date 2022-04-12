@@ -27,6 +27,24 @@ button {
 	cursor: pointer;
 }
 p {
-	line-height: 1.5em;
+	line-height: v.$line-height;
 	color: v.$clr-text-400;
+}
+textarea {
+	width: 100%;
+	min-height: 5rem;
+	padding: 1em;
+	border: 1px solid v.$clr-reply-border;
+	border-radius: v.$border-radius;
+	font-size: 1rem;
+	line-height: v.$line-height;
+
+	resize: none;
+	outline: none;
+	box-shadow: none;
+
+	&:focus {
+		border-color: transparent;
+		outline: 1px v.$clr-text-primary-500 solid;
+	}
 }
