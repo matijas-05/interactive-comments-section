@@ -8,19 +8,3 @@
 .AddCommentModal__Content--after-open {
 	max-height: 12.1875rem;
 }
-.input {
-	height: 5rem;
-	padding: 1em;
-	border: 1px solid v.$clr-reply-border;
-	border-radius: v.$border-radius;
-	font-size: 1rem;
-
-	resize: none;
-	outline: none;
-	box-shadow: none;
-
-	&:focus {
-		border-color: transparent;
-		outline: 1px v.$clr-text-primary-500 solid;
-	}
-}

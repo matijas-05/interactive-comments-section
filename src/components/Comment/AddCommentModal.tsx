@@ -53,7 +53,7 @@ function AddCommentModal(props: Props) {
 			parentSelector={() => props.parent}
 		>
 			<div className="f-col g-1 card">
-				<textarea className={`${styles["input"]}`} ref={inputRef} placeholder="Add a comment..." rows={5}></textarea>
+				<textarea className={`text-input`} ref={inputRef} placeholder="Add a comment..." rows={5}></textarea>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
 					<div className="f-center g-1-5">

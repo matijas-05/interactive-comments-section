@@ -4,13 +4,15 @@ interface Props {
 	className?: string,
 	iconSrc?: string,
 	alt?: string,
-	noHoverEffect?: boolean
+	noHoverEffect?: boolean,
+	disabled?: boolean,
 	onClick: () => void,
 	children?: React.ReactNode
 }
 function ButtonSecondary(props: Props) {
 	return (
-		<div className={`${styles["btn-secondary"]} ${!props.noHoverEffect && "hover-opacity"} ${props.className}`} onClick={props.onClick}>
+		<div className={`${styles["btn-secondary"]} ${!props.noHoverEffect && "hover-opacity"} ${props.className}`}
+			onClick={!props.disabled && props.onClick}>
 			<img src={props.iconSrc} alt={props.alt} />
 			{props.children}
 		</div>

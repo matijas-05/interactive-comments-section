@@ -3,7 +3,6 @@ import Votes from "./Votes";
 import ButtonSecondary from "../General/ButtonSecondary";
 import CommentInfo from "./CommentInfo";
 import { Desktop, Mobile } from "../General/MediaQueryComponents";
-
 import { CurrentUser } from "../../context";
 import styles from "./Comment.module.scss"
 
@@ -23,7 +22,10 @@ interface Props {
 	parent?: Comment,
 	parentRef?: React.RefObject<HTMLDivElement>,
 }
-class Comment extends React.Component<Props> {
+interface State {
+	editing: boolean
+}
+class Comment extends React.Component<Props, State> {
 	private thisRef = React.createRef<HTMLDivElement>();
 	private repliesRef = React.createRef<HTMLDivElement>();
 
@@ -31,6 +33,12 @@ class Comment extends React.Component<Props> {
 		super(props);
 		this.thisRef = React.createRef();
 		this.repliesRef = React.createRef();
+		this.state = { editing: false };
+	}
+
+	private toggleEditing() {
+		this.setState({ editing: !this.state.editing });
+		console.log(this.state.editing);
 	}
 
 	render() {
@@ -59,7 +67,10 @@ class Comment extends React.Component<Props> {
 									@{parentComment.userName} &nbsp;
 								</span>
 							}
-							{this.props.message}
+							{!this.state.editing ?
+								this.props.message :
+								<textarea className="text-input"></textarea>
+							}
 						</p>
 						<div className="left-right">
 							<Votes initialVotes={this.props.votes} />
@@ -68,10 +79,12 @@ class Comment extends React.Component<Props> {
 									this.props.userName === currentUser ?
 										(
 											<div className="f-ai-c g-1">
-												<ButtonSecondary className="text-red" iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal}>
+												<ButtonSecondary className={`text-red ${this.state.editing && "disabled"}`}
+													iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal} disabled={this.state.editing}>
 													Delete
 												</ButtonSecondary>
-												<ButtonSecondary className="text-purple" iconSrc={iconEdit} onClick={() => console.log("edit")}>
+												<ButtonSecondary className={`text-purple ${this.state.editing && "disabled"}`}
+													iconSrc={iconEdit} onClick={() => this.toggleEditing()} disabled={this.state.editing}>
 													Edit
 												</ButtonSecondary>
 											</div>
