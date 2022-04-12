@@ -1,3 +1,4 @@
+import { HtmlHTMLAttributes, useEffect, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 
 interface Props {
@@ -7,6 +8,18 @@ interface Props {
 	message: string
 }
 function CommentMessage(props: Props) {
+	const inputRef = useRef<HTMLTextAreaElement>(null);
+	
+	useEffect(() => {
+		if(props.isEditing) {
+			const textArea = inputRef.current!;
+			const cursorPos = textArea.selectionEnd + textArea.value.length;
+			textArea.selectionStart = cursorPos;
+			textArea.selectionEnd = cursorPos;
+			textArea.focus();
+		}
+	});
+
 	return (
 		<p>
 			{props.mention &&
@@ -21,7 +34,7 @@ function CommentMessage(props: Props) {
 				</span>
 			}
 			{!props.isEditing ? props.message :
-				<TextareaAutosize defaultValue={props.message}></TextareaAutosize>
+				<TextareaAutosize ref={inputRef} defaultValue={props.message}></TextareaAutosize>
 			}
 		</p>
 	)

@@ -2,9 +2,5 @@
 
 .AddCommentModal__Content {
 	background-color: transparent;
-	// max-height: 0;
 	transition: all v.$modal-transition-duration ease-in-out;
-}
-.AddCommentModal__Content--after-open {
-	// max-height: 12.1875rem;
 }

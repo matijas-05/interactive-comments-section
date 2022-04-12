@@ -35,11 +35,7 @@ function AddCommentModal(props: Props) {
 
 	return (
 		<ReactModal
-			className={{
-				base: styles["AddCommentModal__Content"],
-				afterOpen: styles["AddCommentModal__Content--after-open"],
-				beforeClose: ""
-			}}
+			className={styles["AddCommentModal__Content"]}
 			bodyOpenClassName="AddCommentModal__Body"
 			portalClassName="AddCommentModalPortal"
 			overlayClassName={styles["AddCommentModal__Overlay"]}
@@ -49,14 +45,12 @@ function AddCommentModal(props: Props) {
 			onAfterOpen={() => {
 				const commentInput = inputRef.current!;
 				const y = commentInput.getBoundingClientRect().top + window.scrollY;
-
 				if (y > window.visualViewport.height) window.scrollTo({ top: y, behavior: "smooth" });
-				commentInput.focus({ preventScroll: true });
 			}}
 			parentSelector={() => props.parent}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize ref={inputRef} placeholder="Add a comment..."></TextareaAutosize>
+				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." autoFocus></TextareaAutosize>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
 					<div className="f-center g-1-5">
