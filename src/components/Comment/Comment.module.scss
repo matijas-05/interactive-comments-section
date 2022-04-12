@@ -4,7 +4,7 @@
 	padding-left: 1em;
 	border-left: 2px solid v.$clr-reply-border;
 
-	@media (min-width: v.$breakpoint) {
+	@media (min-width: v.$breakpoint-pc) {
 		margin-left: 2.85vw;
 		padding-left: 2.85vw;
 	}

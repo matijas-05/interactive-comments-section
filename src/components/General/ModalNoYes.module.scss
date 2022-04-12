@@ -20,7 +20,7 @@
 	outline: none;
 	transition: all v.$modal-transition-duration ease-in-out;
 
-	@media (min-width: v.$breakpoint) {
+	@media (min-width: v.$breakpoint-pc) {
 		padding: 2em !important;
 	}
 }

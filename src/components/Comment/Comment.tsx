@@ -9,6 +9,7 @@ import styles from "./Comment.module.scss"
 import iconDelete from "/src/assets/images/icon-delete.svg";
 import iconEdit from "/src/assets/images/icon-edit.svg";
 import iconReply from "/src/assets/images/icon-reply.svg";
+import ButtonPrimary from "../General/ButtonPrimary";
 
 interface Props {
 	userName: string,
@@ -38,7 +39,6 @@ class Comment extends React.Component<Props, State> {
 
 	private toggleEditing() {
 		this.setState({ editing: !this.state.editing });
-		console.log(this.state.editing);
 	}
 
 	render() {
@@ -51,10 +51,12 @@ class Comment extends React.Component<Props, State> {
 		const parentComment = this.props.parent?.props;
 
 		return (
-			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={{ width: "fit-content" }}>
+			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={!this.state.editing ? { width: "fit-content" } : { width: "100%" }}>
 				<Mobile>
 					<div className={`f-col g-1-25 card`}>
 						<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
+
+						{/* Comment message */}
 						<p>
 							{parentComment &&
 								<span className="text-purple hover-opacity" style={{ cursor: "pointer" }}
@@ -72,22 +74,31 @@ class Comment extends React.Component<Props, State> {
 								<textarea className="text-input"></textarea>
 							}
 						</p>
+
+						{/* Comment buttons */}
 						<div className="left-right">
 							<Votes initialVotes={this.props.votes} />
 							<CurrentUser.Consumer>
 								{currentUser =>
 									this.props.userName === currentUser ?
 										(
-											<div className="f-ai-c g-1">
-												<ButtonSecondary className={`text-red ${this.state.editing && "disabled"}`}
-													iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal} disabled={this.state.editing}>
-													Delete
-												</ButtonSecondary>
-												<ButtonSecondary className={`text-purple ${this.state.editing && "disabled"}`}
-													iconSrc={iconEdit} onClick={() => this.toggleEditing()} disabled={this.state.editing}>
-													Edit
-												</ButtonSecondary>
-											</div>
+											!this.state.editing ?
+												(
+													<div className="f-ai-c g-1">
+														<ButtonSecondary className={`text-red`} iconSrc={iconDelete} onClick={this.props.openDeleteCommentModal}>
+															Delete
+														</ButtonSecondary>
+														<ButtonSecondary className={`text-purple`} iconSrc={iconEdit} onClick={() => this.toggleEditing()}>
+															Edit
+														</ButtonSecondary>
+													</div>
+												) :
+												(
+													<div className="f-ai-c g-1-5">
+														<ButtonSecondary onClick={() => this.toggleEditing()} noHoverEffect={true}><p className="hover-underline">Cancel</p></ButtonSecondary>
+														<ButtonPrimary className="bg-purple" onClick={() => this.toggleEditing()}>UPDATE</ButtonPrimary>
+													</div>
+												)
 										) :
 										(
 											<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => this.props.openReplyModal(this.repliesRef.current!)}>
