@@ -47,14 +47,13 @@ function App() {
 					profilePicture={ramsesMiron} userName="ramsesmiron" date="1 week ago" votes={4}
 					openReplyModal={handleToggleReplyModal}
 					openDeleteCommentModal={handleOpenDeleteCommentModal}
-					message="If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first."
+					message="@maxblagun If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first."
 				>
-					
 					<Comment
 						profilePicture={juliusOmo} userName="juliusomo" date="2 days ago" votes={2}
 						openReplyModal={handleToggleReplyModal}
 						openDeleteCommentModal={handleOpenDeleteCommentModal}
-						message="I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant."
+						message="@ramsesmiron I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant."
 					>
 					</Comment>
 				</Comment>
