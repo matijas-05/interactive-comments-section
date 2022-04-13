@@ -43,7 +43,7 @@ function CommentMessage(props: Props) {
 							parentElement.scrollIntoView({ behavior: "smooth" });
 						parentElement.animate([{ backgroundColor: "#e6e60073" }, {}], { duration: 1000 });
 					}}>
-					@{mention} &nbsp;
+					@{mention + " "}
 				</span>
 			}
 			{!props.isEditing ? commentMessage :
