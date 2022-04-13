@@ -21,10 +21,13 @@ function App() {
 	// Reply to comment modal
 	const [replyModalIsOpen, setReplyModalIsOpen] = useState(false);
 	const [replyModalParent, setReplyModalParent] = useState<HTMLDivElement>();
+	const [replyModalParentUserName, setReplyModalParentUserName] = useState("");
+
 	function handleCloseReplyModal() {
 		setReplyModalIsOpen(false);
 	}
-	function handleToggleReplyModal(parentComment: HTMLDivElement) {
+	function handleToggleReplyModal(parentComment: HTMLDivElement, userName: string) {
+		setReplyModalParentUserName(userName);
 		setReplyModalParent(parentComment);
 		setReplyModalIsOpen(!replyModalIsOpen);
 	}
@@ -59,7 +62,7 @@ function App() {
 				</Comment>
 			</Comment>
 
-			<AddCommentModal modalState={replyModalIsOpen} closeModal={handleCloseReplyModal} parent={replyModalParent ?? document.getElementById("root")!} />
+			<AddCommentModal modalState={replyModalIsOpen} closeModal={handleCloseReplyModal} parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName} />
 			<ModalNoYes
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."

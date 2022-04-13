@@ -13,7 +13,7 @@ interface Props {
 	date: string,
 	message: string,
 	votes: number,
-	openReplyModal: (ref: HTMLDivElement) => void,
+	openReplyModal: (ref: HTMLDivElement, userName: string) => void,
 	openDeleteCommentModal: () => void,
 	children?: React.ReactNode,
 	parent?: Comment,

@@ -13,7 +13,8 @@ ReactModal.defaultStyles.overlay = {}
 interface Props {
 	modalState: boolean,
 	closeModal: () => void,
-	parent: HTMLElement
+	parent: HTMLElement,
+	userName: string
 }
 function AddCommentModal(props: Props) {
 	const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -43,14 +44,22 @@ function AddCommentModal(props: Props) {
 			isOpen={props.modalState} shouldCloseOnEsc={true}
 			onRequestClose={props.closeModal}
 			onAfterOpen={() => {
+				// Focus on input
 				const commentInput = inputRef.current!;
 				const y = commentInput.getBoundingClientRect().top + window.scrollY;
 				if (y > window.visualViewport.height) window.scrollTo({ top: y, behavior: "smooth" });
+
+				// Put cursor at the end of the text
+				const textArea = inputRef.current!;
+				const cursorPos = textArea.selectionEnd + textArea.value.length;
+				textArea.selectionStart = cursorPos;
+				textArea.selectionEnd = cursorPos;
+				textArea.focus();
 			}}
 			parentSelector={() => props.parent}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." autoFocus></TextareaAutosize>
+				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." defaultValue={`@${props.userName} `} autoFocus></TextareaAutosize>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
 					<div className="f-center g-1-5">

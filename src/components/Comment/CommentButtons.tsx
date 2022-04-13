@@ -12,7 +12,7 @@ interface Props {
 	isEditing: boolean,
 	toggleEditing: () => void,
 	openDeleteCommentModal: () => void,
-	openReplyModal: (ref: HTMLDivElement) => void,
+	openReplyModal: (ref: HTMLDivElement, userName: string) => void,
 }
 function CommentButtons(props: Props) {
 	return (
@@ -41,7 +41,7 @@ function CommentButtons(props: Props) {
 							)
 					) :
 					(
-						<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => props.openReplyModal(props.repliesRef.current!)}>
+						<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}>
 							Reply
 						</ButtonSecondary>
 					)
