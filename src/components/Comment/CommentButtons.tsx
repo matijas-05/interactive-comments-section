@@ -29,6 +29,9 @@ function CommentButtons(props: Props) {
 									<ButtonSecondary className={`text-purple`} iconSrc={iconEdit} onClick={props.toggleEditing}>
 										Edit
 									</ButtonSecondary>
+									<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}>
+										Reply
+									</ButtonSecondary>
 								</div>
 							) :
 							(
