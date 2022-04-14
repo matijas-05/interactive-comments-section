@@ -7,6 +7,11 @@
 	align-items: center;
 }
 
+.f-jc-fe {
+	display: flex;
+	justify-content: flex-end;
+}
+
 .f-ai-c {
 	display: flex;
 	align-items: center;
@@ -20,6 +25,15 @@
 .f-col {
 	display: flex;
 	flex-direction: column;
+}
+
+.f-wrap-rev {
+	flex-wrap: wrap-reverse;
+}
+
+.f-span-y {
+	display: flex;
+	align-items: stretch !important;
 }
 
 .g-1 {

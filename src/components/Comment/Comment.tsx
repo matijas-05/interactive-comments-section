@@ -47,14 +47,14 @@ class Comment extends React.Component<Props, State> {
 		});
 
 		return (
-			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={!this.state.isEditing ? { width: "" } : { width: "100%" }}>
+			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={!this.state.isEditing ? {} : { width: "100%" }}>
 				<Mobile>
 					<div className={`f-col g-1-25 card`}>
 						<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 						<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} parentRef={this.props.parentRef} />
 
 						{/* Comment buttons */}
-						<div className="left-right">
+						<div className="left-right f-span-y g-1">
 							<Votes initialVotes={this.props.votes} />
 							<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
 								toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
@@ -67,7 +67,7 @@ class Comment extends React.Component<Props, State> {
 					<div className="f-row g-1-25 card">
 						<Votes className="f-col" style={{ alignSelf: "flex-start" }} initialVotes={this.props.votes} />
 						<div className={`f-col g-1-25`} style={{ width: "100%" }}>
-							<div className="f-row left-right">
+							<div className="f-row f-span-y left-right g-1">
 								<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 								<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
 									toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />

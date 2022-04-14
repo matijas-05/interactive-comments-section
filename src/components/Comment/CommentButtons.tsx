@@ -1,6 +1,7 @@
 import { CurrentUser } from '../../context'
 import ButtonPrimary from '../General/ButtonPrimary'
 import ButtonSecondary from '../General/ButtonSecondary'
+import { Desktop } from '../General/MediaQueryComponents';
 
 import iconDelete from "/src/assets/images/icon-delete.svg";
 import iconEdit from "/src/assets/images/icon-edit.svg";
@@ -22,9 +23,9 @@ function CommentButtons(props: Props) {
 					(
 						!props.isEditing ?
 							(
-								<div className="f-ai-c g-1">
+								<div className="f-jc-fe f-ai-c f-wrap-rev g-1">
 									<ButtonSecondary className={`text-red`} iconSrc={iconDelete} onClick={props.openDeleteCommentModal}>
-										Delete
+										<Desktop>Delete</Desktop>
 									</ButtonSecondary>
 									<ButtonSecondary className={`text-purple`} iconSrc={iconEdit} onClick={props.toggleEditing}>
 										Edit
