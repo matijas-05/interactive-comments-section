@@ -14,13 +14,6 @@ body {
 	background-color: v.$clr-bg;
 	scroll-behavior: smooth;
 }
-#root {
-	display: grid;
-	justify-content: center;
-	align-content: center;
-	padding: 2em 1em;
-	gap: 1em;
-}
 button {
 	border: none;
 	background: none;
@@ -48,4 +41,12 @@ textarea {
 		border-color: transparent;
 		outline: 1px v.$clr-text-primary-500 solid;
 	}
+}
+
+#root {
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	padding: 2em 1em;
+	gap: 1em;
 }

@@ -3,7 +3,7 @@
 .votes {
 	background-color: v.$clr-bg;
 	border-radius: v.$border-radius;
-	
+
 	> p {
 		transition: width v.$transition-duration ease-in-out;
 		text-align: center;
