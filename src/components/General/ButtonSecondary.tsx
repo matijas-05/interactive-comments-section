@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./ButtonSecondary.module.scss";
 
 interface Props {
@@ -10,11 +11,10 @@ interface Props {
 }
 function ButtonSecondary(props: Props) {
 	return (
-		<div className={`${styles["btn-secondary"]} ${!props.noHoverEffect && "hover-opacity"} ${props.className}`}
-			onClick={props.onClick}>
+		<button className={`${styles["btn-secondary"]} ${!props.noHoverEffect && "hover-opacity"} ${props.className}`} onClick={props.onClick}>
 			<img src={props.iconSrc} alt={props.alt} />
 			{props.children}
-		</div>
+		</button>
 	);
 }
 

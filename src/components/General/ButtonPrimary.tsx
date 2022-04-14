@@ -7,9 +7,9 @@ interface Props {
 }
 function ButtonPrimary(props: Props) {
 	return (
-		<div className={`${styles["btn-primary"]} ${props.className} hover-opacity`} onClick={props.onClick}>
+		<button className={`${styles["btn-primary"]} ${props.className} hover-opacity`} onClick={props.onClick}>
 			{props.children}
-		</div>
+		</button>
 	);
 }
 
