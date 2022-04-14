@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ReactModal from 'react-modal';
-import ButtonPrimary from '../General/ButtonPrimary'
-import ButtonSecondary from '../General/ButtonSecondary';
+import { useEffect, useRef } from "react";
+import ReactModal from "react-modal";
+import ButtonPrimary from "../General/ButtonPrimary";
+import ButtonSecondary from "../General/ButtonSecondary";
 import TextareaAutosize from "react-textarea-autosize";
 
 import userImg from "../../assets/images/avatars/image-juliusomo.webp";
 import styles from "./AddCommentModal.module.scss";
 
 // Overrite default overlay styles
-ReactModal.defaultStyles.overlay = {}
+ReactModal.defaultStyles.overlay = {};
 
 interface Props {
 	modalState: boolean,
@@ -71,7 +71,7 @@ function AddCommentModal(props: Props) {
 				</div>
 			</div>
 		</ReactModal>
-	)
+	);
 }
 
-export default AddCommentModal
+export default AddCommentModal;

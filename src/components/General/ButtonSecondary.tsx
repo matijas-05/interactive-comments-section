@@ -1,4 +1,4 @@
-import styles from "./ButtonSecondary.module.scss"
+import styles from "./ButtonSecondary.module.scss";
 
 interface Props {
 	className?: string,

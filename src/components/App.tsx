@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import Comment from './Comment/Comment';
-import AddCommentModal from './Comment/AddCommentModal';
-import ModalNoYes from './General/ModalNoYes';
+import { useState } from "react";
+import Comment from "./Comment/Comment";
+import AddCommentModal from "./Comment/AddCommentModal";
+import ModalNoYes from "./General/ModalNoYes";
 
 import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "/src/assets/images/avatars/image-maxblagun.webp";
@@ -70,7 +70,7 @@ function App() {
 				modalState={deleteCommentModalIsOpen}
 			/>
 		</>
-	)
+	);
 }
 
-export default App
+export default App;

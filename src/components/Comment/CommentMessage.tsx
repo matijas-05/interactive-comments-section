@@ -51,7 +51,7 @@ function CommentMessage(props: Props) {
 				<TextareaAutosize ref={inputRef} defaultValue={editMessage} onKeyDown={(e) => e.key === "Escape" && props.toggleEditing()}></TextareaAutosize>
 			}
 		</p>
-	)
+	);
 }
 
-export default CommentMessage
+export default CommentMessage;

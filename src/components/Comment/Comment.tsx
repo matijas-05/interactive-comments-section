@@ -2,7 +2,7 @@ import React from "react";
 import Votes from "./Votes";
 import CommentInfo from "./CommentInfo";
 import { Desktop, Mobile } from "../General/MediaQueryComponents";
-import styles from "./Comment.module.scss"
+import styles from "./Comment.module.scss";
 
 import CommentMessage from "./CommentMessage";
 import CommentButtons from "./CommentButtons";
@@ -49,7 +49,7 @@ class Comment extends React.Component<Props, State> {
 		return (
 			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={!this.state.isEditing ? {} : { width: "100%" }}>
 				<Mobile>
-					<div className={`f-col g-1-25 card`}>
+					<div className={"f-col g-1-25 card"}>
 						<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 						<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
 
@@ -66,7 +66,7 @@ class Comment extends React.Component<Props, State> {
 					{/* Comment buttons */}
 					<div className="f-row g-1-25 card">
 						<Votes className="f-col" style={{ alignSelf: "flex-start" }} initialVotes={this.props.votes} />
-						<div className={`f-col g-1-25`} style={{ width: "100%" }}>
+						<div className={"f-col g-1-25"} style={{ width: "100%" }}>
 							<div className="f-row f-span-y left-right g-1">
 								<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 								<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
@@ -83,7 +83,7 @@ class Comment extends React.Component<Props, State> {
 				</div>
 			</div>
 		);
-	};
+	}
 }
 
 export default Comment;

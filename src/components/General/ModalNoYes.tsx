@@ -1,5 +1,5 @@
-import ReactModal from 'react-modal';
-import ButtonPrimary from './ButtonPrimary';
+import ReactModal from "react-modal";
+import ButtonPrimary from "./ButtonPrimary";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import styles from "./ModalNoYes.module.scss";
 
@@ -39,7 +39,7 @@ function ModalNoYes(props: Props) {
 				<ButtonPrimary className="bg-red" onClick={props.confirmModal}>YES, DELETE</ButtonPrimary>
 			</div>
 		</ReactModal>
-	)
+	);
 }
 
 export default ModalNoYes;

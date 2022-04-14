@@ -1,5 +1,4 @@
-import React from 'react';
-import styles from './ButtonPrimary.module.scss';
+import styles from "./ButtonPrimary.module.scss";
 
 interface Props {
 	className?: string,
@@ -11,7 +10,7 @@ function ButtonPrimary(props: Props) {
 		<div className={`${styles["btn-primary"]} ${props.className} hover-opacity`} onClick={props.onClick}>
 			{props.children}
 		</div>
-	)
+	);
 }
 
-export default ButtonPrimary
+export default ButtonPrimary;

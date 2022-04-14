@@ -1,7 +1,7 @@
-import { CurrentUser } from '../../context'
-import ButtonPrimary from '../General/ButtonPrimary'
-import ButtonSecondary from '../General/ButtonSecondary'
-import { Desktop } from '../General/MediaQueryComponents';
+import { CurrentUser } from "../../context";
+import ButtonPrimary from "../General/ButtonPrimary";
+import ButtonSecondary from "../General/ButtonSecondary";
+import { Desktop } from "../General/MediaQueryComponents";
 
 import iconDelete from "/src/assets/images/icon-delete.svg";
 import iconEdit from "/src/assets/images/icon-edit.svg";
@@ -51,7 +51,7 @@ function CommentButtons(props: Props) {
 					)
 			}
 		</CurrentUser.Consumer>
-	)
+	);
 }
 
-export default CommentButtons
+export default CommentButtons;
