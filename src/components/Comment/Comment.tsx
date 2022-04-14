@@ -47,7 +47,7 @@ class Comment extends React.Component<Props, State> {
 		});
 
 		return (
-			<div ref={this.thisRef} className="f-col g-1 hide-empty" style={!this.state.isEditing ? {} : { width: "100%" }}>
+			<div ref={this.thisRef} className="f-col g-1 hide-empty">
 				<Mobile>
 					<div className={"f-col g-1-25 card"}>
 						<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
@@ -66,7 +66,7 @@ class Comment extends React.Component<Props, State> {
 					{/* Comment buttons */}
 					<div className="f-row g-1-25 card">
 						<Votes className="f-col" style={{ alignSelf: "flex-start" }} initialVotes={this.props.votes} />
-						<div className={"f-col g-1-25"} style={{ width: "100%" }}>
+						<div className={"f-col g-1-25"} style={{ flexGrow: 1 }}>
 							<div className="f-row f-span-y left-right g-1">
 								<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
 								<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
