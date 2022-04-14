@@ -5,6 +5,7 @@ interface Props {
 	mention?: string,
 	parentRef?: React.RefObject<HTMLDivElement>,
 	isEditing: boolean,
+	toggleEditing: () => void,
 	message: string
 }
 function CommentMessage(props: Props) {
@@ -47,7 +48,7 @@ function CommentMessage(props: Props) {
 				</span>
 			}
 			{!props.isEditing ? commentMessage :
-				<TextareaAutosize ref={inputRef} defaultValue={editMessage}></TextareaAutosize>
+				<TextareaAutosize ref={inputRef} defaultValue={editMessage} onKeyDown={(e) => e.key === "Escape" && props.toggleEditing()}></TextareaAutosize>
 			}
 		</p>
 	)

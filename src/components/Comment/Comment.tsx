@@ -51,7 +51,7 @@ class Comment extends React.Component<Props, State> {
 				<Mobile>
 					<div className={`f-col g-1-25 card`}>
 						<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
-						<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} parentRef={this.props.parentRef} />
+						<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
 
 						{/* Comment buttons */}
 						<div className="left-right f-span-y g-1">
@@ -73,7 +73,7 @@ class Comment extends React.Component<Props, State> {
 									toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 							</div>
 
-							<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} parentRef={this.props.parentRef} />
+							<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
 						</div>
 					</div>
 				</Desktop>
