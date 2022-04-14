@@ -3,9 +3,14 @@
         "browser": true,
         "es2021": true
     },
+    "ignorePatterns": [
+        "node_modules/",
+        "dist/"
+    ],
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended",
+        "plugin:react/jsx-runtime",
         "plugin:@typescript-eslint/recommended"
     ],
     "parser": "@typescript-eslint/parser",
@@ -32,13 +37,14 @@
         "quotes": [
             "error",
             "double",
-            { "allowTemplateLiterals": true }
+            {
+                "allowTemplateLiterals": true
+            }
         ],
         "semi": [
             "error",
             "always"
         ],
-        "@typescript-eslint/no-non-null-assertion": "off",
-        "react/react-in-jsx-scope": "off"
+        "@typescript-eslint/no-non-null-assertion": "off"
     }
 }
