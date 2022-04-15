@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
+import ReplyModal from "./Comment/ReplyModal";
 import ModalNoYes from "./General/ModalNoYes";
 
 import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
@@ -31,9 +32,14 @@ function App() {
 		setReplyModalParent(parentComment);
 		setReplyModalIsOpen(!replyModalIsOpen);
 	}
+	function handleSendMessage() {
+		console.log("sending message");
+	}
 
 	return (
 		<>
+			<AddCommentModal onSendMessage={handleSendMessage} />
+
 			<Comment
 				profilePicture={amyRobson} userName="amyrobson" date="1 month ago" votes={12}
 				openReplyModal={handleToggleReplyModal}
@@ -62,7 +68,8 @@ function App() {
 				</Comment>
 			</Comment>
 
-			<AddCommentModal modalState={replyModalIsOpen} closeModal={handleCloseReplyModal} parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName} />
+			<ReplyModal modalState={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
+				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName} />
 			<ModalNoYes
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."

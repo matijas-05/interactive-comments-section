@@ -1,6 +1,0 @@
-@use "/src/scss/variables" as v;
-
-.AddCommentModal__Content {
-	background-color: transparent;
-	transition: all v.$modal-transition-duration ease-in-out;
-}

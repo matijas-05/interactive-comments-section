@@ -1,73 +1,30 @@
-import { useEffect, useRef } from "react";
 import ReactModal from "react-modal";
 import ButtonPrimary from "../General/ButtonPrimary";
-import ButtonSecondary from "../General/ButtonSecondary";
 import TextareaAutosize from "react-textarea-autosize";
 
 import userImg from "../../assets/images/avatars/image-juliusomo.webp";
-import styles from "./AddCommentModal.module.scss";
 
 // Overrite default overlay styles
 ReactModal.defaultStyles.overlay = {};
+ReactModal.defaultStyles.content = {};
 
 interface Props {
-	modalState: boolean,
-	closeModal: () => void,
-	parent: HTMLElement,
-	userName: string
+	onSendMessage: () => void
 }
 function AddCommentModal(props: Props) {
-	const inputRef = useRef<HTMLTextAreaElement>(null);
-
-	// Hide modal containers when not in use to remove whitespace
-	useEffect(() => {
-		const portal = document.querySelector(".AddCommentModalPortal") as HTMLDivElement;
-
-		if (props.modalState) {
-			portal!.style.removeProperty("display");
-			portal!.parentElement?.style.removeProperty("display");
-		}
-		else {
-			portal!.style.setProperty("display", "none");
-			if (portal!.parentElement?.childElementCount === 1)
-				portal!.parentElement?.style.setProperty("display", "none");
-		}
-	});
-
 	return (
 		<ReactModal
-			className={styles["AddCommentModal__Content"]}
 			bodyOpenClassName="AddCommentModal__Body"
 			portalClassName="AddCommentModalPortal"
-			overlayClassName={styles["AddCommentModal__Overlay"]}
 			contentLabel="Add comment" ariaHideApp={false}
-			isOpen={props.modalState} shouldCloseOnEsc={true}
-			onRequestClose={props.closeModal}
-			onAfterOpen={() => {
-				// Focus on input
-				const commentInput = inputRef.current!;
-				const y = commentInput.getBoundingClientRect().top + window.scrollY;
-				if (y > window.visualViewport.height) window.scrollTo({ top: y, behavior: "smooth" });
-
-				// Put cursor at the end of the text
-				const textArea = inputRef.current!;
-				const cursorPos = textArea.selectionEnd + textArea.value.length;
-				textArea.selectionStart = cursorPos;
-				textArea.selectionEnd = cursorPos;
-				textArea.focus();
-			}}
-			parentSelector={() => props.parent}
+			isOpen={true}
+			parentSelector={() => document.getElementById("root")!}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." defaultValue={`@${props.userName} `} autoFocus></TextareaAutosize>
+				<TextareaAutosize placeholder="Add a comment..." autoFocus></TextareaAutosize>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
-					<div className="f-center g-1-5">
-						<ButtonSecondary onClick={props.closeModal} noHoverEffect={true}>
-							<p className="hover-underline">Cancel</p>
-						</ButtonSecondary>
-						<ButtonPrimary className="bg-purple pad-1-2" onClick={props.closeModal}>SEND</ButtonPrimary>
-					</div>
+					<ButtonPrimary className="bg-purple pad-1-2" onClick={props.onSendMessage}>SEND</ButtonPrimary>
 				</div>
 			</div>
 		</ReactModal>
