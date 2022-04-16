@@ -8,6 +8,7 @@ import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "/src/assets/images/avatars/image-maxblagun.webp";
 import ramsesMiron from "/src/assets/images/avatars/image-ramsesmiron.webp";
 import juliusOmo from "/src/assets/images/avatars/image-juliusomo.webp";
+import Header from "./Auth/Header";
 
 function App() {
 	// Delete comment modal
@@ -38,8 +39,7 @@ function App() {
 
 	return (
 		<>
-			<AddCommentModal onSendMessage={handleSendMessage} />
-
+			<Header />
 			<Comment
 				profilePicture={amyRobson} userName="amyrobson" date="1 month ago" votes={12}
 				openReplyModal={handleToggleReplyModal}
@@ -67,6 +67,8 @@ function App() {
 					</Comment>
 				</Comment>
 			</Comment>
+
+			<AddCommentModal onSendMessage={handleSendMessage} />
 
 			<ReplyModal modalState={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
 				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName} />

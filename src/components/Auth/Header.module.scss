@@ -1,0 +1,17 @@
+@use "/src/scss/variables" as v;
+
+.header {
+	position: -webkit-sticky;
+	position: sticky;
+	top: .5rem;
+	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+	padding: 1.5em !important;
+}
+.header-text {
+	font-size: clamp(1.135rem, 5.14vw, 1.5rem);
+	color: v.$clr-text-neutral-500;
+}
+
+.navbar {
+	height: 100%;
+}

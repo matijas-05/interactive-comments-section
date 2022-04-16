@@ -42,11 +42,18 @@ textarea {
 		outline: 1px v.$clr-text-primary-500 solid;
 	}
 }
+hr {
+	border-left: 2px solid v.$clr-reply-border;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	height: 100%;
+}
 
 #root {
 	display: grid;
 	justify-content: center;
 	align-content: center;
-	padding: 2em 1em;
-	gap: 1em;
+	padding: 2rem 1rem;
+	gap: 1rem;
 }
