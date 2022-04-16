@@ -24,7 +24,7 @@ function CommentButtons(props: Props) {
 						!props.isEditing ?
 							(
 								<div className="f-jc-fe f-ai-c f-wrap-rev g-1">
-									<ButtonSecondary className={`text-red`} iconSrc={iconDelete} onClick={props.openDeleteCommentModal}>
+									<ButtonSecondary className={`text-red`} iconSrc={iconDelete} alt="Delete" onClick={props.openDeleteCommentModal}>
 										<Desktop>Delete</Desktop>
 									</ButtonSecondary>
 									<ButtonSecondary className={`text-purple`} iconSrc={iconEdit} onClick={props.toggleEditing}>
