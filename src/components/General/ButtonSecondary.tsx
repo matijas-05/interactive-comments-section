@@ -4,6 +4,7 @@ import styles from "./ButtonSecondary.module.scss";
 interface Props {
 	className?: string,
 	iconSrc?: string,
+	/** Only needed when child is not a string */
 	alt?: string,
 	noHoverEffect?: boolean,
 	onClick: () => void,
