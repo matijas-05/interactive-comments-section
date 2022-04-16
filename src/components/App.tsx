@@ -3,12 +3,12 @@ import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";
 import ModalNoYes from "./General/ModalNoYes";
+import Header from "./Auth/Header";
 
 import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "/src/assets/images/avatars/image-maxblagun.webp";
 import ramsesMiron from "/src/assets/images/avatars/image-ramsesmiron.webp";
 import juliusOmo from "/src/assets/images/avatars/image-juliusomo.webp";
-import Header from "./Auth/Header";
 
 function App() {
 	// Delete comment modal

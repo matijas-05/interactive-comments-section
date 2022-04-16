@@ -5,7 +5,7 @@ import ButtonSecondary from "../General/ButtonSecondary";
 import TextareaAutosize from "react-textarea-autosize";
 import ProfilePicture from "../General/ProfilePicture";
 
-import userImg from "../../assets/images/avatars/image-juliusomo.webp";
+import userImg from "/src/assets/images/avatars/image-juliusomo.webp";
 
 // Overrite default overlay styles
 ReactModal.defaultStyles.overlay = {};

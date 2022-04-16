@@ -2,8 +2,8 @@ import ButtonSecondary from "../General/ButtonSecondary";
 import MediaQuery from "react-responsive";
 import styles from "./Header.module.scss";
 
-import logInIcon from "../../assets/images/icon-log-in.svg";
-import signUpIcon from "../../assets/images/icon-sign-up.svg";
+import logInIcon from "/src/assets/images/icon-log-in.svg";
+import signUpIcon from "/src/assets/images/icon-sign-up.svg";
 
 function Header() {
 	const btnTextBreakpoint = 650;
