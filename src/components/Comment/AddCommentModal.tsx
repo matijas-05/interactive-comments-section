@@ -19,6 +19,7 @@ function AddCommentModal(props: Props) {
 			contentLabel="Add comment" ariaHideApp={false}
 			isOpen={true}
 			parentSelector={() => document.getElementById("root")!}
+			style={{ content: { outline: "none" } }}
 		>
 			<div className="f-col g-1 card">
 				<TextareaAutosize placeholder="Add a comment..."></TextareaAutosize>
