@@ -21,7 +21,7 @@ function AddCommentModal(props: Props) {
 			parentSelector={() => document.getElementById("root")!}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize placeholder="Add a comment..." autoFocus></TextareaAutosize>
+				<TextareaAutosize placeholder="Add a comment..."></TextareaAutosize>
 				<div className="left-right">
 					<img className="profile-pic" src={userImg} alt="" />
 					<ButtonPrimary className="bg-purple pad-1-2" onClick={props.onSendMessage}>SEND</ButtonPrimary>
