@@ -1,10 +1,11 @@
 @use "/src/scss/variables" as v;
 
 .btn-primary {
+	gap: 0.5625em;
 	padding: 0.85em 1.2em;
-	cursor: pointer;
+	
 	color: white;
+	font-weight: 500;
 	background-color: v.$clr-text-400;
 	border-radius: v.$border-radius;
-	font-weight: 500;
 }
