@@ -14,9 +14,9 @@ function Votes(props: Props) {
 
 	return (
 		<div className={`${styles["votes"]} ${props.className} f-center`} style={props.style}>
-			<img src={iconPlus} alt="+" onClick={() => setVotes(votes + 1)} />
+			<img src={iconPlus} alt="+" onClick={() => setVotes(votes + 1)} width="11" height="11" />
 			<p className="text-purple" style={{ width: `${votes.toString().length}ch` }}>{votes}</p>
-			<img src={iconMinus} alt="-" onClick={() => setVotes(votes - 1)} />
+			<img src={iconMinus} alt="-" onClick={() => setVotes(votes - 1)} width="11" height="3" />
 		</div>
 	);
 }

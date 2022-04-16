@@ -1,6 +1,7 @@
 import ReactModal from "react-modal";
 import ButtonPrimary from "../General/ButtonPrimary";
 import TextareaAutosize from "react-textarea-autosize";
+import ProfilePicture from "../General/ProfilePicture";
 
 import userImg from "../../assets/images/avatars/image-juliusomo.webp";
 
@@ -24,7 +25,7 @@ function AddCommentModal(props: Props) {
 			<div className="f-col g-1 card">
 				<TextareaAutosize placeholder="Add a comment..."></TextareaAutosize>
 				<div className="left-right">
-					<img className="profile-pic" src={userImg} alt="" />
+					<ProfilePicture src={userImg} />
 					<ButtonPrimary className="bg-purple pad-1-2" onClick={props.onSendMessage}>SEND</ButtonPrimary>
 				</div>
 			</div>

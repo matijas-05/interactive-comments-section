@@ -12,6 +12,8 @@
 	> img {
 		cursor: pointer;
 		padding: .8em;
+		width: inherit;
+		height: inherit;
 
 		&:hover {
 			filter: saturate(2000%) brightness(0.7);
