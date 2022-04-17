@@ -12,7 +12,7 @@ function Header() {
 
 	useEffect(() => {
 		const setScrollMargin = () => {
-			document.querySelectorAll<HTMLElement>(".comments *").forEach(el => el.style.scrollMargin = `${headerRef.current!.offsetHeight + 10}px`);
+			document.querySelectorAll<HTMLElement>(".comments > div > div").forEach(el => el.style.scrollMargin = `${headerRef.current!.offsetHeight + 10}px`);
 		};
 
 		setInterval(() => setScrollMargin(), 100);
