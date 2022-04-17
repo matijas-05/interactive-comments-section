@@ -22,6 +22,7 @@
 
 	@media (min-width: v.$breakpoint-pc) {
 		padding: 2em !important;
+		max-width: 25rem;
 	}
 }
 .ModalNoYes__Content--after-open {

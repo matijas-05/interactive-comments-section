@@ -35,8 +35,8 @@ function ModalNoYes(props: Props) {
 			<h1>{props.header}</h1>
 			<p>{props.message}</p>
 			<div className="f-center g-1">
-				<ButtonPrimary onClick={props.cancelModal}>NO, CANCEL</ButtonPrimary>
-				<ButtonPrimary className="bg-red" onClick={props.confirmModal}>YES, DELETE</ButtonPrimary>
+				<ButtonPrimary className="f-1" onClick={props.cancelModal}>NO, CANCEL</ButtonPrimary>
+				<ButtonPrimary className="f-1 bg-red" onClick={props.confirmModal}>YES, DELETE</ButtonPrimary>
 			</div>
 		</ReactModal>
 	);
