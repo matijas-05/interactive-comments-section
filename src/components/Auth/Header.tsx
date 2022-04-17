@@ -25,9 +25,9 @@ function Header() {
 				<MediaQuery maxWidth={btnTextBreakpoint - 1}><hr /></MediaQuery>
 
 				<ButtonSecondary className="text-purple" iconClassName={`${styles["icon"]}`}
-					iconSrc={logInIcon} alt="Login" onClick={() => console.log("login")}
+					iconSrc={logInIcon} alt="Log in" onClick={() => console.log("log in")}
 				>
-					<MediaQuery minWidth={btnTextBreakpoint}>Login</MediaQuery>
+					<MediaQuery minWidth={btnTextBreakpoint}>Log in</MediaQuery>
 				</ButtonSecondary>
 
 				<MediaQuery minWidth={btnTextBreakpoint}><hr /></MediaQuery>
