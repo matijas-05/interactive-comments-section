@@ -19,7 +19,7 @@ function AddCommentModal(props: Props) {
 			portalClassName="AddCommentModalPortal"
 			contentLabel="Add comment" ariaHideApp={false}
 			isOpen={true}
-			parentSelector={() => document.getElementById("root")!}
+			parentSelector={() => document.querySelector(".comments")!}
 			style={{ content: { outline: "none" } }}
 		>
 			<div className="f-col g-1 card">

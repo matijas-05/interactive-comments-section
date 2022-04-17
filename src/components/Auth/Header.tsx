@@ -12,14 +12,14 @@ function Header() {
 
 	useEffect(() => {
 		const setScrollMargin = () => {
-			document.querySelectorAll<HTMLElement>("*").forEach(el => el.style.scrollMargin = `${headerRef.current!.offsetHeight + 10}px`);
+			document.querySelectorAll<HTMLElement>(".comments *").forEach(el => el.style.scrollMargin = `${headerRef.current!.offsetHeight + 10}px`);
 		};
-		
+
 		setInterval(() => setScrollMargin(), 100);
 	}, []);
 
 	return (
-		<header ref={headerRef} className={`${styles["header"]} left-right g-1 card`}>
+		<header ref={headerRef} className={`${styles["header"]} left-right g-1`}>
 			<h2 className={`${styles["header-text"]}`}>Interactive comments section</h2>
 			<nav className={`${styles["navbar"]} f-row g-1`}>
 				<MediaQuery maxWidth={btnTextBreakpoint - 1}><hr /></MediaQuery>

@@ -1,13 +1,14 @@
-@use "/src/scss/variables" as v;
+@use "/src/scss/variables"as v;
 
 .header {
 	position: sticky;
-	top: .25em;
+	top: 0;
+	padding: 1.5em;
+	background-color: v.$clr-card-bg;
 	box-shadow: 0 0.5em 1em rgba(0, 0, 0, 0.1);
-	padding: 1.5em !important;
 
 	@media (min-width: v.$breakpoint-pc) {
-		padding: 2em !important;
+		padding: 2em;
 	}
 }
 .header-text {
@@ -19,7 +20,7 @@
 	height: 100%;
 }
 .icon {
-	@media (max-width: 649px) {
+	@media (min-width: v.$breakpoint-pc), (max-width: 40.5625rem) {
 		width: 1.25rem;
 		height: 1.25rem;
 	}

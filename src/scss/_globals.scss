@@ -51,9 +51,13 @@ hr {
 }
 
 #root {
+	// Required for navbar <hr /> to have height (for some reason)
+	display: grid;
+}
+.comments {
 	display: grid;
 	justify-content: center;
 	align-content: center;
-	padding: 2rem 1rem;
+	padding: 1rem;
 	gap: 1rem;
 }
