@@ -9,10 +9,12 @@ import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "/src/assets/images/avatars/image-maxblagun.webp";
 import ramsesMiron from "/src/assets/images/avatars/image-ramsesmiron.webp";
 import juliusOmo from "/src/assets/images/avatars/image-juliusomo.webp";
+import LogInModal from "./Auth/LogInModal";
 
 function App() {
 	// Delete comment modal
 	const [deleteCommentModalIsOpen, setDeleteCommentModalIsOpen] = useState(false);
+
 	function handleOpenDeleteCommentModal() {
 		setDeleteCommentModalIsOpen(true);
 	}
@@ -37,9 +39,16 @@ function App() {
 		console.log("sending message");
 	}
 
+	// Log in modal
+	const [logInModalIsOpen, setLogInModalIsOpen] = useState(false);
+
+	function handleToggleLogInModal() {
+		setLogInModalIsOpen(!logInModalIsOpen);
+	}
+
 	return (
 		<>
-			<Header />
+			<Header openLogInModal={() => handleToggleLogInModal()} openSignUpModal={() => console.log("")} />
 
 			<section className="comments">
 				<Comment
@@ -65,15 +74,15 @@ function App() {
 							openReplyModal={handleToggleReplyModal}
 							openDeleteCommentModal={handleOpenDeleteCommentModal}
 							message="@ramsesmiron I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant."
-
 						>
 						</Comment>
 					</Comment>
 				</Comment>
 			</section>
 
+			{/* Comment related modals */}
 			<AddCommentModal onSendMessage={handleSendMessage} />
-			<ReplyModal modalState={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
+			<ReplyModal isOpen={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
 				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName} />
 			<NoYesModal
 				header="Delete comment"
@@ -82,6 +91,9 @@ function App() {
 				onNoClicked={handleCloseDeleteCommentModal} onYesClicked={handleCloseDeleteCommentModal}
 				modalState={deleteCommentModalIsOpen}
 			/>
+
+			{/* Auth related modals */}
+			<LogInModal isOpen={logInModalIsOpen} onRequestClose={() => handleToggleLogInModal()} />
 		</>
 	);
 }

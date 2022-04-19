@@ -8,14 +8,8 @@
 
 	> h1 {
 		font-size: 1.25em;
-		font-weight: 700;
-		color: v.$clr-text-neutral-500;
 	}
-	> p {
-		font-weight: 400;
-		color: v.$clr-text-400;
-	}
-
+	
 	transform: scale(0.5);
 	opacity: 0;
 	transition: all v.$modal-transition-duration ease-in-out;

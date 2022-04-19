@@ -3,11 +3,13 @@ import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import styles from "./PopupModal.module.scss";
 
 interface Props extends ReactModal.Props {
-	onRequestClose: () => void;
+	onRequestClose?: () => void;
 }
 function PopupModal(props: Props) {
 	return (
 		<ReactModal
+			bodyOpenClassName="PopupModal__Body"
+			portalClassName="PopupModalPortal"
 			{...props}
 
 			className={{
@@ -15,8 +17,6 @@ function PopupModal(props: Props) {
 				afterOpen: styles["PopupModal__Content--after-open"],
 				beforeClose: styles["PopupModal__Content--before-close"]
 			}}
-			bodyOpenClassName="PopupModal__Body"
-			portalClassName="PopupModalPortal"
 			overlayClassName={{
 				base: `${styles["PopupModal__Overlay"]} f-center`,
 				afterOpen: styles["PopupModal__Overlay--after-open"],

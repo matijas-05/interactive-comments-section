@@ -12,7 +12,7 @@ ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
 interface Props {
-	modalState: boolean,
+	isOpen: boolean,
 	onSendMessage: () => void,
 	onCancel: () => void,
 	parent: HTMLElement,
@@ -25,7 +25,7 @@ function AddCommentModal(props: Props) {
 	useEffect(() => {
 		const portal = document.querySelector(".ReplyModalPortal") as HTMLDivElement;
 
-		if (props.modalState) {
+		if (props.isOpen) {
 			portal!.style.removeProperty("display");
 			portal!.parentElement?.style.removeProperty("display");
 		}
@@ -41,7 +41,7 @@ function AddCommentModal(props: Props) {
 			bodyOpenClassName="ReplyModal__Body"
 			portalClassName="ReplyModalPortal"
 			contentLabel="Reply to a comment" ariaHideApp={false}
-			isOpen={props.modalState} shouldCloseOnEsc={true}
+			isOpen={props.isOpen} shouldCloseOnEsc={true}
 			onAfterOpen={() => {
 				// Focus on input
 				const commentInput = inputRef.current!;

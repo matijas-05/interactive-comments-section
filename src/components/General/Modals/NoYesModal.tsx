@@ -13,6 +13,8 @@ interface Props {
 function NoYesModal(props: Props) {
 	return (
 		<PopupModal
+			bodyOpenClassName="NoYesModal__Body"
+			portalClassName="NoYesPortal"
 			isOpen={props.modalState}
 			onRequestClose={props.onNoClicked}	// Choose no when cancelling modal (esc or overlay click)
 			contentLabel={props.header}
