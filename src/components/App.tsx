@@ -2,7 +2,7 @@ import { useState } from "react";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";
-import ModalNoYes from "./General/ModalNoYes";
+import ModalNoYes from "./General/Modals/ModalNoYes";
 import Header from "./Auth/Header";
 
 import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";

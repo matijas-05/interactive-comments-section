@@ -1,4 +1,4 @@
-import ButtonSecondary from "../General/ButtonSecondary";
+import ButtonSecondary from "../General/Buttons/ButtonSecondary";
 import MediaQuery from "react-responsive";
 import styles from "./Header.module.scss";
 

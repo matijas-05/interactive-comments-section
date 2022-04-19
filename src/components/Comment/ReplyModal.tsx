@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import ReactModal from "react-modal";
-import ButtonPrimary from "../General/ButtonPrimary";
-import ButtonSecondary from "../General/ButtonSecondary";
+import ButtonPrimary from "../General/Buttons/ButtonPrimary";
+import ButtonSecondary from "../General/Buttons/ButtonSecondary";
 import TextareaAutosize from "react-textarea-autosize";
 import ProfilePicture from "../General/ProfilePicture";
 

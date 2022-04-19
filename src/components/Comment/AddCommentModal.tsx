@@ -1,5 +1,5 @@
 import ReactModal from "react-modal";
-import ButtonPrimary from "../General/ButtonPrimary";
+import ButtonPrimary from "../General/Buttons/ButtonPrimary";
 import TextareaAutosize from "react-textarea-autosize";
 import ProfilePicture from "../General/ProfilePicture";
 

@@ -1,5 +1,5 @@
 import ReactModal from "react-modal";
-import ButtonPrimary from "./ButtonPrimary";
+import ButtonPrimary from "../Buttons/ButtonPrimary";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import styles from "./ModalNoYes.module.scss";
 

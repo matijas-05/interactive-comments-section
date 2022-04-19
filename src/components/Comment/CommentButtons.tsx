@@ -1,6 +1,6 @@
 import { CurrentUser } from "../../context";
-import ButtonPrimary from "../General/ButtonPrimary";
-import ButtonSecondary from "../General/ButtonSecondary";
+import ButtonPrimary from "../General/Buttons/ButtonPrimary";
+import ButtonSecondary from "../General/Buttons/ButtonSecondary";
 import { Desktop } from "../General/MediaQueryComponents";
 
 import iconDelete from "/src/assets/images/icon-delete.svg";
