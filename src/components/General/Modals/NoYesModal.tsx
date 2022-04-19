@@ -1,7 +1,7 @@
 import ReactModal from "react-modal";
 import ButtonPrimary from "../Buttons/ButtonPrimary";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import styles from "./ModalNoYes.module.scss";
+import styles from "./NoYesModal.module.scss";
 
 interface Props {
 	header: string,
@@ -10,20 +10,20 @@ interface Props {
 	confirmModal: () => void,
 	cancelModal: () => void
 }
-function ModalNoYes(props: Props) {
+function NoYesModal(props: Props) {
 	return (
 		<ReactModal
 			className={{
-				base: `${styles["ModalNoYes__Content"]} f-col g-1 card`,
-				afterOpen: styles["ModalNoYes__Content--after-open"],
-				beforeClose: styles["ModalNoYes__Content--before-close"]
+				base: `${styles["NoYesModal__Content"]} f-col g-1 card`,
+				afterOpen: styles["NoYesModal__Content--after-open"],
+				beforeClose: styles["NoYesModal__Content--before-close"]
 			}}
-			bodyOpenClassName="ModalYesNo__Body"
-			portalClassName="ModalYesNoPortal"
+			bodyOpenClassName="NoYesModal__Body"
+			portalClassName="NoYesModalPortal"
 			overlayClassName={{
-				base: `${styles["ModalNoYes__Overlay"]} f-center`,
-				afterOpen: styles["ModalNoYes__Overlay--after-open"],
-				beforeClose: styles["ModalNoYes__Overlay--before-close"]
+				base: `${styles["NoYesModal__Overlay"]} f-center`,
+				afterOpen: styles["NoYesModal__Overlay--after-open"],
+				beforeClose: styles["NoYesModal__Overlay--before-close"]
 			}}
 
 			contentLabel="Delete comment" ariaHideApp={false}
@@ -42,4 +42,4 @@ function ModalNoYes(props: Props) {
 	);
 }
 
-export default ModalNoYes;
+export default NoYesModal;

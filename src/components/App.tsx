@@ -2,7 +2,7 @@ import { useState } from "react";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";
-import ModalNoYes from "./General/Modals/ModalNoYes";
+import NoYesModal from "./General/Modals/NoYesModal";
 import Header from "./Auth/Header";
 
 import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
@@ -75,7 +75,7 @@ function App() {
 			<AddCommentModal onSendMessage={handleSendMessage} />
 			<ReplyModal modalState={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
 				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName} />
-			<ModalNoYes
+			<NoYesModal
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
 				cancelModal={handleCloseDeleteCommentModal} confirmModal={handleCloseDeleteCommentModal}
