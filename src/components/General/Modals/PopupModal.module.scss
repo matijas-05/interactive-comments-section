@@ -1,6 +1,6 @@
 @use "/src/scss/variables" as v;
 
-.NoYesModal__Content {
+.PopupModal__Content {
 	max-width: 22rem;
 	margin: 1em;
 	padding: 1.75em !important;
@@ -25,16 +25,16 @@
 		max-width: 25rem;
 	}
 }
-.NoYesModal__Content--after-open {
+.PopupModal__Content--after-open {
 	transform: scale(1);
 	opacity: 1;
 }
-.NoYesModal__Content--before-close {
+.PopupModal__Content--before-close {
 	transform: scale(0.5);
 	opacity: 0;
 }
 
-.NoYesModal__Overlay {
+.PopupModal__Overlay {
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -47,9 +47,9 @@
 	opacity: 0;
 	transition: opacity v.$modal-transition-duration ease-in-out;
 }
-.NoYesModal__Overlay--after-open {
+.PopupModal__Overlay--after-open {
 	opacity: 1;
 }
-.NoYesModal__Overlay--before-close {
+.PopupModal__Overlay--before-close {
 	opacity: 0;
 }
