@@ -40,7 +40,7 @@ function App() {
 	return (
 		<>
 			<Header />
-			
+
 			<section className="comments">
 				<Comment
 					profilePicture={amyRobson} userName="amyrobson" date="1 month ago" votes={12}
@@ -65,7 +65,7 @@ function App() {
 							openReplyModal={handleToggleReplyModal}
 							openDeleteCommentModal={handleOpenDeleteCommentModal}
 							message="@ramsesmiron I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant."
-							
+
 						>
 						</Comment>
 					</Comment>
@@ -78,7 +78,8 @@ function App() {
 			<NoYesModal
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
-				cancelModal={handleCloseDeleteCommentModal} confirmModal={handleCloseDeleteCommentModal}
+				noText="NO, CANCEL" yesText="YES, DELETE"
+				onNoClicked={handleCloseDeleteCommentModal} onYesClicked={handleCloseDeleteCommentModal}
 				modalState={deleteCommentModalIsOpen}
 			/>
 		</>
