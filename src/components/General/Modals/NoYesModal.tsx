@@ -13,9 +13,9 @@ interface Props {
 function NoYesModal(props: Props) {
 	return (
 		<PopupModal
-			contentLabel="Delete comment"
 			isOpen={props.modalState}
 			onRequestClose={props.onNoClicked}	// Choose no when cancelling modal (esc or overlay click)
+			contentLabel={props.header}
 		>
 			<h1>{props.header}</h1>
 			<p>{props.message}</p>
