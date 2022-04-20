@@ -1,15 +1,15 @@
 import { useState } from "react";
+import Header from "./Auth/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";
 import NoYesModal from "./General/Modals/NoYesModal";
-import Header from "./Auth/Header";
-
-import amyRobson from "/src/assets/images/avatars/image-amyrobson.webp";
-import maxBlagun from "/src/assets/images/avatars/image-maxblagun.webp";
-import ramsesMiron from "/src/assets/images/avatars/image-ramsesmiron.webp";
-import juliusOmo from "/src/assets/images/avatars/image-juliusomo.webp";
 import LogInModal from "./Auth/LogInModal";
+
+import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
+import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
+import ramsesMiron from "@/assets/images/avatars/image-ramsesmiron.webp";
+import juliusOmo from "@/assets/images/avatars/image-juliusomo.webp";
 
 function App() {
 	// Delete comment modal
@@ -48,7 +48,7 @@ function App() {
 
 	return (
 		<>
-			<Header openLogInModal={() => handleToggleLogInModal()} openSignUpModal={() => console.log("")} />
+			<Header openLogInModal={() => handleToggleLogInModal()} openSignUpModal={() => true} />
 
 			<section className="comments">
 				<Comment

@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { CurrentUser } from "../../context";
-import ProfilePicture from "../General/ProfilePicture";
+import { CurrentUser } from "@/context";
+import ProfilePicture from "@/components/General/ProfilePicture";
 import styles from "./CommentInfo.module.scss";
 
 interface Props {

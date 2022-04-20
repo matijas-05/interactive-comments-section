@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styles from "./Votes.module.scss";
 
-import iconPlus from "/src/assets/images/icon-plus.svg";
-import iconMinus from "/src/assets/images/icon-minus.svg";
+import iconPlus from "@/assets/images/icon-plus.svg";
+import iconMinus from "@/assets/images/icon-minus.svg";
 
 interface Props {
 	className?: string,

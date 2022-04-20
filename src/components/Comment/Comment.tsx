@@ -1,7 +1,7 @@
 import React from "react";
 import Votes from "./Votes";
 import CommentInfo from "./CommentInfo";
-import { Desktop, Mobile } from "../General/MediaQueryComponents";
+import { Desktop, Mobile } from "@/components/General/MediaQueryComponents";
 import styles from "./Comment.module.scss";
 
 import CommentMessage from "./CommentMessage";

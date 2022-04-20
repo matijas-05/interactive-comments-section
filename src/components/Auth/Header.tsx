@@ -1,10 +1,10 @@
 import { useEffect, useRef } from "react";
-import ButtonSecondary from "../General/Buttons/ButtonSecondary";
 import MediaQuery from "react-responsive";
+import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import styles from "./Header.module.scss";
 
-import logInIcon from "/src/assets/images/icon-log-in.svg";
-import signUpIcon from "/src/assets/images/icon-sign-up.svg";
+import logInIcon from "@/assets/images/icon-log-in.svg";
+import signUpIcon from "@/assets/images/icon-sign-up.svg";
 
 interface Props {
 	openLogInModal: () => void,

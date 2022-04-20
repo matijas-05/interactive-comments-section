@@ -1,4 +1,4 @@
-import ButtonPrimary from "../Buttons/ButtonPrimary";
+import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import PopupModal from "./PopupModal";
 
 interface Props {

@@ -1,9 +1,9 @@
 import ReactModal from "react-modal";
-import ButtonPrimary from "../General/Buttons/ButtonPrimary";
 import TextareaAutosize from "react-textarea-autosize";
-import ProfilePicture from "../General/ProfilePicture";
+import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
+import ProfilePicture from "@/components/General/ProfilePicture";
 
-import userImg from "/src/assets/images/avatars/image-juliusomo.webp";
+import userImg from "@/assets/images/avatars/image-juliusomo.webp";
 
 // Overrite default overlay styles
 ReactModal.defaultStyles.overlay = {};

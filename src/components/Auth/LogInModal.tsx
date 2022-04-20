@@ -1,4 +1,4 @@
-import PopupModal from "../General/Modals/PopupModal";
+import PopupModal from "@/components/General/Modals/PopupModal";
 
 interface Props {
 	isOpen: boolean,
@@ -7,12 +7,11 @@ interface Props {
 function LogInModal(props: Props) {
 	return (
 		<PopupModal
-			bodyOpenClassName="LogInModal__Body"
-			portalClassName="LogInModalPortal"
 			isOpen={props.isOpen}
 			onRequestClose={props.onRequestClose}
+			contentLabel="Log in"
 		>
-			<h1>Log In</h1>
+			<h1>Log in</h1>
 		</PopupModal>
 	);
 }
