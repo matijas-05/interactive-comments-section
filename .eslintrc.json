@@ -5,7 +5,8 @@
     },
     "ignorePatterns": [
         "node_modules/",
-        "dist/"
+        "dist/",
+        "design/"
     ],
     "extends": [
         "eslint:recommended",
@@ -45,6 +46,7 @@
             "error",
             "always"
         ],
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-explicit-any": "off"
     }
 }
