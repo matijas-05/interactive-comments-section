@@ -1,5 +1,6 @@
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import PopupModal from "./PopupModal";
+import styles from "./NoYesModal.module.scss";
 
 interface Props {
 	header: string,
@@ -15,6 +16,7 @@ function NoYesModal(props: Props) {
 		<PopupModal
 			bodyOpenClassName="NoYesModal__Body"
 			portalClassName="NoYesPortal"
+			className={`${styles["NoYesModal__Content"]} f-col g-1 card`}
 			isOpen={props.modalState}
 			onRequestClose={props.onNoClicked}	// Choose no when cancelling modal (esc or overlay click)
 			contentLabel={props.header}

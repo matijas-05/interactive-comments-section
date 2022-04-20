@@ -68,6 +68,10 @@
 	margin-right: auto;
 }
 
+.text-center {
+	text-align: center;
+}
+
 /* APPEARANCE */
 .text-purple {
 	color: v.$clr-text-primary-500;
@@ -100,4 +104,18 @@
 	@media (min-width: v.$breakpoint-pc) {
 		padding: 1.5em;
 	}
+}
+.vertical-separator {
+	border-left: 2px solid v.$clr-reply-border;
+	border-right: none;
+	border-top: none;
+	border-bottom: none;
+	height: 100%;
+}
+.horizontal-separator {
+	border-top: 2px solid v.$clr-reply-border;
+	border-left: none;
+	border-right: none;
+	border-bottom: none;
+	width: 100%;
 }

@@ -3,11 +3,11 @@ import MediaQuery from "react-responsive";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import styles from "./Header.module.scss";
 
-import logInIcon from "@/assets/images/icon-log-in.svg";
+import signInIcon from "@/assets/images/icon-log-in.svg";
 import signUpIcon from "@/assets/images/icon-sign-up.svg";
 
 interface Props {
-	openLogInModal: () => void,
+	openSignInModal: () => void,
 	openSignUpModal: () => void
 }
 function Header(props: Props) {
@@ -26,15 +26,15 @@ function Header(props: Props) {
 		<header ref={headerRef} className={`${styles["header"]} left-right g-1`}>
 			<h2 className={`${styles["header-text"]}`}>Interactive comments section</h2>
 			<nav className={`${styles["navbar"]} f-row g-1`}>
-				<MediaQuery maxWidth={btnTextBreakpoint - 1}><hr /></MediaQuery>
+				<MediaQuery maxWidth={btnTextBreakpoint - 1}><hr className="vertical-separator" /></MediaQuery>
 
 				<ButtonSecondary className="text-purple" iconClassName={`${styles["icon"]}`}
-					iconSrc={logInIcon} alt="Log in" onClick={() => props.openLogInModal()}
+					iconSrc={signInIcon} alt="Sign in" onClick={() => props.openSignInModal()}
 				>
-					<MediaQuery minWidth={btnTextBreakpoint}>Log in</MediaQuery>
+					<MediaQuery minWidth={btnTextBreakpoint}>Sign in</MediaQuery>
 				</ButtonSecondary>
 
-				<MediaQuery minWidth={btnTextBreakpoint}><hr /></MediaQuery>
+				<MediaQuery minWidth={btnTextBreakpoint}><hr className="vertical-separator" /></MediaQuery>
 
 				<ButtonSecondary className="text-purple" iconClassName={`${styles["icon"]}`}
 					iconSrc={signUpIcon} alt="Sign up" onClick={() => props.openSignUpModal()}

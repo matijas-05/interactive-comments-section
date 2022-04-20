@@ -1,14 +1,12 @@
 import { useState } from "react";
+import { ButtonProps } from "react-html-props";
 import styles from "./ButtonPrimary.module.scss";
 
-interface Props {
-	className?: string,
+interface Props extends ButtonProps {
 	iconSrc?: string,
 	iconClassName?: string,
 	/** Only needed when child is not a string */
 	alt?: string,
-	onClick: () => void,
-	children?: React.ReactNode
 }
 function ButtonPrimary(props: Props) {
 	// State change triggers component reload
@@ -17,9 +15,12 @@ function ButtonPrimary(props: Props) {
 
 	const img = new Image();
 	img.src = props.iconSrc ?? "";
-	
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { iconSrc, iconClassName, alt, ...rest } = props;
+
 	return (
-		<button className={`f-center ${styles["btn-primary"]} ${props.className} hover-opacity`} onClick={props.onClick}>
+		<button {...rest} className={`f-center ${styles["btn-primary"]} ${props.className} hover-opacity`}>
 			{props.iconSrc && <img className={props.iconClassName} src={props.iconSrc} width={img.width} height={img.height} alt={typeof props.children === "string" ? props.children : props.alt} onLoad={() => setImgLoaded(true)} />}
 			{props.children}
 		</button>

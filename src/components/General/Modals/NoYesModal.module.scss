@@ -1,0 +1,9 @@
+@use "/src/scss/variables" as v;
+
+.NoYesModal__Content {
+	max-width: 22rem;
+
+	@media (min-width: v.$breakpoint-pc) {
+		max-width: 25rem;
+	}
+}

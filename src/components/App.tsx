@@ -4,7 +4,7 @@ import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";
 import NoYesModal from "./General/Modals/NoYesModal";
-import LogInModal from "./Auth/LogInModal";
+import SignInModal from "./Auth/SignInModal";
 
 import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
@@ -39,16 +39,16 @@ function App() {
 		console.log("sending message");
 	}
 
-	// Log in modal
-	const [logInModalIsOpen, setLogInModalIsOpen] = useState(false);
+	// Sign in modal
+	const [signInModalIsOpen, setSignInModalIsOpen] = useState(false);
 
-	function handleToggleLogInModal() {
-		setLogInModalIsOpen(!logInModalIsOpen);
+	function handleToggleSignInModal() {
+		setSignInModalIsOpen(!signInModalIsOpen);
 	}
 
 	return (
 		<>
-			<Header openLogInModal={() => handleToggleLogInModal()} openSignUpModal={() => true} />
+			<Header openSignInModal={() => handleToggleSignInModal()} openSignUpModal={() => true} />
 
 			<section className="comments">
 				<Comment
@@ -93,7 +93,7 @@ function App() {
 			/>
 
 			{/* Auth related modals */}
-			<LogInModal isOpen={logInModalIsOpen} onRequestClose={() => handleToggleLogInModal()} />
+			<SignInModal isOpen={signInModalIsOpen} onRequestClose={() => handleToggleSignInModal()} />
 		</>
 	);
 }

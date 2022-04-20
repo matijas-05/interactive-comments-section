@@ -13,7 +13,7 @@ function PopupModal(props: Props) {
 			{...props}
 
 			className={{
-				base: `${styles["PopupModal__Content"]} f-col g-1 card`,
+				base: `${styles["PopupModal__Content"]} ${props.className}`,
 				afterOpen: styles["PopupModal__Content--after-open"],
 				beforeClose: styles["PopupModal__Content--before-close"]
 			}}
