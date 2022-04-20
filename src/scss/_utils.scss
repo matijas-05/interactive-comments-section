@@ -113,7 +113,9 @@
 	height: 100%;
 }
 .horizontal-separator {
-	border-top: 2px solid v.$clr-reply-border;
+	border-top: 2px solid;
+	border-image: linear-gradient(to right, transparent, v.$clr-reply-border 30%, v.$clr-reply-border 70%, transparent 100%) 1;
+
 	border-left: none;
 	border-right: none;
 	border-bottom: none;
