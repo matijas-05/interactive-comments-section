@@ -23,7 +23,8 @@
     },
     "plugins": [
         "react",
-        "@typescript-eslint"
+        "@typescript-eslint",
+        "only-warn"
     ],
     "rules": {
         "indent": [
@@ -46,5 +47,6 @@
             "always"
         ],
         "@typescript-eslint/no-non-null-assertion": "off"
-    }
+    },
+    "lint": "eslint --max-warnings=0"
 }
