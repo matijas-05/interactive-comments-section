@@ -34,6 +34,9 @@ p {
 	line-height: v.$line-height;
 	color: v.$clr-text-400;
 }
+label {
+	color: v.$clr-text-neutral-500;
+}
 textarea {
 	width: 100%;	// when editing comment
 	min-height: 5rem;
