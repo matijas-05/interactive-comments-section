@@ -21,7 +21,7 @@ function SignInModal(props: Props) {
 			<form className={`${styles["sign-in-form"]} f-col g-1-5`}>
 				<FormInput>
 					<label htmlFor="email">Email:</label>
-					<input type="email" id="email" inputMode="email" />
+					<input type="email" id="email" inputMode="email" autoFocus />
 				</FormInput>
 
 				<FormInput>

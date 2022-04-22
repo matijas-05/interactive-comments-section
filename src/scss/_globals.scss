@@ -61,6 +61,7 @@ input {
 	border-radius: v.$border-radius * 0.5;
 }
 input:focus {
+	border-color: transparent;
 	outline: 2px solid v.$clr-text-primary-500;
 }
 

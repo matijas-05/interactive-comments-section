@@ -95,6 +95,20 @@
 	text-decoration: underline;
 }
 
+// Outline invalid input even when focused in another input
+*:focus-within {
+	.invalid-input,
+	.invalid-input:focus {
+		border-color: transparent;
+		outline: 2px solid v.$clr-text-red-500;
+	}
+}
+
+.disabled {
+	filter: opacity(0.5);
+	cursor: default;
+}
+
 /* ELEMENTS */
 .card {
 	padding: 1em;
