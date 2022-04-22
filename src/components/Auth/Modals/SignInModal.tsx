@@ -9,7 +9,7 @@ interface Props {
 function SignInModal(props: Props) {
 	return (
 		<PopupModal
-			className={`${styles["SignInModal"]} f-center f-col g-1 card`}
+			className={`SignInModal f-center f-col g-1 card`}
 			isOpen={props.isOpen}
 			onRequestClose={props.onRequestClose}
 			contentLabel="Sign in"

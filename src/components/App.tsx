@@ -1,15 +1,16 @@
 import { useState } from "react";
-import Header from "./Auth/Header";
+import Header from "./General/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";
 import NoYesModal from "./General/Modals/NoYesModal";
-import SignInModal from "./Auth/SignInModal";
+import SignInModal from "./Auth/Modals/SignInModal";
 
 import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
 import ramsesMiron from "@/assets/images/avatars/image-ramsesmiron.webp";
 import juliusOmo from "@/assets/images/avatars/image-juliusomo.webp";
+import SignUpModal from "@/components/Auth/Modals/SignUpModal";
 
 function App() {
 	// Delete comment modal
@@ -46,9 +47,16 @@ function App() {
 		setSignInModalIsOpen(!signInModalIsOpen);
 	}
 
+	// Sign up modal
+	const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
+
+	function handleToggleSignUpModal() {
+		setSignUpModalIsOpen(!signUpModalIsOpen);
+	}
+
 	return (
 		<>
-			<Header openSignInModal={() => handleToggleSignInModal()} openSignUpModal={() => true} />
+			<Header openSignInModal={() => handleToggleSignInModal()} openSignUpModal={() => handleToggleSignUpModal()} />
 
 			<section className="comments">
 				<Comment
@@ -94,6 +102,7 @@ function App() {
 
 			{/* Auth related modals */}
 			<SignInModal isOpen={signInModalIsOpen} onRequestClose={() => handleToggleSignInModal()} />
+			<SignUpModal isOpen={signUpModalIsOpen} onRequestClose={() => handleToggleSignUpModal()} />
 		</>
 	);
 }
