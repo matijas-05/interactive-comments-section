@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "./General/Header";
+import Header from "./General/Page Sections/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";

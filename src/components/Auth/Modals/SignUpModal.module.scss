@@ -2,11 +2,4 @@
 
 .sign-up-form {
 	width: clamp(18.75rem, 25vw, 25rem);
-
-	*:nth-child(2n) {
-		margin-bottom: 1.5em;
-	}
-	> label {
-		margin-bottom: .25em;
-	}
 }

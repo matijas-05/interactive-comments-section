@@ -1,5 +1,6 @@
 import PopupModal from "@/components/General/Modals/PopupModal";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
+import FormInput from "@/components/General/FormInput";
 import styles from "./SignInModal.module.scss";
 
 interface Props {
@@ -17,14 +18,18 @@ function SignInModal(props: Props) {
 			<h1>Sign in</h1>
 			<hr className="horizontal-separator" />
 
-			<form className={`${styles["sign-in-form"]} f-col`}>
-				<label htmlFor="email">Email:</label>
-				<input type="email" id="email" />
+			<form className={`${styles["sign-in-form"]} f-col g-1-5`}>
+				<FormInput>
+					<label htmlFor="email">Email:</label>
+					<input type="email" id="email" inputMode="email" />
+				</FormInput>
 
-				<label htmlFor="password">Password:</label>
-				<input type="password" id="password" />
+				<FormInput>
+					<label htmlFor="password">Password:</label>
+					<input type="password" id="password" />
+				</FormInput>
 
-				<ButtonPrimary className="bg-purple" type="submit" onClick={() => console.log("submit")}>Sign in</ButtonPrimary>
+				<ButtonPrimary className="bg-purple" type="submit">Sign in</ButtonPrimary>
 			</form>
 		</PopupModal>
 	);
