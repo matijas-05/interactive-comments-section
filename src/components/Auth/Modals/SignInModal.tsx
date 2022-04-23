@@ -1,6 +1,6 @@
 import PopupModal from "@/components/General/Modals/PopupModal";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
-import FormInput from "@/components/General/FormInput";
+import FormInput from "@/components/Auth/FormInput";
 import styles from "./SignInModal.module.scss";
 
 interface Props {
@@ -21,7 +21,7 @@ function SignInModal(props: Props) {
 			<form className={`${styles["sign-in-form"]} f-col g-1-5`}>
 				<FormInput>
 					<label htmlFor="email">Email:</label>
-					<input type="email" id="email" inputMode="email" autoFocus />
+					<input type="email" id="email" inputMode="email" />
 				</FormInput>
 
 				<FormInput>

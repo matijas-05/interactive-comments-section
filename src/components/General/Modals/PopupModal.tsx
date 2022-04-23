@@ -10,6 +10,12 @@ function PopupModal(props: Props) {
 		<ReactModal
 			bodyOpenClassName="PopupModal__Body"
 			portalClassName="PopupModalPortal"
+			shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true}
+			closeTimeoutMS={200} onRequestClose={props.onRequestClose}
+			onAfterOpen={() => disableBodyScroll(document.querySelector("body")!)}
+			onAfterClose={() => enableBodyScroll(document.querySelector("body")!)}
+			ariaHideApp={false}
+
 			{...props}
 
 			className={{
@@ -22,12 +28,6 @@ function PopupModal(props: Props) {
 				afterOpen: styles["PopupModal__Overlay--after-open"],
 				beforeClose: styles["PopupModal__Overlay--before-close"]
 			}}
-
-			shouldCloseOnEsc={true} shouldCloseOnOverlayClick={true}
-			closeTimeoutMS={200} onRequestClose={props.onRequestClose}
-			onAfterOpen={() => disableBodyScroll(document.querySelector("body")!)}
-			onAfterClose={() => enableBodyScroll(document.querySelector("body")!)}
-			ariaHideApp={false}
 		>
 			{props.children}
 		</ReactModal>

@@ -22,9 +22,9 @@
 			height: 2.5ch;
 
 			background-color: v.$clr-text-primary-500;
-			border-radius: v.$border-radius * 0.5;
+			border-radius: v.$border-radius-small;
 			color: white;
-			font-size: .7em;
+			font-size: v.$fs-xsmall;
 		}
 	}
 }
