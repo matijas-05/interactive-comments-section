@@ -13,6 +13,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 interface Inputs {
 	email: string,
 	userName: string,
+	profilePicture: FileList | null,
 	password: string,
 	repeatPassword: string,
 }
@@ -24,7 +25,7 @@ function SignUpModal(props: Props) {
 	const { register, watch, formState: { errors, isValid, isSubmitting, isSubmitSuccessful }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "onChange" });
 
 	async function handleRegister(data: Inputs) {
-		await signUpUser(data.email, data.userName, data.password,
+		await signUpUser(data.email, data.userName, data.profilePicture ? data.profilePicture[0] : null, data.password,
 			async () => {
 				await sleep(500);
 				props.onRequestClose();
@@ -76,6 +77,15 @@ function SignUpModal(props: Props) {
 					<ErrorMessage
 						errors={errors} name="userName"
 						render={() => <span className="error">Username must be between 3 and 20 characters!</span>}
+					/>
+				</FormInput>
+
+				<FormInput>
+					<label htmlFor="profile-picture">Profile picture <span className="text-info">(optional)</span>:</label>
+					<input
+						className={errors.profilePicture && "invalid-input"}
+						type="file" accept=".png" id="profile-picture"
+						{...register("profilePicture")}
 					/>
 				</FormInput>
 

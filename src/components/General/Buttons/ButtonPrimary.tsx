@@ -20,7 +20,7 @@ function ButtonPrimary(props: Props) {
 	img.src = props.iconSrc ?? "";
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { iconSrc, iconClassName, alt, ...rest } = props;
+	const { iconSrc, iconClassName, faIcon, alt, ...rest } = props;
 
 	return (
 		<button {...rest} className={`f-center ${styles["btn-primary"]} ${props.className} hover-opacity`}>
