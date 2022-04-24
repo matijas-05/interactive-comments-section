@@ -103,7 +103,7 @@ function SignUpModal(props: Props) {
 				</FormInput>
 
 				<FormInput>
-					<label htmlFor="password">Repeat password:</label>
+					<label htmlFor="repeat-password">Repeat password:</label>
 					<input
 						className={errors.repeatPassword && "invalid-input"}
 						type="password" id="repeat-password"
