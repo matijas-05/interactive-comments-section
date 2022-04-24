@@ -21,7 +21,7 @@ interface Props {
 	onRequestClose: () => void
 }
 function SignUpModal(props: Props) {
-	const { register, watch, formState: { errors, isValid, isSubmitting, isSubmitSuccessful }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "all" });
+	const { register, watch, formState: { errors, isValid, isSubmitting, isSubmitSuccessful }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "onChange" });
 
 	async function handleRegister(data: Inputs) {
 		await signUpUser(data.email, data.userName, data.password,
