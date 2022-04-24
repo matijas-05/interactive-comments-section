@@ -8,7 +8,7 @@ import FormInput from "@/components/Auth/FormInput";
 import LoadingDots from "@/components/General/LoadingDots";
 import styles from "./SignUpModal.module.scss";
 
-import checkmarkIcon from "@/assets/images/icon-check.svg";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface Inputs {
 	email: string,
@@ -21,13 +21,15 @@ interface Props {
 	onRequestClose: () => void
 }
 function SignUpModal(props: Props) {
-	const { register, watch, formState: { errors, isValid, isSubmitting, isSubmitSuccessful }, handleSubmit, setError } = useForm<Inputs>({ mode: "onChange" });
+	const { register, watch, formState: { errors, isValid, isSubmitting, isSubmitSuccessful }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "all" });
 
 	async function handleRegister(data: Inputs) {
 		await signUpUser(data.email, data.userName, data.password,
 			async () => {
 				await sleep(500);
 				props.onRequestClose();
+				await sleep(200);
+				reset();
 			},
 			(error) => {
 				if (error.code === "auth/email-already-in-use") {
@@ -103,7 +105,10 @@ function SignUpModal(props: Props) {
 					/>
 				</FormInput>
 
-				<ButtonPrimary className="bg-purple" type="submit" disabled={!isValid} iconSrc={isSubmitSuccessful ? checkmarkIcon : ""}>
+				<ButtonPrimary
+					className="bg-purple" type="submit" disabled={!isValid}
+					faIcon={isSubmitSuccessful ? faCheck : undefined}
+				>
 					<span style={{ display: isSubmitting ? "none" : "inherit" }}>Sign up</span>
 					<LoadingDots style={{ display: isSubmitting ? "inherit" : "none", padding: "0.2625rem 0" }} />
 				</ButtonPrimary>

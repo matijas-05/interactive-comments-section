@@ -4,9 +4,7 @@ import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import { Desktop } from "@/components/General/MediaQueryComponents";
 
-import iconDelete from "@/assets/images/icon-delete.svg";
-import iconEdit from "@/assets/images/icon-edit.svg";
-import iconReply from "@/assets/images/icon-reply.svg";
+import { faReply, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	userName: string,
@@ -25,13 +23,27 @@ function CommentButtons(props: Props) {
 				!props.isEditing ?
 					(
 						<div className="f-jc-fe f-ai-c f-wrap-rev g-1">
-							<ButtonSecondary className={`text-red`} iconSrc={iconDelete} alt="Delete" onClick={props.openDeleteCommentModal}>
+							<ButtonSecondary
+								className={`text-red`}
+								iconClassName="fa-sm"
+								faIcon={faTrash}
+								alt="Delete" onClick={props.openDeleteCommentModal}>
 								<Desktop>Delete</Desktop>
 							</ButtonSecondary>
-							<ButtonSecondary className={`text-purple`} iconSrc={iconEdit} onClick={props.toggleEditing}>
+							<ButtonSecondary
+								className={`text-purple`}
+								iconClassName="fa-sm"
+								faIcon={faReply}
+								onClick={props.toggleEditing}
+							>
 								Edit
 							</ButtonSecondary>
-							<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}>
+							<ButtonSecondary
+								className="text-purple"
+								iconClassName="fa-sm"
+								faIcon={faEdit}
+								onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}
+							>
 								Reply
 							</ButtonSecondary>
 						</div>
@@ -46,7 +58,12 @@ function CommentButtons(props: Props) {
 					)
 			) :
 			(
-				<ButtonSecondary className="text-purple" iconSrc={iconReply} onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}>
+				<ButtonSecondary
+					className="text-purple"
+					iconClassName="fa-sm"
+					faIcon={faReply}
+					onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}
+				>
 					Reply
 				</ButtonSecondary>
 			)

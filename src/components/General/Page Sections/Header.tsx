@@ -3,8 +3,7 @@ import MediaQuery from "react-responsive";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import styles from "./Header.module.scss";
 
-import signInIcon from "@/assets/images/icon-log-in.svg";
-import signUpIcon from "@/assets/images/icon-sign-up.svg";
+import { faArrowRightToBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	openSignInModal: () => void,
@@ -28,16 +27,20 @@ function Header(props: Props) {
 			<nav className={`${styles["navbar"]} f-row g-1`}>
 				<MediaQuery maxWidth={btnTextBreakpoint - 1}><hr className="vertical-separator" /></MediaQuery>
 
-				<ButtonSecondary className="text-purple" iconClassName={`${styles["icon"]}`}
-					iconSrc={signInIcon} alt="Sign in" onClick={() => props.openSignInModal()}
+				<ButtonSecondary
+					className="text-purple" iconClassName={`${styles["icon"]} fa-lg`}
+					faIcon={faArrowRightToBracket}
+					alt="Sign in" onClick={() => props.openSignInModal()}
 				>
 					<MediaQuery minWidth={btnTextBreakpoint}>Sign in</MediaQuery>
 				</ButtonSecondary>
 
 				<MediaQuery minWidth={btnTextBreakpoint}><hr className="vertical-separator" /></MediaQuery>
 
-				<ButtonSecondary className="text-purple" iconClassName={`${styles["icon"]}`}
-					iconSrc={signUpIcon} alt="Sign up" onClick={() => props.openSignUpModal()}
+				<ButtonSecondary
+					className="text-purple" iconClassName={`${styles["icon"]} fa-lg`}
+					faIcon={faUserPlus}
+					alt="Sign up" onClick={() => props.openSignUpModal()}
 				>
 					<MediaQuery minWidth={btnTextBreakpoint}>Sign up</MediaQuery>
 				</ButtonSecondary>

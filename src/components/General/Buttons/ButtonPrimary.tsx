@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { useState } from "react";
 import { ButtonProps } from "react-html-props";
 import styles from "./ButtonPrimary.module.scss";
@@ -5,6 +7,7 @@ import styles from "./ButtonPrimary.module.scss";
 interface Props extends ButtonProps {
 	iconSrc?: string,
 	iconClassName?: string,
+	faIcon?: IconDefinition,
 	/** Only needed when child is not a string */
 	alt?: string,
 }
@@ -23,6 +26,7 @@ function ButtonPrimary(props: Props) {
 		<button {...rest} className={`f-center ${styles["btn-primary"]} ${props.className} hover-opacity`}>
 			{props.children}
 			{props.iconSrc && <img className={props.iconClassName} src={props.iconSrc} width={img.width} height={img.height} alt={typeof props.children === "string" ? props.children : props.alt} onLoad={() => setImgLoaded(true)} />}
+			{props.faIcon && <FontAwesomeIcon className={props.iconClassName} icon={props.faIcon!} />}
 		</button>
 	);
 }
