@@ -24,7 +24,7 @@ interface Props {
 function SignUpModal(props: Props) {
 	const { register, watch, formState: { errors, isValid, isSubmitting, isSubmitSuccessful }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "onChange" });
 
-	async function handleRegister(data: Inputs) {
+	async function signUp(data: Inputs) {
 		await signUpUser(data.email, data.userName, data.profilePicture ? data.profilePicture[0] : null, data.password,
 			async () => {
 				await sleep(500);
@@ -32,7 +32,7 @@ function SignUpModal(props: Props) {
 				await sleep(200);
 				reset();
 			},
-			(error) => {
+			error => {
 				if (error.code === "auth/email-already-in-use") {
 					setError("email", { type: "manual", message: "Email is already in use!" }, { shouldFocus: true });
 				}
@@ -49,10 +49,7 @@ function SignUpModal(props: Props) {
 			<h1>Sign up</h1>
 			<hr className="horizontal-separator" />
 
-			<form
-				className={`${styles["sign-up-form"]} f-col g-1-5`}
-				onSubmit={handleSubmit(async data => await handleRegister(data))}
-			>
+			<form className={`${styles["sign-up-form"]} f-col g-1-5`} onSubmit={handleSubmit(async data => await signUp(data))}>
 				<FormInput>
 					<label htmlFor="email">Email:</label>
 					<input
@@ -116,7 +113,7 @@ function SignUpModal(props: Props) {
 				</FormInput>
 
 				<ButtonPrimary
-					className="bg-purple" type="submit" disabled={!isValid || isSubmitSuccessful}
+					className="bg-purple" type="submit" disabled={!isValid || isSubmitting || isSubmitSuccessful}
 					faIcon={isSubmitSuccessful ? faCheck : undefined}
 				>
 					<span style={{ display: isSubmitting ? "none" : "inherit" }}>Sign up</span>

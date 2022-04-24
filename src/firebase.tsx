@@ -1,5 +1,5 @@
 import { initializeApp, FirebaseError } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Initialize firebase
@@ -25,8 +25,8 @@ export async function signUpUser(email: string, userName: string, profilePicture
 	try {
 		const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
-		// Also set profile picture
 		if (profilePicture) {
+			// Also set profile picture
 			const profilePictureRef = ref(userDataRef, `${userCredentials.user.uid}/profile_picture.${profilePicture.name.split(".")[1]}`);
 			await uploadBytes(profilePictureRef, profilePicture);
 
@@ -49,4 +49,14 @@ export async function signUpUser(email: string, userName: string, profilePicture
 		onError(err);
 	}
 }
+export async function signInUser(email: string, password: string, onSuccess: () => void, onError: (error: FirebaseError) => void) {
+	try {
+		await signInWithEmailAndPassword(auth, email, password);
+		onSuccess();
+	}
+	catch (err: any) {
+		onError(err);
+	}
+}
+
 export const getCurrentUser = () => auth.currentUser;
