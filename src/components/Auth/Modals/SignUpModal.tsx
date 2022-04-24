@@ -116,7 +116,7 @@ function SignUpModal(props: Props) {
 				</FormInput>
 
 				<ButtonPrimary
-					className="bg-purple" type="submit" disabled={!isValid}
+					className="bg-purple" type="submit" disabled={!isValid || isSubmitSuccessful}
 					faIcon={isSubmitSuccessful ? faCheck : undefined}
 				>
 					<span style={{ display: isSubmitting ? "none" : "inherit" }}>Sign up</span>
