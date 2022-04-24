@@ -1,9 +1,14 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { signUpUser } from "@/firebase";
+import sleep from "sleep-promise";
 import PopupModal from "@/components/General/Modals/PopupModal";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import FormInput from "@/components/Auth/FormInput";
+import LoadingDots from "@/components/General/LoadingDots";
 import styles from "./SignUpModal.module.scss";
+
+import checkmarkIcon from "@/assets/images/icon-check.svg";
 
 interface Inputs {
 	email: string,
@@ -16,13 +21,26 @@ interface Props {
 	onRequestClose: () => void
 }
 function SignUpModal(props: Props) {
-	const { register, watch, formState: { errors, isValid }, handleSubmit } = useForm<Inputs>({ mode: "onChange" });
+	const { register, watch, formState: { errors, isValid, isSubmitting, isSubmitSuccessful }, handleSubmit, setError } = useForm<Inputs>({ mode: "onChange" });
+
+	async function handleRegister(data: Inputs) {
+		await signUpUser(data.email, data.userName, data.password,
+			async () => {
+				await sleep(500);
+				props.onRequestClose();
+			},
+			(error) => {
+				if (error.code === "auth/email-already-in-use") {
+					setError("email", { type: "manual", message: "Email is already in use!" }, { shouldFocus: true });
+				}
+			});
+	}
 
 	return (
 		<PopupModal
 			className={`SignUpModal f-center f-col g-1 card`}
 			isOpen={props.isOpen} shouldCloseOnEsc={false}
-			onRequestClose={() => { props.onRequestClose(); }}
+			onRequestClose={() => props.onRequestClose()}
 			contentLabel="Sign up"
 		>
 			<h1>Sign up</h1>
@@ -30,7 +48,7 @@ function SignUpModal(props: Props) {
 
 			<form
 				className={`${styles["sign-up-form"]} f-col g-1-5`}
-				onSubmit={handleSubmit(data => console.log("submitting", data))}
+				onSubmit={handleSubmit(async data => await handleRegister(data))}
 			>
 				<FormInput>
 					<label htmlFor="email">Email:</label>
@@ -42,7 +60,7 @@ function SignUpModal(props: Props) {
 					/>
 					<ErrorMessage
 						errors={errors} name="email"
-						render={() => <span className="error">Email must be valid!</span>}
+						render={(error) => error.message ? <span className="error">{error.message}</span> : <span className="error">Email must be valid!</span>}
 					/>
 				</FormInput>
 
@@ -85,7 +103,10 @@ function SignUpModal(props: Props) {
 					/>
 				</FormInput>
 
-				<ButtonPrimary className={`bg-purple`} type="submit" disabled={!isValid}>Sign up</ButtonPrimary>
+				<ButtonPrimary className="bg-purple" type="submit" disabled={!isValid} iconSrc={isSubmitSuccessful ? checkmarkIcon : ""}>
+					<span style={{ display: isSubmitting ? "none" : "inherit" }}>Sign up</span>
+					<LoadingDots style={{ display: isSubmitting ? "inherit" : "none", padding: "0.2625rem 0" }} />
+				</ButtonPrimary>
 			</form>
 		</PopupModal>
 	);

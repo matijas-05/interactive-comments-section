@@ -78,11 +78,11 @@
 	font-weight: 500;
 }
 .text-red {
-	color: v.$clr-text-red-500;
+	color: v.$clr-red;
 	font-weight: 500;
 }
 .bg-red {
-	background-color: v.$clr-text-red-500 !important;
+	background-color: v.$clr-red !important;
 }
 .bg-purple {
 	background-color: v.$clr-text-primary-500 !important;
@@ -98,10 +98,10 @@
 .invalid-input,
 .invalid-input:focus {
 	border-color: transparent;
-	outline: 2px solid v.$clr-text-red-500;
+	outline: 2px solid v.$clr-red;
 }
 .error {
-	color: v.$clr-text-red-500;
+	color: v.$clr-red;
 	font-weight: 400;
 	font-size: v.$fs-small;
 }

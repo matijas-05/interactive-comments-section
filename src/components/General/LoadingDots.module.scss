@@ -1,0 +1,28 @@
+@use "/src/scss/variables"as v;
+
+$dot-size: 10px;
+$anim-duration: 0.5s;
+
+.loading-dots {
+	display: flex;
+	gap: $dot-size * 0.5;
+}
+.dot {
+	width: $dot-size;
+	height: $dot-size;
+	background-color: v.$clr-bg;
+	border-radius: 50%;
+	animation: fade ease-in-out $anim-duration calc((var(--order) - 1) * ($anim-duration / 5)) infinite;
+}
+
+@keyframes fade {
+	0% {
+		filter: opacity(1);
+	}
+	50% {
+		filter: opacity(0.25);
+	}
+	100% {
+		filter: opacity(1);
+	}
+}

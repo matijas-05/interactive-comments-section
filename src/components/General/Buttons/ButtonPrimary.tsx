@@ -21,8 +21,8 @@ function ButtonPrimary(props: Props) {
 
 	return (
 		<button {...rest} className={`f-center ${styles["btn-primary"]} ${props.className} hover-opacity`}>
-			{props.iconSrc && <img className={props.iconClassName} src={props.iconSrc} width={img.width} height={img.height} alt={typeof props.children === "string" ? props.children : props.alt} onLoad={() => setImgLoaded(true)} />}
 			{props.children}
+			{props.iconSrc && <img className={props.iconClassName} src={props.iconSrc} width={img.width} height={img.height} alt={typeof props.children === "string" ? props.children : props.alt} onLoad={() => setImgLoaded(true)} />}
 		</button>
 	);
 }
