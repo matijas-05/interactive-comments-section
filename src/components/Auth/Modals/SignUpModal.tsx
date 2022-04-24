@@ -84,7 +84,7 @@ function SignUpModal(props: Props) {
 					<label htmlFor="profile-picture">Profile picture <span className="text-info">(optional)</span>:</label>
 					<input
 						className={errors.profilePicture && "invalid-input"}
-						type="file" accept=".png" id="profile-picture"
+						type="file" accept="image/*" id="profile-picture"
 						{...register("profilePicture")}
 					/>
 				</FormInput>

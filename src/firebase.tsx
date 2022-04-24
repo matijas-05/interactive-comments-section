@@ -21,14 +21,13 @@ const userDataRef = ref(storage, "user_data");
 // Auth
 const auth = getAuth(app);
 
-export async function signUpUser(email: string, userName: string, profilePicture: File | null, password: string,
-	onSuccess: () => void, onError: (error: FirebaseError) => void) {
+export async function signUpUser(email: string, userName: string, profilePicture: File | null, password: string, onSuccess: () => void, onError: (error: FirebaseError) => void) {
 	try {
 		const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
 		// Also set profile picture
 		if (profilePicture) {
-			const profilePictureRef = ref(userDataRef, userCredentials.user.uid + "/profile_picture.png");
+			const profilePictureRef = ref(userDataRef, `${userCredentials.user.uid}/profile_picture.${profilePicture.name.split(".")[1]}`);
 			await uploadBytes(profilePictureRef, profilePicture);
 
 			await updateProfile(userCredentials.user, { displayName: userName, photoURL: profilePictureRef.fullPath }).then(
