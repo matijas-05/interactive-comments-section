@@ -1,9 +1,11 @@
+import styles from "./ProfilePicture.module.scss";
+
 interface Props {
 	src: string;
 }
 function ProfilePicture(props: Props) {
 	return (
-		<img src={props.src} alt="" width="32" height="32" />
+		<img className={styles["profile-pic"]} src={props.src} alt="" width="32" height="32" />
 	);
 }
 

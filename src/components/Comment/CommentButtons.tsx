@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { CurrentUser } from "@/context";
+import { getCurrentUser } from "@/firebase";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import { Desktop } from "@/components/General/MediaQueryComponents";
@@ -15,7 +14,7 @@ interface Props {
 	openReplyModal: (ref: HTMLDivElement, userName: string) => void,
 }
 function CommentButtons(props: Props) {
-	const { currentUser } = useContext(CurrentUser);
+	const currentUser = getCurrentUser()?.displayName;
 
 	return (
 		props.userName === currentUser ?

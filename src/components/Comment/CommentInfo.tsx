@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { CurrentUser } from "@/context";
+import { getCurrentUser } from "@/firebase";
 import ProfilePicture from "@/components/General/ProfilePicture";
 import styles from "./CommentInfo.module.scss";
 
@@ -9,7 +8,7 @@ interface Props {
 	date: string
 }
 function CommentInfo(props: Props) {
-	const currentUser = useContext(CurrentUser);
+	const currentUser = getCurrentUser()?.displayName;
 	return (
 		<div className={`${styles["comment-info"]} f-ai-c g-1`}>
 			<ProfilePicture src={props.profilePicture} />
