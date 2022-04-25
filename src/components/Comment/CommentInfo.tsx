@@ -8,7 +8,7 @@ interface Props {
 	date: string
 }
 function CommentInfo(props: Props) {
-	const currentUser = getCurrentUser()?.displayName;
+	const currentUser = getCurrentUser()?.userName;
 	return (
 		<div className={`${styles["comment-info"]} f-ai-c g-1`}>
 			<ProfilePicture src={props.profilePicture} />

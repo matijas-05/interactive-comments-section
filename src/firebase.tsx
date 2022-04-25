@@ -1,6 +1,6 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, StorageReference } from "firebase/storage";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -16,7 +16,6 @@ const app = initializeApp(firebaseConfig);
 
 // Storage
 const storage = getStorage(app);
-const userDataRef = ref(storage, "user_data");
 
 // Auth
 const auth = getAuth(app);
@@ -25,25 +24,18 @@ export async function signUpUser(email: string, userName: string, profilePicture
 	try {
 		const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
-		if (profilePicture) {
-			// Also set profile picture
-			const profilePictureRef = ref(userDataRef, `${userCredentials.user.uid}/profile_picture.${profilePicture.name.split(".")[1]}`);
-			await uploadBytes(profilePictureRef, profilePicture);
+		// Upload profile picture if set, otherwise use default
+		const profilePicturePath = profilePicture ? `user_data/${userCredentials.user.uid}/profile_picture.${profilePicture.name.split(".")[1]}` : "no_pp.png";
+		const profilePictureRef = ref(storage, profilePicturePath);
+		if (profilePicture) await uploadBytes(profilePictureRef, profilePicture);
 
-			await updateProfile(userCredentials.user, { displayName: userName, photoURL: profilePictureRef.fullPath }).then(
-				undefined,
-				(err: FirebaseError) => {
-					onError(err);
-				});
-		} else {
-			await updateProfile(userCredentials.user, { displayName: userName }).then(
-				undefined,
-				(err: FirebaseError) => {
-					onError(err);
-				});
+		try {
+			await updateProfile(userCredentials.user, { displayName: userName, photoURL: profilePictureRef.fullPath });
+			onSuccess(userCredentials);
 		}
-
-		onSuccess(userCredentials);
+		catch (err: any) {
+			onError(err);
+		}
 	}
 	catch (err: any) {
 		onError(err);
@@ -53,10 +45,36 @@ export async function signInUser(email: string, password: string, onSuccess: (us
 	try {
 		const userCredentials = await signInWithEmailAndPassword(auth, email, password);
 		onSuccess(userCredentials);
+
+		const profilePictureRef = ref(storage, userCredentials.user.photoURL!);
+		setCurrentUser(userCredentials.user.uid, userCredentials.user.displayName!, profilePictureRef);
 	}
 	catch (err: any) {
 		onError(err);
 	}
 }
 
-export const getCurrentUser = () => auth.currentUser;
+export interface User {
+	uid: string,
+	userName: string;
+	profilePictureDownloadURL: string;
+}
+let currentUser: User | null = null;
+async function setCurrentUser(uid: string, userName: string, profilePictureRef: StorageReference) {
+	const profilePictureDownloadURL = await getDownloadURL(profilePictureRef);
+	currentUser = { uid: uid, userName: userName, profilePictureDownloadURL: profilePictureDownloadURL };
+	localStorage.setItem("currentUser", JSON.stringify(currentUser));
+}
+
+export const getCurrentUser = () => {
+	if (currentUser) return currentUser;
+
+	const currentUserString = localStorage.getItem("currentUser");
+	if (currentUserString) {
+		currentUser = JSON.parse(currentUserString);
+		return currentUser;
+	}
+
+	return null;
+};
+export const isLoggedIn = () => currentUser;
