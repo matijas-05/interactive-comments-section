@@ -101,8 +101,8 @@
 
 .invalid-input,
 .invalid-input:focus {
-	border-color: transparent;
-	outline: 2px solid v.$clr-red;
+	border-color: transparent !important;
+	outline: 2px solid v.$clr-red !important;
 }
 .error {
 	color: v.$clr-red;

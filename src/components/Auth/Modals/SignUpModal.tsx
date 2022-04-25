@@ -41,10 +41,8 @@ function SignUpModal(props: Props) {
 
 	return (
 		<PopupModal
-			className={`SignUpModal f-center f-col g-1 card`}
-			isOpen={props.isOpen} shouldCloseOnEsc={false}
-			onRequestClose={() => props.onRequestClose()}
-			contentLabel="Sign up"
+			className={`SignUpModal f-center f-col g-1 card`} contentLabel="Sign up"
+			isOpen={props.isOpen} shouldCloseOnEsc={false} onRequestClose={() => props.onRequestClose()}
 		>
 			<h1>Sign up</h1>
 			<hr className="horizontal-separator" />
@@ -54,8 +52,7 @@ function SignUpModal(props: Props) {
 					<label htmlFor="email">Email:</label>
 					<input
 						className={errors.email && "invalid-input"}
-						type="email" id="email" inputMode="email"
-						placeholder="example@domain.com"
+						type="email" id="email" inputMode="email" placeholder="example@domain.com"
 						{...register("email", { required: true, pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })}
 					/>
 					<ErrorMessage
@@ -69,11 +66,11 @@ function SignUpModal(props: Props) {
 					<input
 						className={errors.userName && "invalid-input"}
 						type="text" id="username" placeholder="user123"
-						{...register("userName", { required: true, minLength: 3, maxLength: 20 })}
+						{...register("userName", { required: true, pattern: /^(?=.{4,20}$)(?![-_.])(?!.*[-_.]{2})[a-zA-Z0-9-._]+(?<![-_.])$/ })}
 					/>
 					<ErrorMessage
 						errors={errors} name="userName"
-						render={() => <span className="error">Username must be between 3 and 20 characters!</span>}
+						render={() => <span className="error">Username must be between 3 and 20 characters and must not contain special characters except for _ and -</span>}
 					/>
 				</FormInput>
 
