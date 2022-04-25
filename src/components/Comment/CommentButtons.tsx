@@ -24,24 +24,18 @@ function CommentButtons(props: Props) {
 					(
 						<div className="f-jc-fe f-ai-c f-wrap-rev g-1">
 							<ButtonSecondary
-								className={`text-red`}
-								iconClassName="fa-sm"
-								faIcon={faTrash}
+								className={`text-red`} iconClassName="fa-sm" faIcon={faTrash}
 								alt="Delete" onClick={props.openDeleteCommentModal}>
 								<Desktop>Delete</Desktop>
 							</ButtonSecondary>
 							<ButtonSecondary
-								className={`text-purple`}
-								iconClassName="fa-sm"
-								faIcon={faReply}
+								className={`text-purple`} iconClassName="fa-sm" faIcon={faReply}
 								onClick={props.toggleEditing}
 							>
 								Edit
 							</ButtonSecondary>
 							<ButtonSecondary
-								className="text-purple"
-								iconClassName="fa-sm"
-								faIcon={faEdit}
+								className="text-purple" iconClassName="fa-sm" faIcon={faEdit}
 								onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}
 							>
 								Reply

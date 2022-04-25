@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./General/Page Sections/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
@@ -56,7 +56,10 @@ function App() {
 	}
 
 	// Auth
-	const [currentUser, setCurrentUser] = useState("");
+	const [currentUser, setCurrentUser] = useState(localStorage.getItem("currentUser") || "");
+	useEffect(() => {
+		localStorage.setItem("currentUser", currentUser);
+	}, [currentUser]);
 
 	return (
 		<CurrentUser.Provider value={{currentUser: currentUser, setCurrentUser: setCurrentUser}}>
