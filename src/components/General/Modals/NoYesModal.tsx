@@ -7,7 +7,7 @@ interface Props {
 	message: string,
 	noText: string,
 	yesText: string,
-	modalState: boolean,
+	isOpen: boolean,
 	onNoClicked: () => void,
 	onYesClicked: () => void
 }
@@ -17,15 +17,15 @@ function NoYesModal(props: Props) {
 			bodyOpenClassName="NoYesModal__Body"
 			portalClassName="NoYesPortal"
 			className={`${styles["NoYesModal__Content"]} f-col g-1 card`}
-			isOpen={props.modalState}
+			isOpen={props.isOpen}
 			onRequestClose={props.onNoClicked}	// Choose no when cancelling modal (esc or overlay click)
 			contentLabel={props.header}
 		>
 			<h1>{props.header}</h1>
 			<p>{props.message}</p>
 			<div className="f-center g-1">
-				<ButtonPrimary className="f-1" onClick={props.onYesClicked}>{props.noText}</ButtonPrimary>
-				<ButtonPrimary className="f-1 bg-red" onClick={props.onNoClicked}>{props.yesText}</ButtonPrimary>
+				<ButtonPrimary className="f-1" onClick={props.onNoClicked}>{props.noText}</ButtonPrimary>
+				<ButtonPrimary className="f-1 bg-red" onClick={props.onYesClicked}>{props.yesText}</ButtonPrimary>
 			</div>
 		</PopupModal>
 	);

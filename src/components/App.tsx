@@ -11,6 +11,7 @@ import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
 import ramsesMiron from "@/assets/images/avatars/image-ramsesmiron.webp";
 import juliusOmo from "@/assets/images/avatars/image-juliusomo.webp";
+import { signOutCurrentUser } from "@/firebase";
 
 function App() {
 	// Delete comment modal
@@ -54,9 +55,20 @@ function App() {
 		setSignUpModalIsOpen(!signUpModalIsOpen);
 	}
 
+	// Sign out modal
+	const [signOutModalIsOpen, setSignOutModalIsOpen] = useState(false);
+
+	function handleToggleSignOutModal() {
+		setSignOutModalIsOpen(!signOutModalIsOpen);
+	}
+	async function handleSignOut() {
+		await signOutCurrentUser();
+		handleToggleSignOutModal();
+	}
+
 	return (
 		<>
-			<Header openSignInModal={() => handleToggleSignInModal()} openSignUpModal={() => handleToggleSignUpModal()} />
+			<Header openSignInModal={handleToggleSignInModal} openSignUpModal={handleToggleSignUpModal} openSignOutModal={handleToggleSignOutModal} />
 
 			<section className="comments">
 				<Comment
@@ -90,19 +102,28 @@ function App() {
 
 			{/* Comment related modals */}
 			<AddCommentModal onSendMessage={handleSendMessage} />
-			<ReplyModal isOpen={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
-				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName} />
+			<ReplyModal
+				isOpen={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
+				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName}
+			/>
 			<NoYesModal
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
 				noText="NO, CANCEL" yesText="YES, DELETE"
-				onNoClicked={handleCloseDeleteCommentModal} onYesClicked={handleCloseDeleteCommentModal}
-				modalState={deleteCommentModalIsOpen}
+				onNoClicked={() => handleCloseDeleteCommentModal()} onYesClicked={() => handleCloseDeleteCommentModal()}
+				isOpen={deleteCommentModalIsOpen}
 			/>
 
 			{/* Auth related modals */}
 			<SignInModal isOpen={signInModalIsOpen} onRequestClose={() => handleToggleSignInModal()} />
 			<SignUpModal isOpen={signUpModalIsOpen} onRequestClose={() => handleToggleSignUpModal()} />
+			<NoYesModal
+				header="Sign out"
+				message="Are you sure you want to sign out?"
+				noText="NO, CANCEL" yesText="YES, SIGN OUT"
+				onNoClicked={() => handleToggleSignOutModal()} onYesClicked={() => handleSignOut()}
+				isOpen={signOutModalIsOpen}
+			/>
 		</>
 	);
 }

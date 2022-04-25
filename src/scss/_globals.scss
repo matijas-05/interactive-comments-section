@@ -19,6 +19,7 @@ button {
 	background: none;
 	cursor: pointer;
 	font-size: v.$fs-normal;
+	white-space: nowrap;
 }
 button:disabled {
 	filter: opacity(0.5);

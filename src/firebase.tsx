@@ -1,6 +1,6 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL, StorageReference } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -47,10 +47,27 @@ export async function signInUser(email: string, password: string, onSuccess: (us
 		onSuccess(userCredentials);
 
 		const profilePictureRef = ref(storage, userCredentials.user.photoURL!);
-		await setCurrentUser(userCredentials.user.uid, userCredentials.user.displayName!, profilePictureRef);
+		const profilePictureDownloadURL = await getDownloadURL(profilePictureRef);
+
+		currentUser = {
+			uid: userCredentials.user.uid,
+			userName: userCredentials.user.displayName!,
+			profilePictureDownloadURL: profilePictureDownloadURL
+		};
+		localStorage.setItem("currentUser", JSON.stringify(currentUser));
 	}
 	catch (err: any) {
 		onError(err);
+	}
+}
+export async function signOutCurrentUser() {
+	try {
+		await auth.signOut();
+		currentUser = null;
+		localStorage.removeItem("currentUser");
+	}
+	catch (err: any) {
+		console.error(err);
 	}
 }
 
@@ -60,12 +77,6 @@ export interface User {
 	profilePictureDownloadURL: string;
 }
 let currentUser: User | null = null;
-async function setCurrentUser(uid: string, userName: string, profilePictureRef: StorageReference) {
-	const profilePictureDownloadURL = await getDownloadURL(profilePictureRef);
-	currentUser = { uid: uid, userName: userName, profilePictureDownloadURL: profilePictureDownloadURL };
-	localStorage.setItem("currentUser", JSON.stringify(currentUser));
-}
-
 export const getCurrentUser = () => {
 	if (currentUser) return currentUser;
 

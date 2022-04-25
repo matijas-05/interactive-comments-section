@@ -25,7 +25,7 @@ function AddCommentModal(props: Props) {
 				<div className="f-col g-1 card">
 					<TextareaAutosize placeholder="Add a comment..."></TextareaAutosize>
 					<div className="left-right">
-						<ProfilePicture src={getCurrentUser()?.profilePictureDownloadURL ?? ""} />
+						<ProfilePicture src={getCurrentUser()!.profilePictureDownloadURL} />
 						<ButtonPrimary className="bg-purple pad-1-2" onClick={props.onSendMessage}>SEND</ButtonPrimary>
 					</div>
 				</div>
