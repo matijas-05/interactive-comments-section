@@ -1,5 +1,5 @@
 import ReactModal from "react-modal";
-import { getCurrentUser, isLoggedIn } from "@/firebase";
+import { getCurrentUser } from "@/firebase";
 import TextareaAutosize from "react-textarea-autosize";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ProfilePicture from "@/components/General/ProfilePicture";
@@ -13,7 +13,7 @@ interface Props {
 }
 function AddCommentModal(props: Props) {
 	return (
-		isLoggedIn() ?
+		getCurrentUser() ?
 			<ReactModal
 				bodyOpenClassName="AddCommentModal__Body"
 				portalClassName="AddCommentModalPortal"

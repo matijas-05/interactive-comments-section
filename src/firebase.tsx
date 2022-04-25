@@ -47,7 +47,7 @@ export async function signInUser(email: string, password: string, onSuccess: (us
 		onSuccess(userCredentials);
 
 		const profilePictureRef = ref(storage, userCredentials.user.photoURL!);
-		setCurrentUser(userCredentials.user.uid, userCredentials.user.displayName!, profilePictureRef);
+		await setCurrentUser(userCredentials.user.uid, userCredentials.user.displayName!, profilePictureRef);
 	}
 	catch (err: any) {
 		onError(err);
@@ -77,4 +77,3 @@ export const getCurrentUser = () => {
 
 	return null;
 };
-export const isLoggedIn = () => currentUser;
