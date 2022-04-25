@@ -1,5 +1,5 @@
 import { initializeApp, FirebaseError } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Initialize firebase
@@ -21,7 +21,7 @@ const userDataRef = ref(storage, "user_data");
 // Auth
 const auth = getAuth(app);
 
-export async function signUpUser(email: string, userName: string, profilePicture: File | null, password: string, onSuccess: () => void, onError: (error: FirebaseError) => void) {
+export async function signUpUser(email: string, userName: string, profilePicture: File | null, password: string, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
 	try {
 		const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -43,16 +43,16 @@ export async function signUpUser(email: string, userName: string, profilePicture
 				});
 		}
 
-		onSuccess();
+		onSuccess(userCredentials);
 	}
 	catch (err: any) {
 		onError(err);
 	}
 }
-export async function signInUser(email: string, password: string, onSuccess: () => void, onError: (error: FirebaseError) => void) {
+export async function signInUser(email: string, password: string, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
 	try {
-		await signInWithEmailAndPassword(auth, email, password);
-		onSuccess();
+		const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+		onSuccess(userCredentials);
 	}
 	catch (err: any) {
 		onError(err);

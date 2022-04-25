@@ -15,7 +15,7 @@ interface Props {
 	openReplyModal: (ref: HTMLDivElement, userName: string) => void,
 }
 function CommentButtons(props: Props) {
-	const currentUser = useContext(CurrentUser);
+	const { currentUser } = useContext(CurrentUser);
 
 	return (
 		props.userName === currentUser ?

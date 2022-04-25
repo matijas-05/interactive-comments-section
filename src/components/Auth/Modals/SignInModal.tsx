@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import { CurrentUser } from "@/context";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import sleep from "sleep-promise";
@@ -20,13 +22,15 @@ interface Props {
 }
 function SignInModal(props: Props) {
 	const { register, formState: { isValid, isSubmitting, isSubmitSuccessful, errors }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "onChange" });
+	const { setCurrentUser } = useContext(CurrentUser);
 
 	async function signIn(email: string, password: string) {
 		await signInUser(email, password,
-			async () => {
+			async (userCredentials) => {
 				await sleep(500);
 				props.onRequestClose();
 				await sleep(200);
+				setCurrentUser(userCredentials.user.displayName ?? "");
 				reset();
 			},
 			error => {

@@ -5,12 +5,13 @@ import AddCommentModal from "./Comment/AddCommentModal";
 import ReplyModal from "./Comment/ReplyModal";
 import NoYesModal from "./General/Modals/NoYesModal";
 import SignInModal from "./Auth/Modals/SignInModal";
+import SignUpModal from "./Auth/Modals/SignUpModal";
+import { CurrentUser } from "@/context";
 
 import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
 import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
 import ramsesMiron from "@/assets/images/avatars/image-ramsesmiron.webp";
 import juliusOmo from "@/assets/images/avatars/image-juliusomo.webp";
-import SignUpModal from "@/components/Auth/Modals/SignUpModal";
 
 function App() {
 	// Delete comment modal
@@ -54,8 +55,11 @@ function App() {
 		setSignUpModalIsOpen(!signUpModalIsOpen);
 	}
 
+	// Auth
+	const [currentUser, setCurrentUser] = useState("");
+
 	return (
-		<>
+		<CurrentUser.Provider value={{currentUser: currentUser, setCurrentUser: setCurrentUser}}>
 			<Header openSignInModal={() => handleToggleSignInModal()} openSignUpModal={() => handleToggleSignUpModal()} />
 
 			<section className="comments">
@@ -103,7 +107,7 @@ function App() {
 			{/* Auth related modals */}
 			<SignInModal isOpen={signInModalIsOpen} onRequestClose={() => handleToggleSignInModal()} />
 			<SignUpModal isOpen={signUpModalIsOpen} onRequestClose={() => handleToggleSignUpModal()} />
-		</>
+		</CurrentUser.Provider>
 	);
 }
 
