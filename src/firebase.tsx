@@ -41,7 +41,7 @@ export async function signUpUser(email: string, userName: string, profilePicture
 		onError(err);
 	}
 }
-export async function signInUser(email: string, password: string, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
+export async function signInUser(email: string, password: string, rememberMe: boolean, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
 	try {
 		const userCredentials = await signInWithEmailAndPassword(auth, email, password);
 		onSuccess(userCredentials);
@@ -54,7 +54,8 @@ export async function signInUser(email: string, password: string, onSuccess: (us
 			userName: userCredentials.user.displayName!,
 			profilePictureDownloadURL: profilePictureDownloadURL
 		};
-		localStorage.setItem("currentUser", JSON.stringify(currentUser));
+		if (rememberMe) localStorage.setItem("currentUser", JSON.stringify(currentUser));
+		else sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
 	}
 	catch (err: any) {
 		onError(err);
@@ -65,6 +66,7 @@ export async function signOutCurrentUser() {
 		await auth.signOut();
 		currentUser = null;
 		localStorage.removeItem("currentUser");
+		sessionStorage.removeItem("currentUser");
 	}
 	catch (err: any) {
 		console.error(err);
@@ -80,7 +82,7 @@ let currentUser: User | null = null;
 export const getCurrentUser = () => {
 	if (currentUser) return currentUser;
 
-	const currentUserString = localStorage.getItem("currentUser");
+	const currentUserString = localStorage.getItem("currentUser") ?? sessionStorage.getItem("currentUser");
 	if (currentUserString) {
 		currentUser = JSON.parse(currentUserString);
 		return currentUser;

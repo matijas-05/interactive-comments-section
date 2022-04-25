@@ -33,7 +33,7 @@ h5,
 h6 {
 	font-weight: 700;
 	color: v.$clr-text-neutral-500;
-	margin: initial;	// override normalize.css
+	margin: initial; // override normalize.css
 }
 p {
 	line-height: v.$line-height;
@@ -41,9 +41,10 @@ p {
 }
 label {
 	color: v.$clr-text-neutral-500;
+	user-select: none;
 }
 textarea {
-	width: 100%;	// when editing comment
+	width: 100%; // when editing comment
 	min-height: 5rem;
 	padding: 1em;
 	border: 1px solid v.$clr-reply-border;
@@ -60,12 +61,12 @@ textarea {
 		outline: 1px v.$clr-text-primary-500 solid;
 	}
 }
-input {
+input:not([type=checkbox]):not([type=radio]) {
 	padding: .5em;
 	border: 1px solid v.$clr-text-400;
 	border-radius: v.$border-radius-small;
 }
-input:focus {
+input:focus:not([type=checkbox]):not([type=radio]) {
 	border-color: transparent;
 	outline: 2px solid v.$clr-text-primary-500;
 }

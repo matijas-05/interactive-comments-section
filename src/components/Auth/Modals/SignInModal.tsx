@@ -13,6 +13,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 interface Inputs {
 	email: string,
 	password: string,
+	rememberMe: boolean
 }
 interface Props {
 	isOpen: boolean,
@@ -21,8 +22,8 @@ interface Props {
 function SignInModal(props: Props) {
 	const { register, formState: { isValid, isSubmitting, isSubmitSuccessful, errors }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "onChange" });
 
-	async function signIn(email: string, password: string) {
-		await signInUser(email, password,
+	async function signIn(data: Inputs) {
+		await signInUser(data.email, data.password, data.rememberMe,
 			async () => {
 				await sleep(500);
 				props.onRequestClose();
@@ -49,7 +50,7 @@ function SignInModal(props: Props) {
 			<h1>Sign in</h1>
 			<hr className="horizontal-separator" />
 
-			<form className={`${styles["sign-in-form"]} f-col g-1-5`} onSubmit={handleSubmit(async data => signIn(data.email, data.password))}>
+			<form className={`${styles["sign-in-form"]} f-col g-1-5`} onSubmit={handleSubmit(async data => await signIn(data))}>
 				<FormInput>
 					<label htmlFor="email">Email:</label>
 					<input
@@ -68,6 +69,11 @@ function SignInModal(props: Props) {
 						{...register("password", { required: true })}
 					/>
 					<ErrorMessage errors={errors} name="password" render={() => <span className="error">{errors.password?.message}</span>} />
+				</FormInput>
+
+				<FormInput row={true}>
+					<input type="checkbox" id="remember-me" {...register("rememberMe")} />
+					<label htmlFor="remember-me">Remember me</label>
 				</FormInput>
 
 				<ButtonPrimary
