@@ -4,13 +4,13 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Initialize firebase
 const firebaseConfig = {
-	apiKey: "AIzaSyC1zzrWtHRNbDTe22J8MKBSCjtPzsOo6n8",
-	authDomain: "comment-section-ceae1.firebaseapp.com",
-	projectId: "comment-section-ceae1",
-	storageBucket: "comment-section-ceae1.appspot.com",
-	messagingSenderId: "609829708335",
-	appId: "1:609829708335:web:e96579ab47ec726e05dcda",
-	measurementId: "G-LB457NLWX3"
+	apiKey: "AIzaSyBIGSitMwae90gp8mJRPuZyZ0jVEVlF8x0",
+	authDomain: "interactive-comments-sec-7758b.firebaseapp.com",
+	projectId: "interactive-comments-sec-7758b",
+	storageBucket: "interactive-comments-sec-7758b.appspot.com",
+	messagingSenderId: "723039941161",
+	appId: "1:723039941161:web:0a655affc64287f664a238",
+	measurementId: "G-1SK65D4MJC"
 };
 const app = initializeApp(firebaseConfig);
 
@@ -73,7 +73,7 @@ export async function signOutCurrentUser() {
 	}
 }
 
-export interface User {
+interface User {
 	uid: string,
 	userName: string;
 	profilePictureDownloadURL: string;
@@ -87,6 +87,6 @@ export const getCurrentUser = () => {
 		currentUser = JSON.parse(currentUserString);
 		return currentUser;
 	}
-
+	
 	return null;
 };
