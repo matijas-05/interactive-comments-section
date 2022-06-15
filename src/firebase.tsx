@@ -1,7 +1,7 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { DocumentReference, getFirestore, addDoc } from "firebase/firestore";
+import { DocumentReference, Timestamp, getFirestore, addDoc, collection } from "firebase/firestore";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -95,11 +95,19 @@ export async function signOutCurrentUser() {
 
 // Database
 const db = getFirestore(app);
+// interface CommentDoc {
+// 	uid: string,
+// 	message: string,
+// 	date: Timestamp,
+// 	edited: boolean,
+// 	replies: DocumentReference[] | null
+// }
 
-export async function addComment(uid: string, message: string, date: Date, edited: boolean, replies: DocumentReference[]) {
+export async function addComment(uid: string, message: string, date: Timestamp) {
 	try {
-		
+		const docRef = await addDoc(collection(db, "comments"), { uid, message, date, edited: false, replies: null });
+		console.log(docRef.id);
 	} catch (error) {
-		
+		console.error("Error adding comment", error);
 	}
 }

@@ -37,9 +37,6 @@ function App() {
 		setReplyModalParent(parentComment);
 		setReplyModalIsOpen(!replyModalIsOpen);
 	}
-	function handleSendMessage() {
-		console.log("sending message");
-	}
 
 	// Sign in modal
 	const [signInModalIsOpen, setSignInModalIsOpen] = useState(false);
@@ -101,9 +98,9 @@ function App() {
 			</section>
 
 			{/* Comment related modals */}
-			<AddCommentModal onSendMessage={handleSendMessage} />
+			<AddCommentModal />
 			<ReplyModal
-				isOpen={replyModalIsOpen} onSendMessage={handleSendMessage} onCancel={handleCloseReplyModal}
+				isOpen={replyModalIsOpen} onCancel={handleCloseReplyModal}
 				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName}
 			/>
 			<NoYesModal

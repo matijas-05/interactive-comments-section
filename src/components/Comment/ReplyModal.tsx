@@ -7,13 +7,12 @@ import ProfilePicture from "@/components/General/ProfilePicture";
 
 import userImg from "@/assets/images/avatars/image-juliusomo.webp";
 
-// Overrite default overlay styles
+// Overwrite default overlay styles
 ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
 interface Props {
 	isOpen: boolean,
-	onSendMessage: () => void,
 	onCancel: () => void,
 	parent: HTMLElement,
 	userName: string
@@ -58,14 +57,14 @@ function AddCommentModal(props: Props) {
 			parentSelector={() => props.parent}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." defaultValue={`@${props.userName} `} autoFocus></TextareaAutosize>
+				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." defaultValue={`@${props.userName} `} autoFocus />
 				<div className="left-right">
 					<ProfilePicture src={userImg} />
 					<div className="f-center g-1-5">
 						<ButtonSecondary onClick={props.onCancel} noHoverEffect={true}>
 							<p className="hover-underline">Cancel</p>
 						</ButtonSecondary>
-						<ButtonPrimary className="bg-purple pad-1-2" onClick={() => { props.onSendMessage(); props.onCancel(); }}>SEND</ButtonPrimary>
+						<ButtonPrimary className="bg-purple pad-1-2" onClick={() => console.log("replying")}>SEND</ButtonPrimary>
 					</div>
 				</div>
 			</div>

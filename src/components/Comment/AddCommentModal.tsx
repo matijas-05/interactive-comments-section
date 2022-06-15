@@ -1,5 +1,7 @@
+import { useState } from "react";
 import ReactModal from "react-modal";
-import { getCurrentUser } from "@/firebase";
+import { Timestamp } from "firebase/firestore";
+import { getCurrentUser, addComment } from "@/firebase";
 import TextareaAutosize from "react-textarea-autosize";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ProfilePicture from "@/components/General/ProfilePicture";
@@ -8,10 +10,17 @@ import ProfilePicture from "@/components/General/ProfilePicture";
 ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
-interface Props {
-	onSendMessage: () => void
-}
-function AddCommentModal(props: Props) {
+function AddCommentModal() {
+	const [commentContent, setCommentContent] = useState("");
+
+	async function handleAddComment() {
+		await addComment(
+			getCurrentUser()!.uid,
+			commentContent,
+			Timestamp.fromDate(new Date())
+		);
+	}
+
 	return (
 		getCurrentUser() ?
 			<ReactModal
@@ -23,10 +32,10 @@ function AddCommentModal(props: Props) {
 				style={{ content: { outline: "none" } }}
 			>
 				<div className="f-col g-1 card">
-					<TextareaAutosize placeholder="Add a comment..."></TextareaAutosize>
+					<TextareaAutosize onChange={e => setCommentContent(e.currentTarget.value)} placeholder="Add a comment..." />
 					<div className="left-right">
 						<ProfilePicture src={getCurrentUser()!.profilePictureDownloadURL} />
-						<ButtonPrimary className="bg-purple pad-1-2" onClick={props.onSendMessage}>SEND</ButtonPrimary>
+						<ButtonPrimary className="bg-purple pad-1-2" onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
 					</div>
 				</div>
 			</ReactModal>

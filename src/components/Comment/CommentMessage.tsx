@@ -48,7 +48,7 @@ function CommentMessage(props: Props) {
 				</span>
 			}
 			{!props.isEditing ? commentMessage :
-				<TextareaAutosize ref={inputRef} defaultValue={editMessage} onKeyDown={(e) => e.key === "Escape" && props.toggleEditing()}></TextareaAutosize>
+				<TextareaAutosize ref={inputRef} defaultValue={editMessage} onKeyDown={(e) => e.key === "Escape" && props.toggleEditing()} />
 			}
 		</p>
 	);
