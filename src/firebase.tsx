@@ -1,6 +1,7 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { DocumentReference, getFirestore, addDoc } from "firebase/firestore";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -35,10 +36,9 @@ export const getCurrentUser = () => {
 		currentUser = JSON.parse(currentUserJSON);
 		return currentUser;
 	}
-	
+
 	return null;
 };
-
 
 export async function signUpUser(email: string, userName: string, profilePicture: File | null, password: string, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
 	try {
@@ -90,5 +90,16 @@ export async function signOutCurrentUser() {
 	}
 	catch (err: any) {
 		console.error(err);
+	}
+}
+
+// Database
+const db = getFirestore(app);
+
+export async function addComment(uid: string, message: string, date: Date, edited: boolean, replies: DocumentReference[]) {
+	try {
+		
+	} catch (error) {
+		
 	}
 }
