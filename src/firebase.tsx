@@ -20,6 +20,26 @@ const storage = getStorage(app);
 // Auth
 const auth = getAuth(app);
 
+interface User {
+	uid: string,
+	userName: string;
+	profilePictureDownloadURL: string;
+}
+let currentUser: User | null = null;
+const CURRENT_USER_STORAGE = "currentUser";
+export const getCurrentUser = () => {
+	if (currentUser) return currentUser;
+
+	const currentUserJSON = localStorage.getItem(CURRENT_USER_STORAGE) ?? sessionStorage.getItem(CURRENT_USER_STORAGE);
+	if (currentUserJSON) {
+		currentUser = JSON.parse(currentUserJSON);
+		return currentUser;
+	}
+	
+	return null;
+};
+
+
 export async function signUpUser(email: string, userName: string, profilePicture: File | null, password: string, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
 	try {
 		const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
@@ -54,8 +74,8 @@ export async function signInUser(email: string, password: string, rememberMe: bo
 			userName: userCredentials.user.displayName!,
 			profilePictureDownloadURL: profilePictureDownloadURL
 		};
-		if (rememberMe) localStorage.setItem("currentUser", JSON.stringify(currentUser));
-		else sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
+		if (rememberMe) localStorage.setItem(CURRENT_USER_STORAGE, JSON.stringify(currentUser));
+		else sessionStorage.setItem(CURRENT_USER_STORAGE, JSON.stringify(currentUser));
 	}
 	catch (err: any) {
 		onError(err);
@@ -65,28 +85,10 @@ export async function signOutCurrentUser() {
 	try {
 		await auth.signOut();
 		currentUser = null;
-		localStorage.removeItem("currentUser");
-		sessionStorage.removeItem("currentUser");
+		localStorage.removeItem(CURRENT_USER_STORAGE);
+		sessionStorage.removeItem(CURRENT_USER_STORAGE);
 	}
 	catch (err: any) {
 		console.error(err);
 	}
 }
-
-interface User {
-	uid: string,
-	userName: string;
-	profilePictureDownloadURL: string;
-}
-let currentUser: User | null = null;
-export const getCurrentUser = () => {
-	if (currentUser) return currentUser;
-
-	const currentUserString = localStorage.getItem("currentUser") ?? sessionStorage.getItem("currentUser");
-	if (currentUserString) {
-		currentUser = JSON.parse(currentUserString);
-		return currentUser;
-	}
-	
-	return null;
-};
