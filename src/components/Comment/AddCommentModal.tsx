@@ -32,10 +32,10 @@ function AddCommentModal() {
 				style={{ content: { outline: "none" } }}
 			>
 				<div className="f-col g-1 card">
-					<TextareaAutosize onChange={e => setCommentContent(e.currentTarget.value)} placeholder="Add a comment..." />
+					<TextareaAutosize onChange={e => setCommentContent(e.target.value)} placeholder="Add a comment..." />
 					<div className="left-right">
 						<ProfilePicture src={getCurrentUser()!.profilePictureDownloadURL} />
-						<ButtonPrimary className="bg-purple pad-1-2" onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
+						<ButtonPrimary className="bg-purple pad-1-2" disabled={commentContent === ""} onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
 					</div>
 				</div>
 			</ReactModal>
