@@ -1,7 +1,7 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { DocumentReference, Timestamp, getFirestore, addDoc, collection } from "firebase/firestore";
+import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query } from "firebase/firestore";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -21,12 +21,12 @@ const storage = getStorage(app);
 // Auth
 const auth = getAuth(app);
 
-interface User {
+interface UserData {
 	uid: string,
 	userName: string;
 	profilePictureDownloadURL: string;
 }
-let currentUser: User | null = null;
+let currentUser: UserData | null = null;
 const CURRENT_USER_STORAGE = "currentUser";
 export const getCurrentUser = () => {
 	if (currentUser) return currentUser;
@@ -95,19 +95,53 @@ export async function signOutCurrentUser() {
 
 // Database
 const db = getFirestore(app);
-// interface CommentDoc {
-// 	uid: string,
-// 	message: string,
-// 	date: Timestamp,
-// 	edited: boolean,
-// 	replies: DocumentReference[] | null
-// }
+const commentsCol = collection(db, "comments");
+export interface CommentData {
+	id?: string,
+	user: UserData,
+	message: string,
+	date: Timestamp,
+	edited: boolean,
+	votes: number,
+	replies: DocumentReference[] | null
+}
 
 export async function addComment(uid: string, message: string, date: Timestamp) {
 	try {
-		const docRef = await addDoc(collection(db, "comments"), { uid, message, date, edited: false, replies: null });
+		const docRef = await addDoc(commentsCol, {
+			user: getCurrentUser()!,
+			message: message,
+			date: date,
+			edited: false,
+			votes: 0,
+			replies: null
+		} as CommentData);
 		console.log(docRef.id);
 	} catch (error) {
 		console.error("Error adding comment", error);
+	}
+}
+export async function getComments(): Promise<CommentData[] | null> {
+	try {
+		const snapshot = await getDocs(query(commentsCol));
+		const comments: CommentData[] = [];
+
+		snapshot.forEach(doc => {
+			const data = doc.data() as CommentData;
+			comments.push({
+				id: doc.id,
+				user: data.user,
+				message: data.message,
+				date: data.date,
+				edited: data.edited,
+				votes: data.votes,
+				replies: data.replies
+			});
+		});
+
+		return comments;
+	} catch (error) {
+		console.error("Error getting comments", error);
+		return null;
 	}
 }

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getComments, signOutCurrentUser, CommentData } from "@/firebase";
 import Header from "./General/Page Sections/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
@@ -7,11 +8,10 @@ import NoYesModal from "./General/Modals/NoYesModal";
 import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
 
-import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
-import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
-import ramsesMiron from "@/assets/images/avatars/image-ramsesmiron.webp";
-import juliusOmo from "@/assets/images/avatars/image-juliusomo.webp";
-import { signOutCurrentUser } from "@/firebase";
+// import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
+// import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
+// import ramsesMiron from "@/assets/images/avatars/image-ramsesmiron.webp";
+// import juliusOmo from "@/assets/images/avatars/image-juliusomo.webp";
 
 function App() {
 	// Delete comment modal
@@ -63,12 +63,20 @@ function App() {
 		handleToggleSignOutModal();
 	}
 
+	// Comments
+	const [commentData, setCommentData] = useState<CommentData[] | null>(null);
+	useEffect(() => {
+		getComments().then(comments => {
+			setCommentData(comments);
+		}, () => console.error("Failed to fetch comments!"));
+	}, []);
+
 	return (
 		<>
 			<Header openSignInModal={handleToggleSignInModal} openSignUpModal={handleToggleSignUpModal} openSignOutModal={handleToggleSignOutModal} />
 
 			<section className="comments">
-				<Comment
+				{/* <Comment
 					profilePicture={amyRobson} userName="amyrobson" date="1 month ago" votes={12}
 					openReplyModal={handleToggleReplyModal}
 					openDeleteCommentModal={handleOpenDeleteCommentModal}
@@ -94,7 +102,19 @@ function App() {
 						>
 						</Comment>
 					</Comment>
-				</Comment>
+				</Comment> */}
+
+				{commentData?.map(comment =>
+					<Comment
+						key={comment.id}
+						profilePicture={comment.user.profilePictureDownloadURL} userName={comment.user.userName} date={comment.date.toString()}
+						votes={comment.votes} message={comment.message}
+						openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal}
+					/>
+				)}
+
+				{/* Needed for AddCommentModal to be rendered after all comments */}
+				<div className="add-comment-modal"></div>
 			</section>
 
 			{/* Comment related modals */}
