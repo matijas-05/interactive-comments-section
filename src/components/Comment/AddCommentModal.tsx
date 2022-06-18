@@ -11,8 +11,10 @@ ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
 function AddCommentModal() {
-	const [commentContent, setCommentContent] = useState("");
+	if(!getCurrentUser())
+		return null;
 
+	const [commentContent, setCommentContent] = useState("");
 	async function handleAddComment() {
 		await addComment(
 			commentContent,
@@ -21,24 +23,22 @@ function AddCommentModal() {
 	}
 
 	return (
-		getCurrentUser() ?
-			<ReactModal
-				bodyOpenClassName="AddCommentModal__Body"
-				portalClassName="AddCommentModalPortal"
-				contentLabel="Add comment" ariaHideApp={false}
-				isOpen={true}
-				parentSelector={() => document.querySelector(".add-comment-modal")!}
-				style={{ content: { outline: "none" } }}
-			>
-				<div className="f-col g-1 card">
-					<TextareaAutosize onChange={e => setCommentContent(e.target.value)} placeholder="Add a comment..." />
-					<div className="left-right">
-						<ProfilePicture src={getCurrentUser()!.profilePictureDownloadURL} />
-						<ButtonPrimary className="bg-purple pad-1-2" disabled={commentContent === ""} onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
-					</div>
+		<ReactModal
+			bodyOpenClassName="AddCommentModal__Body"
+			portalClassName="AddCommentModalPortal"
+			contentLabel="Add comment" ariaHideApp={false}
+			isOpen={true}
+			parentSelector={() => document.querySelector(".add-comment-modal")!}
+			style={{ content: { outline: "none" } }}
+		>
+			<div className="f-col g-1 card">
+				<TextareaAutosize onChange={e => setCommentContent(e.target.value)} placeholder="Add a comment..." />
+				<div className="left-right">
+					<ProfilePicture src={getCurrentUser()!.profilePictureDownloadURL} />
+					<ButtonPrimary className="bg-purple pad-1-2" disabled={commentContent === ""} onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
 				</div>
-			</ReactModal>
-			: null
+			</div>
+		</ReactModal>
 	);
 }
 

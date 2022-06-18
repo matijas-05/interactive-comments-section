@@ -71,6 +71,40 @@ function App() {
 			setCommentData(comments);
 		})();
 	}, []);
+	
+	function renderComment() {
+		return commentData?.map(comment => {
+			const minutes = Math.round((new Date().getTime() - comment.date.toDate().getTime()) / 1000 / 60);
+			const hours = Math.round(minutes / 60);
+			const days = Math.round(hours / 24);
+			const weeks = Math.round(days / 7);
+			const months = Math.round(weeks / 4);
+			const years = Math.round(months / 12);
+
+			let parsedDate = "";
+			if (years > 0) {
+				parsedDate = `${years} year${years > 1 ? "s" : ""} ago`;
+			} else if (months > 0) {
+				parsedDate = `${months} month${months > 1 ? "s" : ""} ago`;
+			} else if (weeks > 0) {
+				parsedDate = `${weeks} week${weeks > 1 ? "s" : ""} ago`;
+			} else if (days > 0) {
+				parsedDate = `${days} day${days > 1 ? "s" : ""} ago`;
+			} else if (hours > 0) {
+				parsedDate = `${hours} hour${hours > 1 ? "s" : ""} ago`;
+			} else if (minutes > 0) {
+				parsedDate = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+			} else {
+				parsedDate = "Just now";
+			}
+
+			return <Comment
+				key={comment.id}
+				profilePicture={comment.user.profilePictureDownloadURL} userName={comment.user.userName}
+				date={parsedDate} votes={comment.votes} message={comment.message}
+				openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal} />;
+		});
+	}
 
 	return (
 		<>
@@ -105,38 +139,7 @@ function App() {
 					</Comment>
 				</Comment> */}
 
-				{commentData?.map(comment => {
-					const minutes = Math.round((new Date().getTime() - comment.date.toDate().getTime()) / 1000 / 60);
-					const hours = Math.round(minutes / 60);
-					const days = Math.round(hours / 24);
-					const weeks = Math.round(days / 7);
-					const months = Math.round(weeks / 4);
-					const years = Math.round(months / 12);
-
-					let parsedDate = "";
-					if (years > 0) {
-						parsedDate = `${years} year${years > 1 ? "s" : ""} ago`;
-					} else if (months > 0) {
-						parsedDate = `${months} month${months > 1 ? "s" : ""} ago`;
-					} else if (weeks > 0) {
-						parsedDate = `${weeks} week${weeks > 1 ? "s" : ""} ago`;
-					} else if (days > 0) {
-						parsedDate = `${days} day${days > 1 ? "s" : ""} ago`;
-					} else if (hours > 0) {
-						parsedDate = `${hours} hour${hours > 1 ? "s" : ""} ago`;
-					} else if (minutes > 0) {
-						parsedDate = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-					} else {
-						parsedDate = "Just now";
-					}
-
-					return <Comment
-						key={comment.id}
-						profilePicture={comment.user.profilePictureDownloadURL} userName={comment.user.userName}
-						date={parsedDate} votes={comment.votes} message={comment.message}
-						openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal}
-					/>;
-				})}
+				{renderComment()}
 
 				{/* Needed for AddCommentModal to be rendered after all comments */}
 				<div className="add-comment-modal"></div>

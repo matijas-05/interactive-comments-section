@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import TextareaAutosize from "react-textarea-autosize";
+import { getCurrentUser } from "@/firebase";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import ProfilePicture from "@/components/General/ProfilePicture";
-import { getCurrentUser } from "@/firebase";
 
 // Overwrite default overlay styles
 ReactModal.defaultStyles.overlay = {};
@@ -16,7 +16,10 @@ interface Props {
 	parent: HTMLElement,
 	userName: string
 }
-function AddCommentModal(props: Props) {
+function ReplyModal(props: Props) {
+	if(!getCurrentUser())
+		return null;
+
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");
 
@@ -73,4 +76,4 @@ function AddCommentModal(props: Props) {
 	);
 }
 
-export default AddCommentModal;
+export default ReplyModal;
