@@ -81,7 +81,7 @@ export async function signInUser(email: string, password: string, rememberMe: bo
 		onError(err);
 	}
 }
-export async function signOutCurrentUser() {
+export async function signOut() {
 	try {
 		await auth.signOut();
 		currentUser = null;
@@ -106,7 +106,7 @@ export interface CommentData {
 	replies: DocumentReference[] | null
 }
 
-export async function addComment(uid: string, message: string, date: Timestamp) {
+export async function addComment(message: string, date: Timestamp) {
 	try {
 		const docRef = await addDoc(commentsCol, {
 			user: getCurrentUser()!,
@@ -121,7 +121,7 @@ export async function addComment(uid: string, message: string, date: Timestamp) 
 		console.error("Error adding comment", error);
 	}
 }
-export async function getComments(): Promise<CommentData[] | null> {
+export async function getComments() {
 	try {
 		const snapshot = await getDocs(query(commentsCol));
 		const comments: CommentData[] = [];

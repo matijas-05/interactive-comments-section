@@ -15,7 +15,6 @@ function AddCommentModal() {
 
 	async function handleAddComment() {
 		await addComment(
-			getCurrentUser()!.uid,
 			commentContent,
 			Timestamp.fromDate(new Date())
 		);
