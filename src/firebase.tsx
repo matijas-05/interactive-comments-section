@@ -21,7 +21,7 @@ const storage = getStorage(app);
 // Auth
 const auth = getAuth(app);
 
-interface UserData {
+export interface UserData {
 	uid: string,
 	userName: string;
 	profilePictureDownloadURL: string;

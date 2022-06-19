@@ -71,7 +71,7 @@ function App() {
 			setCommentData(comments);
 		})();
 	}, []);
-	
+
 	function renderComment() {
 		return commentData?.map(comment => {
 			const minutes = Math.round((new Date().getTime() - comment.date.toDate().getTime()) / 1000 / 60);
@@ -99,10 +99,10 @@ function App() {
 			}
 
 			return <Comment
-				key={comment.id}
-				profilePicture={comment.user.profilePictureDownloadURL} userName={comment.user.userName}
+				key={comment.id} user={comment.user}
 				date={parsedDate} votes={comment.votes} message={comment.message}
-				openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal} />;
+				openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal}
+			/>;
 		});
 	}
 

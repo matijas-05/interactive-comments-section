@@ -1,15 +1,14 @@
 import React from "react";
+import { UserData } from "@/firebase";
+import { Desktop, Mobile } from "@/components/General/MediaQueryComponents";
 import Votes from "./Votes";
 import CommentInfo from "./CommentInfo";
-import { Desktop, Mobile } from "@/components/General/MediaQueryComponents";
-import styles from "./Comment.module.scss";
-
 import CommentMessage from "./CommentMessage";
 import CommentButtons from "./CommentButtons";
+import styles from "./Comment.module.scss";
 
 interface Props {
-	userName: string,
-	profilePicture: string,
+	user: UserData,
 	date: string,
 	message: string,
 	votes: number,
@@ -50,30 +49,29 @@ class Comment extends React.Component<Props, State> {
 			<div ref={this.thisRef} className="f-col g-1 hide-empty">
 				<Mobile>
 					<div className={"f-col g-1-25 card"}>
-						<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
-						<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
+						<CommentInfo user={this.props.user} date={this.props.date} />
+						<CommentMessage message={this.props.message} mention={this.props.parent?.props.user.userName} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
 
-						{/* Comment buttons */}
 						<div className="left-right f-span-y g-1">
 							<Votes initialVotes={this.props.votes} />
-							<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
+							<CommentButtons userName={this.props.user.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
 								toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 						</div>
 					</div>
 				</Mobile>
 
 				<Desktop>
-					{/* Comment buttons */}
 					<div className="f-row g-1-25 card">
 						<Votes className="f-col" style={{ alignSelf: "flex-start" }} initialVotes={this.props.votes} />
 						<div className={"f-col g-1-25"} style={{ flexGrow: 1 }}>
 							<div className="f-row f-span-y left-right g-1">
-								<CommentInfo userName={this.props.userName} profilePicture={this.props.profilePicture} date={this.props.date} />
-								<CommentButtons userName={this.props.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
+								<CommentInfo user={this.props.user} date={this.props.date} />
+								<CommentButtons userName={this.props.user.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
 									toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 							</div>
 
-							<CommentMessage message={this.props.message} mention={this.props.parent?.props.userName} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
+							<CommentMessage message={this.props.message} mention={this.props.parent?.props.user.userName}
+								isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
 						</div>
 					</div>
 				</Desktop>
