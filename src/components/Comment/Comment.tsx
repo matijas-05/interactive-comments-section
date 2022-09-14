@@ -8,11 +8,12 @@ import CommentButtons from "./CommentButtons";
 import styles from "./Comment.module.scss";
 
 interface Props {
+	id: string,
 	user: UserData,
 	date: string,
 	message: string,
 	votes: number,
-	openReplyModal: (ref: HTMLDivElement, userName: string) => void,
+	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void,
 	openDeleteCommentModal: () => void,
 	children?: React.ReactNode,
 	parent?: Comment,
@@ -54,7 +55,7 @@ class Comment extends React.Component<Props, State> {
 
 						<div className="left-right f-span-y g-1">
 							<Votes initialVotes={this.props.votes} />
-							<CommentButtons userName={this.props.user.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
+							<CommentButtons userName={this.props.user.userName} commentID={this.props.id} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
 								toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 						</div>
 					</div>
@@ -66,7 +67,7 @@ class Comment extends React.Component<Props, State> {
 						<div className={"f-col g-1-25"} style={{ flexGrow: 1 }}>
 							<div className="f-row f-span-y left-right g-1">
 								<CommentInfo user={this.props.user} date={this.props.date} />
-								<CommentButtons userName={this.props.user.userName} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
+								<CommentButtons userName={this.props.user.userName} commentID={this.props.id} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
 									toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 							</div>
 

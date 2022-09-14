@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getComments, signOut, CommentData } from "@/firebase";
+import { signOut, CommentData, getComments, getComment } from "@/firebase";
 import Header from "./General/Page Sections/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
@@ -8,12 +8,10 @@ import NoYesModal from "./General/Modals/NoYesModal";
 import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
 
-// import amyRobson from "@/assets/images/avatars/image-amyrobson.webp";
-// import maxBlagun from "@/assets/images/avatars/image-maxblagun.webp";
-// import ramsesMiron from "@/assets/images/avatars/image-ramsesmiron.webp";
-// import juliusOmo from "@/assets/images/avatars/image-juliusomo.webp";
-
 function App() {
+
+	//#region MODALS
+
 	// Delete comment modal
 	const [deleteCommentModalIsOpen, setDeleteCommentModalIsOpen] = useState(false);
 
@@ -28,11 +26,13 @@ function App() {
 	const [replyModalIsOpen, setReplyModalIsOpen] = useState(false);
 	const [replyModalParent, setReplyModalParent] = useState<HTMLDivElement>();
 	const [replyModalParentUserName, setReplyModalParentUserName] = useState("");
+	const [replyModalParentCommentID, setReplyModalParentCommentID] = useState("");
 
 	function handleCloseReplyModal() {
 		setReplyModalIsOpen(false);
 	}
-	function handleToggleReplyModal(parentComment: HTMLDivElement, userName: string) {
+	function handleToggleReplyModal(parentComment: HTMLDivElement, userName: string, parentCommentID: string) {
+		setReplyModalParentCommentID(parentCommentID);
 		setReplyModalParentUserName(userName);
 		setReplyModalParent(parentComment);
 		setReplyModalIsOpen(!replyModalIsOpen);
@@ -63,47 +63,68 @@ function App() {
 		handleToggleSignOutModal();
 	}
 
+	//#endregion
+
 	// Comments
-	const [commentData, setCommentData] = useState<CommentData[] | null>(null);
+	const [comments, setComments] = useState<JSX.Element[] | null>(null);
 	useEffect(() => {
 		(async () => {
-			const comments = await getComments();
-			setCommentData(comments);
+			const commentData = await getComments();
+
+			if (commentData) {
+				const commentsRendered = await Promise.all(commentData!.map(async data => await renderComment(data)));
+				setComments(commentsRendered);
+			}
 		})();
 	}, []);
 
-	function renderComment() {
-		return commentData?.map(comment => {
-			const minutes = Math.round((new Date().getTime() - comment.date.toDate().getTime()) / 1000 / 60);
-			const hours = Math.round(minutes / 60);
-			const days = Math.round(hours / 24);
-			const weeks = Math.round(days / 7);
-			const months = Math.round(weeks / 4);
-			const years = Math.round(months / 12);
+	async function renderComment(commentData: CommentData) {
+		// Parse date
+		const minutes = Math.round((new Date().getTime() - commentData.date.toDate().getTime()) / 1000 / 60);
+		const hours = Math.round(minutes / 60);
+		const days = Math.round(hours / 24);
+		const weeks = Math.round(days / 7);
+		const months = Math.round(weeks / 4);
+		const years = Math.round(months / 12);
 
-			let parsedDate = "";
-			if (years > 0) {
-				parsedDate = `${years} year${years > 1 ? "s" : ""} ago`;
-			} else if (months > 0) {
-				parsedDate = `${months} month${months > 1 ? "s" : ""} ago`;
-			} else if (weeks > 0) {
-				parsedDate = `${weeks} week${weeks > 1 ? "s" : ""} ago`;
-			} else if (days > 0) {
-				parsedDate = `${days} day${days > 1 ? "s" : ""} ago`;
-			} else if (hours > 0) {
-				parsedDate = `${hours} hour${hours > 1 ? "s" : ""} ago`;
-			} else if (minutes > 0) {
-				parsedDate = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-			} else {
-				parsedDate = "Just now";
-			}
+		let parsedDate = "";
+		if (years > 0) {
+			parsedDate = `${years} year${years > 1 ? "s" : ""} ago`;
+		} else if (months > 0) {
+			parsedDate = `${months} month${months > 1 ? "s" : ""} ago`;
+		} else if (weeks > 0) {
+			parsedDate = `${weeks} week${weeks > 1 ? "s" : ""} ago`;
+		} else if (days > 0) {
+			parsedDate = `${days} day${days > 1 ? "s" : ""} ago`;
+		} else if (hours > 0) {
+			parsedDate = `${hours} hour${hours > 1 ? "s" : ""} ago`;
+		} else if (minutes > 0) {
+			parsedDate = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+		} else {
+			parsedDate = "Just now";
+		}
 
-			return <Comment
-				key={comment.id} user={comment.user}
-				date={parsedDate} votes={comment.votes} message={comment.message}
-				openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal}
-			/>;
-		});
+		// Render replies
+		let replies: JSX.Element[] | null = null;
+		if (commentData.replies) {
+			replies = await Promise.all(commentData.replies.map(async reply => {
+				const data = await getComment(reply.id);
+
+				if (!data)
+					return <p className="error">Error loading replies!</p>;
+
+				data.id = reply.id;
+				return renderComment(data);
+			}));
+		}
+
+		return <Comment
+			key={commentData.id!} id={commentData.id!} user={commentData.user}
+			date={parsedDate} votes={commentData.votes} message={commentData.message}
+			openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal}
+		>
+			{replies}
+		</Comment>;
 	}
 
 	return (
@@ -111,35 +132,7 @@ function App() {
 			<Header openSignInModal={handleToggleSignInModal} openSignUpModal={handleToggleSignUpModal} openSignOutModal={handleToggleSignOutModal} />
 
 			<section className="comments">
-				{/* <Comment
-					profilePicture={amyRobson} userName="amyrobson" date="1 month ago" votes={12}
-					openReplyModal={handleToggleReplyModal}
-					openDeleteCommentModal={handleOpenDeleteCommentModal}
-					message="Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well."
-				/>
-				<Comment
-					profilePicture={maxBlagun} userName="maxblagun" date="2 weeks ago" votes={5}
-					openReplyModal={handleToggleReplyModal}
-					openDeleteCommentModal={handleOpenDeleteCommentModal}
-					message="Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into React as well soon. Perhaps you can give me an insight on where I can learn React? Thanks!"
-				>
-					<Comment
-						profilePicture={ramsesMiron} userName="ramsesmiron" date="1 week ago" votes={4}
-						openReplyModal={handleToggleReplyModal}
-						openDeleteCommentModal={handleOpenDeleteCommentModal}
-						message="@maxblagun If you're still new, I'd recommend focusing on the fundamentals of HTML, CSS, and JS before considering React. It's very tempting to jump ahead but lay a solid foundation first."
-					>
-						<Comment
-							profilePicture={juliusOmo} userName="juliusomo" date="2 days ago" votes={2}
-							openReplyModal={handleToggleReplyModal}
-							openDeleteCommentModal={handleOpenDeleteCommentModal}
-							message="@ramsesmiron I couldn't agree more with this. Everything moves so fast and it always seems like everyone knows the newest library/framework. But the fundamentals are what stay constant."
-						>
-						</Comment>
-					</Comment>
-				</Comment> */}
-
-				{renderComment()}
+				{comments}
 
 				{/* Needed for AddCommentModal to be rendered after all comments */}
 				<div className="add-comment-modal"></div>
@@ -150,6 +143,7 @@ function App() {
 			<ReplyModal
 				isOpen={replyModalIsOpen} onCancel={handleCloseReplyModal}
 				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName}
+				parentCommentID={replyModalParentCommentID}
 			/>
 			<NoYesModal
 				header="Delete comment"

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import TextareaAutosize from "react-textarea-autosize";
-import { getCurrentUser } from "@/firebase";
+import { Timestamp } from "firebase/firestore";
+import { addReply, getCurrentUser } from "@/firebase";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import ProfilePicture from "@/components/General/ProfilePicture";
@@ -14,6 +15,7 @@ interface Props {
 	isOpen: boolean,
 	onCancel: () => void,
 	parent: HTMLElement,
+	parentCommentID: string,
 	userName: string
 }
 function ReplyModal(props: Props) {
@@ -22,6 +24,12 @@ function ReplyModal(props: Props) {
 
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");
+
+	function handleReply() {
+		(async () => {
+			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
+		})();
+	}
 
 	// Hide modal containers when not in use to remove whitespace
 	useEffect(() => {
@@ -48,7 +56,7 @@ function ReplyModal(props: Props) {
 				// Focus on input
 				const textArea = inputRef.current!;
 				const y = textArea.getBoundingClientRect().top + window.scrollY;
-				if (y > window.visualViewport.height) window.scrollTo({ top: y, behavior: "smooth" });
+				if (y > window.visualViewport!.height) window.scrollTo({ top: y, behavior: "smooth" });
 
 				// Put cursor at the end of the text
 				const cursorPos = textArea.selectionEnd + textArea.value.length;
@@ -68,7 +76,7 @@ function ReplyModal(props: Props) {
 						<ButtonSecondary onClick={props.onCancel} noHoverEffect={true}>
 							<p className="hover-underline">Cancel</p>
 						</ButtonSecondary>
-						<ButtonPrimary className="bg-purple pad-1-2" disabled={replyContent === ""} onClick={() => console.log("replying")}>SEND</ButtonPrimary>
+						<ButtonPrimary className="bg-purple pad-1-2" disabled={replyContent === ""} onClick={handleReply}>SEND</ButtonPrimary>
 					</div>
 				</div>
 			</div>

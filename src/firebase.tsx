@@ -1,7 +1,7 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query } from "firebase/firestore";
+import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query, doc, updateDoc, getDoc } from "firebase/firestore";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -96,14 +96,14 @@ export async function signOut() {
 // Database
 const db = getFirestore(app);
 const commentsCol = collection(db, "comments");
-export interface CommentData {
-	id?: string,
+export type CommentData = {
+	id?: string,	// When reading from firebase, id isn't automatically populated, we have to get it from document's id
 	user: UserData,
 	message: string,
 	date: Timestamp,
 	edited: boolean,
 	votes: number,
-	replies: DocumentReference[] | null
+	replies: DocumentReference[]
 }
 
 export async function addComment(message: string, date: Timestamp) {
@@ -114,11 +114,38 @@ export async function addComment(message: string, date: Timestamp) {
 			date: date,
 			edited: false,
 			votes: 0,
-			replies: null
+			replies: []
 		} as CommentData);
+
 		console.log(docRef.id);
+		return docRef;
 	} catch (error) {
 		console.error("Error adding comment", error);
+		return null;
+	}
+}
+export async function addReply(parentCommentID: string, message: string, date: Timestamp) {
+	try {
+		const replyRef = await addComment(message, date);
+		const parentCommentRef = doc(commentsCol, parentCommentID);
+
+		const existingData = await getComment(parentCommentID);
+		existingData!.replies.push(replyRef!);
+
+		await updateDoc(parentCommentRef, existingData);
+	} catch (error) {
+		console.error("Error adding reply", error);
+	}
+}
+
+export async function getComment(id: string) {
+	try {
+		const commentRef = doc(commentsCol, id);
+		const commentData = (await getDoc(commentRef)).data() as CommentData;
+		return commentData;
+	} catch (error) {
+		console.error("Error getting comment", error);
+		return null;
 	}
 }
 export async function getComments() {
@@ -138,6 +165,17 @@ export async function getComments() {
 				replies: data.replies
 			});
 		});
+
+		// Remove comments from list of top-level comments if they are replies
+		const replyIDs: string[] = [];
+		comments.forEach(comment => {
+			comment.replies.forEach(reply => replyIDs.push(reply.id));
+		});
+		for (let i = comments.length - 1; i >= 0; i--) {
+			if (replyIDs.includes(comments[i].id!)) {
+				comments.splice(comments.indexOf(comments[i]), 1);
+			}
+		}
 
 		return comments;
 	} catch (error) {

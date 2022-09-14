@@ -7,11 +7,12 @@ import { faReply, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	userName: string,
+	commentID: string,
 	repliesRef: React.RefObject<HTMLDivElement>,
 	isEditing: boolean,
 	toggleEditing: () => void,
 	openDeleteCommentModal: () => void,
-	openReplyModal: (ref: HTMLDivElement, userName: string) => void,
+	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void,
 }
 function CommentButtons(props: Props) {
 	if (!getCurrentUser())
@@ -34,7 +35,7 @@ function CommentButtons(props: Props) {
 					</ButtonSecondary>
 					<ButtonSecondary
 						className="text-purple" iconClassName="fa-sm" faIcon={faEdit}
-						onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}
+						onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName, props.commentID)}
 					>
 						Reply
 					</ButtonSecondary>
@@ -50,7 +51,7 @@ function CommentButtons(props: Props) {
 		) : (
 			<ButtonSecondary
 				className="text-purple" iconClassName="fa-sm" faIcon={faReply}
-				onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName)}
+				onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName, props.commentID)}
 			>
 				Reply
 			</ButtonSecondary>
