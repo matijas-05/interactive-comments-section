@@ -72,7 +72,9 @@ function App() {
 			const commentData = await getComments();
 
 			if (commentData) {
-				const commentsRendered = await Promise.all(commentData!.map(async data => await renderComment(data)));
+				// Sort by newest
+				const commentDataSorted = commentData.sort((a, b) => b.date.seconds - a.date.seconds);
+				const commentsRendered = await Promise.all(commentDataSorted.map(async data => await renderComment(data)));
 				setComments(commentsRendered);
 			}
 		})();
