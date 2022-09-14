@@ -41,7 +41,7 @@ class Comment extends React.Component<Props, State> {
 	render() {
 		const childrenWithProps = React.Children.map(this.props.children, child => {
 			if (React.isValidElement(child)) {
-				return React.cloneElement(child, { parent: this, parentRef: this.thisRef });
+				return React.cloneElement(child, { parent: this, parentRef: this.thisRef } as unknown as Props);
 			}
 			return child;
 		});
