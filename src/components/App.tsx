@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { signOut, CommentData, getComments, getComment } from "@/firebase";
-import { useStore } from "@/store";
+import { signOut, CommentData, getComments, getComment, removeComment } from "@/firebase";
+import { useCommentsStore, useUserStore } from "@/store";
 import Header from "./General/Page Sections/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
@@ -14,12 +14,21 @@ function App() {
 
 	// Delete comment modal
 	const [deleteCommentModalIsOpen, setDeleteCommentModalIsOpen] = useState(false);
-
-	function handleOpenDeleteCommentModal() {
+	const [commentToDelete, setCommentToDelete] = useState("");
+	function handleOpenDeleteCommentModal(commentID: string) {
 		setDeleteCommentModalIsOpen(true);
+		setCommentToDelete(commentID);
 	}
 	function handleCloseDeleteCommentModal() {
 		setDeleteCommentModalIsOpen(false);
+	}
+	function handleDeleteComment(commentID: string) {
+		(async () => {
+			await removeComment(commentID);
+		})();
+
+		commentsDataStore.setCommentsData(commentsDataStore.commentsData.filter(data => data.id !== commentID));
+		handleCloseDeleteCommentModal();
 	}
 
 	// Reply to comment modal
@@ -54,33 +63,44 @@ function App() {
 
 	// Sign out modal
 	const [signOutModalIsOpen, setSignOutModalIsOpen] = useState(false);
-	const store = useStore();
+	const userStore = useUserStore();
 
 	function handleToggleSignOutModal() {
 		setSignOutModalIsOpen(!signOutModalIsOpen);
 	}
 	async function handleSignOut() {
 		await signOut();
-		store.setCurrentUser(null);
+		userStore.setCurrentUser(null);
 		handleToggleSignOutModal();
 	}
 
 	//#endregion
 
 	// Comments
+	const commentsDataStore = useCommentsStore();
 	const [comments, setComments] = useState<JSX.Element[] | null>(null);
+
 	useEffect(() => {
+		// Initialize comments data store on first load
 		(async () => {
-			const commentData = await getComments();
+			commentsDataStore.setCommentsData(await getComments() ?? []);
+		})();
+	}, []);
+	useEffect(() => {
+		// When comments data store changes, reload comments
+		(async () => {
+			const commentData = commentsDataStore.commentsData;
 
 			if (commentData) {
-				// Sort by newest
-				const commentDataSorted = commentData.sort((a, b) => b.date.seconds - a.date.seconds);
+				// Sort by newest and add to store
+				const commentDataSorted = commentData.sort((a, b) => a.date.seconds - b.date.seconds);
+				commentsDataStore.setCommentsData(commentDataSorted);
+
 				const commentsRendered = await Promise.all(commentDataSorted.map(async data => await renderComment(data)));
 				setComments(commentsRendered);
 			}
 		})();
-	}, []);
+	}, [commentsDataStore.commentsData]);
 	useEffect(() => {
 		document.querySelectorAll<HTMLElement>(".comments > div > div").forEach(el => el.style.scrollMargin = `${document.querySelector("header")!.offsetHeight}px`);
 	}, [comments]);
@@ -156,7 +176,7 @@ function App() {
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
 				noText="NO, CANCEL" yesText="YES, DELETE"
-				onNoClicked={() => handleCloseDeleteCommentModal()} onYesClicked={() => handleCloseDeleteCommentModal()}
+				onNoClicked={() => handleCloseDeleteCommentModal()} onYesClicked={() => handleDeleteComment(commentToDelete)}
 				isOpen={deleteCommentModalIsOpen}
 			/>
 

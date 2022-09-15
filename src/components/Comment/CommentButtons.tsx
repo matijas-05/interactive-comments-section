@@ -1,4 +1,4 @@
-import { useStore } from "@/store";
+import { useUserStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import { Desktop } from "@/components/General/MediaQueryComponents";
@@ -10,11 +10,11 @@ interface Props {
 	repliesRef: React.RefObject<HTMLDivElement>,
 	isEditing: boolean,
 	toggleEditing: () => void,
-	openDeleteCommentModal: () => void,
+	openDeleteCommentModal: (commentID: string) => void,
 	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void,
 }
 function CommentButtons(props: Props) {
-	const store = useStore();
+	const store = useUserStore();
 
 	if (!store.currentUser)
 		return null;
@@ -24,12 +24,12 @@ function CommentButtons(props: Props) {
 			!props.isEditing ? (
 				<div className="f-jc-fe f-ai-c f-wrap-rev g-1">
 					<ButtonSecondary
-						className={`text-red`} iconClassName="fa-sm" faIcon={faTrash}
-						alt="Delete" onClick={props.openDeleteCommentModal}>
+						className="text-red" iconClassName="fa-sm" faIcon={faTrash}
+						alt="Delete" onClick={() => props.openDeleteCommentModal(props.commentID)}>
 						<Desktop>Delete</Desktop>
 					</ButtonSecondary>
 					<ButtonSecondary
-						className={`text-purple`} iconClassName="fa-sm" faIcon={faReply}
+						className="text-purple" iconClassName="fa-sm" faIcon={faReply}
 						onClick={props.toggleEditing}
 					>
 						Edit

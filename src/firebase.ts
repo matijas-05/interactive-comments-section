@@ -1,7 +1,7 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query, doc, updateDoc, getDoc } from "firebase/firestore";
+import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query, doc, updateDoc, getDoc, deleteDoc } from "firebase/firestore";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -181,5 +181,14 @@ export async function getComments() {
 	} catch (error) {
 		console.error("Error getting comments", error);
 		return null;
+	}
+}
+
+export async function removeComment(id: string) {
+	try {
+		const commentRef = doc(commentsCol, id);
+		await deleteDoc(commentRef);
+	} catch (error) {
+		console.error("Error removing comment", error);
 	}
 }

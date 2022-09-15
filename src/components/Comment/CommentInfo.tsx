@@ -1,5 +1,5 @@
 import { UserData } from "@/firebase";
-import { useStore } from "@/store";
+import { useUserStore } from "@/store";
 import ProfilePicture from "@/components/General/ProfilePicture";
 import styles from "./CommentInfo.module.scss";
 
@@ -8,7 +8,7 @@ interface Props {
 	date: string
 }
 function CommentInfo(props: Props) {
-	const store = useStore();
+	const store = useUserStore();
 
 	return (
 		<div className={`${styles["comment-info"]} f-ai-c g-1`}>

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import MediaQuery from "react-responsive";
 import { faArrowRightToBracket, faArrowRightFromBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { useStore } from "@/store";
+import { useUserStore } from "@/store";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import styles from "./Header.module.scss";
 
@@ -15,7 +15,7 @@ function Header(props: Props) {
 	const btnTextBreakpoint = 650;
 	const headerRef = useRef<HTMLDivElement>(null);
 
-	const store = useStore();
+	const store = useUserStore();
 
 	return (
 		<header ref={headerRef} className={`${styles["header"]} left-right g-1`}>

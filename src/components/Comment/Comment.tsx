@@ -14,7 +14,7 @@ interface Props {
 	message: string,
 	votes: number,
 	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void,
-	openDeleteCommentModal: () => void,
+	openDeleteCommentModal: (commentID: string) => void,
 	children?: React.ReactNode,
 	parent?: Comment,
 	parentRef?: React.RefObject<HTMLDivElement>,

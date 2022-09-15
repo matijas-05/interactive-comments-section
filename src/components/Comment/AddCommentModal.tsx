@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import ReactModal from "react-modal";
 import { Timestamp } from "firebase/firestore";
 import TextareaAutosize from "react-textarea-autosize";
-import { addComment } from "@/firebase";
-import { useStore } from "@/store";
+import { addComment, getComment, } from "@/firebase";
+import { useCommentsStore, useUserStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ProfilePicture from "@/components/General/ProfilePicture";
 
@@ -12,17 +12,27 @@ ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
 function AddCommentModal() {
-	const store = useStore();
+	const userStore = useUserStore();
+	const commentsDataStore = useCommentsStore();
+	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
 	const [commentContent, setCommentContent] = useState("");
 	async function handleAddComment() {
-		await addComment(
-			commentContent,
-			Timestamp.fromDate(new Date())
-		);
+		const newComment = await addComment(commentContent, Timestamp.fromDate(new Date()));
+
+		if (!newComment) {
+			console.error("Error adding comment");
+			return;
+		}
+
+		const newCommentData = (await getComment(newComment.id))!;
+		newCommentData.id = newComment.id;
+		commentsDataStore.setCommentsData([...commentsDataStore.commentsData, newCommentData]);
+
+		textAreaRef.current!.value = "";
 	}
 
-	if (!store.currentUser)
+	if (!userStore.currentUser)
 		return null;
 
 	return (
@@ -35,9 +45,9 @@ function AddCommentModal() {
 			style={{ content: { outline: "none" } }}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize onChange={e => setCommentContent(e.target.value)} placeholder="Add a comment..." />
+				<TextareaAutosize ref={textAreaRef} onChange={e => setCommentContent(e.target.value)} placeholder="Add a comment..." />
 				<div className="left-right">
-					<ProfilePicture src={store.currentUser.profilePictureDownloadURL} />
+					<ProfilePicture src={userStore.currentUser.profilePictureDownloadURL} />
 					<ButtonPrimary className="bg-purple pad-1-2" disabled={commentContent === ""} onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
 				</div>
 			</div>

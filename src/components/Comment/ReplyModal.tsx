@@ -3,7 +3,7 @@ import ReactModal from "react-modal";
 import TextareaAutosize from "react-textarea-autosize";
 import { Timestamp } from "firebase/firestore";
 import { addReply } from "@/firebase";
-import { useStore } from "@/store";
+import { useUserStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import ProfilePicture from "@/components/General/ProfilePicture";
@@ -20,7 +20,7 @@ interface Props {
 	userName: string
 }
 function ReplyModal(props: Props) {
-	const store = useStore();
+	const store = useUserStore();
 	
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");

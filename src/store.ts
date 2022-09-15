@@ -1,11 +1,20 @@
 import create from "zustand";
-import { getCurrentUser, UserData } from "@/firebase";
+import { CommentData, getCurrentUser, UserData } from "@/firebase";
 
-interface Store {
+interface UserDataStore {
 	currentUser: UserData | null,
 	setCurrentUser: (user: UserData | null) => void
 }
-export const useStore = create<Store>(set => ({
+export const useUserStore = create<UserDataStore>(set => ({
 	currentUser: getCurrentUser(),
 	setCurrentUser: (user) => set(() => ({ currentUser: user }))
-}) as Store);
+}) as UserDataStore);
+
+interface CommentsStore {
+	commentsData: CommentData[],
+	setCommentsData: (data: CommentData[]) => void
+}
+export const useCommentsStore = create<CommentsStore>(set => ({
+	commentsData: [],
+	setCommentsData: (data) => set(() => ({ commentsData: data }))
+}));
