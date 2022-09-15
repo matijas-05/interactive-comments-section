@@ -1,14 +1,15 @@
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import sleep from "sleep-promise";
-import { signInUser } from "@/firebase";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { getCurrentUser, signInUser } from "@/firebase";
+import { useStore } from "@/store";
 import PopupModal from "@/components/General/Modals/PopupModal";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import LoadingDots from "@/components/General/LoadingDots";
 import FormInput from "@/components/Auth/FormInput";
 import styles from "./SignInModal.module.scss";
 
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
 interface Inputs {
 	email: string,
@@ -21,6 +22,7 @@ interface Props {
 }
 function SignInModal(props: Props) {
 	const { register, formState: { isValid, isSubmitting, isSubmitSuccessful, errors }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "onChange" });
+	const store = useStore();
 
 	async function signIn(data: Inputs) {
 		await signInUser(data.email, data.password, data.rememberMe,
@@ -38,6 +40,7 @@ function SignInModal(props: Props) {
 					setError("password", { type: "manual", message: "Password is incorrect!" }, { shouldFocus: true });
 				}
 			});
+		store.setCurrentUser(getCurrentUser());
 	}
 
 	return (

@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import MediaQuery from "react-responsive";
-import { getCurrentUser } from "@/firebase";
+import { faArrowRightToBracket, faArrowRightFromBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { useStore } from "@/store";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import styles from "./Header.module.scss";
 
-import { faArrowRightToBracket, faArrowRightFromBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
 	openSignInModal: () => void,
@@ -15,6 +15,8 @@ function Header(props: Props) {
 	const btnTextBreakpoint = 650;
 	const headerRef = useRef<HTMLDivElement>(null);
 
+	const store = useStore();
+
 	return (
 		<header ref={headerRef} className={`${styles["header"]} left-right g-1`}>
 			<h2 className={`${styles["header-text"]}`}>Interactive comments section</h2>
@@ -22,7 +24,7 @@ function Header(props: Props) {
 				<MediaQuery maxWidth={btnTextBreakpoint - 1}><hr className="vertical-separator" /></MediaQuery>
 
 				{
-					getCurrentUser() ?
+					store.currentUser ?
 						<ButtonSecondary
 							className="text-purple" iconClassName={`${styles["icon"]} fa-lg`}
 							faIcon={faArrowRightFromBracket}
@@ -42,7 +44,7 @@ function Header(props: Props) {
 
 
 				{
-					!getCurrentUser() &&
+					!store.currentUser &&
 					<>
 						<MediaQuery minWidth={btnTextBreakpoint}><hr className="vertical-separator" /></MediaQuery>
 						<ButtonSecondary

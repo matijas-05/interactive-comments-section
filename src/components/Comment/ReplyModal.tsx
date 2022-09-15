@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import TextareaAutosize from "react-textarea-autosize";
 import { Timestamp } from "firebase/firestore";
-import { addReply, getCurrentUser } from "@/firebase";
+import { addReply } from "@/firebase";
+import { useStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import ProfilePicture from "@/components/General/ProfilePicture";
@@ -19,21 +20,17 @@ interface Props {
 	userName: string
 }
 function ReplyModal(props: Props) {
-	if(!getCurrentUser())
-		return null;
-
+	const store = useStore();
+	
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");
-
-	function handleReply() {
-		(async () => {
-			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
-		})();
-	}
-
+	
 	// Hide modal containers when not in use to remove whitespace
 	useEffect(() => {
 		const portal = document.querySelector(".ReplyModalPortal") as HTMLDivElement;
+
+		if (!portal)
+			return;
 
 		if (props.isOpen) {
 			portal.style.removeProperty("display");
@@ -45,6 +42,15 @@ function ReplyModal(props: Props) {
 				portal.parentElement?.style.setProperty("display", "none");
 		}
 	});
+
+	function handleReply() {
+		(async () => {
+			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
+		})();
+	}
+	
+	if(!store.currentUser)
+		return null;
 
 	return (
 		<ReactModal
@@ -71,7 +77,7 @@ function ReplyModal(props: Props) {
 			<div className="f-col g-1 card">
 				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." defaultValue={`@${props.userName} `} onChange={e => setReplyContent(e.target.value)} autoFocus />
 				<div className="left-right">
-					<ProfilePicture src={getCurrentUser()!.profilePictureDownloadURL} />
+					<ProfilePicture src={store.currentUser?.profilePictureDownloadURL ?? ""} />
 					<div className="f-center g-1-5">
 						<ButtonSecondary onClick={props.onCancel} noHoverEffect={true}>
 							<p className="hover-underline">Cancel</p>

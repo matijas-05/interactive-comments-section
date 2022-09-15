@@ -1,8 +1,9 @@
 import { useState } from "react";
 import ReactModal from "react-modal";
 import { Timestamp } from "firebase/firestore";
-import { getCurrentUser, addComment } from "@/firebase";
 import TextareaAutosize from "react-textarea-autosize";
+import { addComment } from "@/firebase";
+import { useStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ProfilePicture from "@/components/General/ProfilePicture";
 
@@ -11,8 +12,7 @@ ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
 function AddCommentModal() {
-	if(!getCurrentUser())
-		return null;
+	const store = useStore();
 
 	const [commentContent, setCommentContent] = useState("");
 	async function handleAddComment() {
@@ -21,6 +21,9 @@ function AddCommentModal() {
 			Timestamp.fromDate(new Date())
 		);
 	}
+
+	if (!store.currentUser)
+		return null;
 
 	return (
 		<ReactModal
@@ -34,7 +37,7 @@ function AddCommentModal() {
 			<div className="f-col g-1 card">
 				<TextareaAutosize onChange={e => setCommentContent(e.target.value)} placeholder="Add a comment..." />
 				<div className="left-right">
-					<ProfilePicture src={getCurrentUser()!.profilePictureDownloadURL} />
+					<ProfilePicture src={store.currentUser.profilePictureDownloadURL} />
 					<ButtonPrimary className="bg-purple pad-1-2" disabled={commentContent === ""} onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
 				</div>
 			</div>

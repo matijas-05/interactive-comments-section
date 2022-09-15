@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { signOut, CommentData, getComments, getComment } from "@/firebase";
+import { useStore } from "@/store";
 import Header from "./General/Page Sections/Header";
 import Comment from "./Comment/Comment";
 import AddCommentModal from "./Comment/AddCommentModal";
@@ -9,7 +10,6 @@ import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
 
 function App() {
-
 	//#region MODALS
 
 	// Delete comment modal
@@ -54,12 +54,14 @@ function App() {
 
 	// Sign out modal
 	const [signOutModalIsOpen, setSignOutModalIsOpen] = useState(false);
+	const store = useStore();
 
 	function handleToggleSignOutModal() {
 		setSignOutModalIsOpen(!signOutModalIsOpen);
 	}
 	async function handleSignOut() {
 		await signOut();
+		store.setCurrentUser(null);
 		handleToggleSignOutModal();
 	}
 
