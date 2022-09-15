@@ -65,7 +65,6 @@ function ReplyModal(props: Props) {
 				const cursorPos = textArea.selectionEnd + textArea.value.length;
 				textArea.selectionStart = cursorPos;
 				textArea.selectionEnd = cursorPos;
-				textArea.focus();
 
 				setReplyContent(`@${props.userName} `);
 			}}

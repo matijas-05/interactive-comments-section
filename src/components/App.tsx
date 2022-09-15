@@ -157,7 +157,8 @@ function App() {
 			<section className="f-center g-1 pad-1-2" style={{ display: "grid" }} >
 				{/* Need to wrap in div because if 'refreshComments' key is in section tag,
 				because AddCommentModal disappears after submitting comment */}
-				<div key={refreshComments} className="f-col g-1">{comments}</div>
+				{/* !!! DON'T REMOVE .comments CLASS. NEEDED FOR querySelector() */}
+				<div key={refreshComments} className="comments f-col g-1">{comments}</div>
 
 				{/* Needed for AddCommentModal to be rendered after all comments */}
 				<div className="add-comment-modal"></div>
