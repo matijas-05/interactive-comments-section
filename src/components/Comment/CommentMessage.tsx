@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import TextareaAutosize from "react-textarea-autosize";
+import scrollIntoView from "scroll-into-view";
 
 interface Props {
 	mention?: string,
@@ -41,7 +42,8 @@ function CommentMessage(props: Props) {
 					onClick={() => {
 						const parentElement = props.parentRef!.current!.firstChild as HTMLDivElement;
 						if (parentElement.getBoundingClientRect().top < parseInt(document.querySelector<HTMLElement>(".comments div > div")!.style.scrollMargin.replace("px", "")))
-							parentElement.scrollIntoView({ behavior: "smooth" });
+							// parentElement.scrollIntoView({ behavior: "smooth" });
+							scrollIntoView(parentElement, { ease: value => Math.sin(value * Math.PI) * .1 });
 						parentElement.animate([{ backgroundColor: "#e6e60073" }, {}], { duration: 1000 });
 					}}>
 					@{mention + " "}
