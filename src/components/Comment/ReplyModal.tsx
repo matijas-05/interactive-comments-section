@@ -61,8 +61,6 @@ function ReplyModal(props: Props) {
 			onAfterOpen={() => {
 				// Focus on input
 				const textArea = inputRef.current!;
-				const y = textArea.getBoundingClientRect().top + window.scrollY;
-				if (y > window.visualViewport!.height) window.scrollTo({ top: y, behavior: "smooth" });
 
 				// Put cursor at the end of the text
 				const cursorPos = textArea.selectionEnd + textArea.value.length;
