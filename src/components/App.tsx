@@ -79,6 +79,9 @@ function App() {
 			}
 		})();
 	}, []);
+	useEffect(() => {
+		document.querySelectorAll<HTMLElement>(".comments > div > div").forEach(el => el.style.scrollMargin = `${document.querySelector("header")!.offsetHeight}px`);
+	}, [comments]);
 
 	async function renderComment(commentData: CommentData) {
 		// Parse date

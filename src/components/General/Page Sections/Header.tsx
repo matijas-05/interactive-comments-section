@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import MediaQuery from "react-responsive";
 import { getCurrentUser } from "@/firebase";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
@@ -14,14 +14,6 @@ interface Props {
 function Header(props: Props) {
 	const btnTextBreakpoint = 650;
 	const headerRef = useRef<HTMLDivElement>(null);
-
-	useEffect(() => {
-		const setScrollMargin = () => {
-			document.querySelectorAll<HTMLElement>(".comments > div > div").forEach(el => el.style.scrollMargin = `${headerRef.current!.offsetHeight + 10}px`);
-		};
-
-		setInterval(() => setScrollMargin(), 100);
-	}, []);
 
 	return (
 		<header ref={headerRef} className={`${styles["header"]} left-right g-1`}>
