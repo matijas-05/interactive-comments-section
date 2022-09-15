@@ -6,4 +6,8 @@
 	@media (min-width: v.$breakpoint-pc) {
 		max-width: 25rem;
 	}
+
+	button {
+		white-space: nowrap;
+	}
 }
