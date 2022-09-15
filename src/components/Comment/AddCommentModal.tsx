@@ -24,6 +24,7 @@ function AddCommentModal() {
 		}
 
 		textAreaRef.current!.value = "";
+		setCommentContent("");
 	}
 
 	if (!userStore.currentUser)
