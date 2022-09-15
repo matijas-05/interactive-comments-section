@@ -10,6 +10,7 @@ interface Props {
 	repliesRef: React.RefObject<HTMLDivElement>,
 	isEditing: boolean,
 	toggleEditing: () => void,
+	handleEdit: () => void,
 	openDeleteCommentModal: (commentID: string) => void,
 	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void,
 }
@@ -46,7 +47,7 @@ function CommentButtons(props: Props) {
 					<ButtonSecondary onClick={props.toggleEditing} noHoverEffect={true}>
 						<p className="hover-underline">Cancel</p>
 					</ButtonSecondary>
-					<ButtonPrimary className="bg-purple" onClick={props.toggleEditing}>UPDATE</ButtonPrimary>
+					<ButtonPrimary className="bg-purple" onClick={props.handleEdit}>UPDATE</ButtonPrimary>
 				</div>
 			)
 		) : (

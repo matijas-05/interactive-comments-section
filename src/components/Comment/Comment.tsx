@@ -1,5 +1,5 @@
 import React from "react";
-import { UserData } from "@/firebase";
+import { editComment, UserData } from "@/firebase";
 import { Desktop, Mobile } from "@/components/General/MediaQueryComponents";
 import Votes from "./Votes";
 import CommentInfo from "./CommentInfo";
@@ -20,7 +20,8 @@ interface Props {
 	parentRef?: React.RefObject<HTMLDivElement>,
 }
 interface State {
-	isEditing: boolean
+	isEditing: boolean,
+	editMessage: string
 }
 class Comment extends React.Component<Props, State> {
 	private thisRef = React.createRef<HTMLDivElement>();
@@ -28,14 +29,22 @@ class Comment extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
+		
+		this.state = { isEditing: false, editMessage: "" };
 		this.thisRef = React.createRef();
 		this.repliesRef = React.createRef();
-		this.state = { isEditing: false };
+
+		// Make 'this' keyword work in functions
 		this.toggleEditing = this.toggleEditing.bind(this);
+		this.handleEdit = this.handleEdit.bind(this);
 	}
 
 	private toggleEditing() {
 		this.setState({ isEditing: !this.state.isEditing });
+	}
+	private handleEdit() {
+		(async () => await editComment(this.props.id, this.state.editMessage))();
+		this.toggleEditing();
 	}
 
 	render() {
@@ -51,12 +60,13 @@ class Comment extends React.Component<Props, State> {
 				<Mobile>
 					<div className={"f-col g-1-25 card"}>
 						<CommentInfo user={this.props.user} date={this.props.date} />
-						<CommentMessage message={this.props.message} mention={this.props.parent?.props.user.userName} isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
+						<CommentMessage message={this.props.message} mention={this.props.parent?.props.user.userName}
+							isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} editMessageChanged={msg => this.setState({ editMessage: msg })} parentRef={this.props.parentRef} />
 
 						<div className="left-right f-span-y g-1">
 							<Votes initialVotes={this.props.votes} />
 							<CommentButtons userName={this.props.user.userName} commentID={this.props.id} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
-								toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
+								toggleEditing={this.toggleEditing} handleEdit={this.handleEdit} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 						</div>
 					</div>
 				</Mobile>
@@ -68,11 +78,11 @@ class Comment extends React.Component<Props, State> {
 							<div className="f-row f-span-y left-right g-1">
 								<CommentInfo user={this.props.user} date={this.props.date} />
 								<CommentButtons userName={this.props.user.userName} commentID={this.props.id} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
-									toggleEditing={this.toggleEditing} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
+									toggleEditing={this.toggleEditing} handleEdit={this.handleEdit} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
 							</div>
 
 							<CommentMessage message={this.props.message} mention={this.props.parent?.props.user.userName}
-								isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} parentRef={this.props.parentRef} />
+								isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} editMessageChanged={msg => this.setState({ editMessage: msg })} parentRef={this.props.parentRef} />
 						</div>
 					</div>
 				</Desktop>

@@ -184,6 +184,10 @@ export async function getRootComments() {
 	}
 }
 
+export async function editComment(id: string, newMessage: string) {
+	const commentRef = doc(commentsCol, id);
+	await updateDoc(commentRef, { message: newMessage } as CommentData);
+}
 export async function removeComment(id: string) {
 	try {
 		const commentRef = doc(commentsCol, id);
