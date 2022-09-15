@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { signOut, CommentData, getComments, getComment, removeComment } from "@/firebase";
+import { onSnapshot } from "firebase/firestore";
+import { signOut, CommentData, getRootComments, getComment, removeComment, commentsCol } from "@/firebase";
 import { useCommentsStore, useUserStore } from "@/store";
 import Header from "./General/Page Sections/Header";
 import Comment from "./Comment/Comment";
@@ -27,7 +28,6 @@ function App() {
 			await removeComment(commentID);
 		})();
 
-		commentsDataStore.setCommentsData(commentsDataStore.commentsData.filter(data => data.id !== commentID));
 		handleCloseDeleteCommentModal();
 	}
 
@@ -79,25 +79,21 @@ function App() {
 	// Comments
 	const commentsDataStore = useCommentsStore();
 	const [comments, setComments] = useState<JSX.Element[] | null>(null);
+	const [refreshComments, setRefreshComments] = useState(0);
 
 	useEffect(() => {
-		// Initialize comments data store on first load
-		(async () => {
-			commentsDataStore.setCommentsData(await getComments() ?? []);
-		})();
+		// Subscribe to db changes
+		onSnapshot(commentsCol, async () => {
+			commentsDataStore.setCommentsData(await getRootComments() ?? []);
+		});
 	}, []);
 	useEffect(() => {
 		// When comments data store changes, reload comments
 		(async () => {
-			const commentData = commentsDataStore.commentsData;
-
-			if (commentData) {
-				// Sort by newest and add to store
-				const commentDataSorted = commentData.sort((a, b) => a.date.seconds - b.date.seconds);
-				commentsDataStore.setCommentsData(commentDataSorted);
-
-				const commentsRendered = await Promise.all(commentDataSorted.map(async data => await renderComment(data)));
+			if (commentsDataStore.commentsData) {
+				const commentsRendered = await Promise.all(commentsDataStore.commentsData.map(async data => await renderComment(data)));
 				setComments(commentsRendered);
+				setRefreshComments(new Date().getTime());	// comments don't properly refresh
 			}
 		})();
 	}, [commentsDataStore.commentsData]);
@@ -133,7 +129,7 @@ function App() {
 
 		// Render replies
 		let replies: JSX.Element[] | null = null;
-		if (commentData.replies) {
+		if (commentData.replies.length > 0) {
 			replies = await Promise.all(commentData.replies.map(async reply => {
 				const data = await getComment(reply.id);
 
@@ -158,8 +154,10 @@ function App() {
 		<>
 			<Header openSignInModal={handleToggleSignInModal} openSignUpModal={handleToggleSignUpModal} openSignOutModal={handleToggleSignOutModal} />
 
-			<section className="comments">
-				{comments}
+			<section className="f-center g-1 pad-1-2" style={{ display: "grid" }} >
+				{/* Need to wrap in div because if 'refreshComments' key is in section tag,
+				because AddCommentModal disappears after submitting comment */}
+				<div key={refreshComments} className="f-col g-1">{comments}</div>
 
 				{/* Needed for AddCommentModal to be rendered after all comments */}
 				<div className="add-comment-modal"></div>

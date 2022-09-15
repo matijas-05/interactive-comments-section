@@ -1,7 +1,7 @@
 import { initializeApp, FirebaseError } from "firebase/app";
 import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query, doc, updateDoc, getDoc, deleteDoc } from "firebase/firestore";
+import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query, doc, updateDoc, getDoc, deleteDoc, orderBy } from "firebase/firestore";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -95,7 +95,7 @@ export async function signOut() {
 
 // Database
 const db = getFirestore(app);
-const commentsCol = collection(db, "comments");
+export const commentsCol = collection(db, "comments");
 export type CommentData = {
 	id?: string,	// When reading from firebase, id isn't automatically populated, we have to get it from document's id
 	user: UserData,
@@ -148,9 +148,9 @@ export async function getComment(id: string) {
 		return null;
 	}
 }
-export async function getComments() {
+export async function getRootComments() {
 	try {
-		const snapshot = await getDocs(query(commentsCol));
+		const snapshot = await getDocs(query(commentsCol, orderBy("date", "asc")));
 		const comments: CommentData[] = [];
 
 		snapshot.forEach(doc => {

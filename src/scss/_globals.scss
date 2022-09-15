@@ -71,13 +71,6 @@ input:not([type=checkbox]):not([type=radio]):focus {
 }
 
 #root {
-	// Required for navbar <hr /> to have height (for some reason)
+	// Required for navbar <hr> to have height (for some reason)
 	display: grid;
-}
-.comments {
-	display: grid;
-	justify-content: center;
-	align-content: center;
-	padding: 1rem 1rem 2rem;
-	gap: 1rem;
 }

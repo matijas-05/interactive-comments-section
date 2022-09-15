@@ -2,8 +2,8 @@ import { useRef, useState } from "react";
 import ReactModal from "react-modal";
 import { Timestamp } from "firebase/firestore";
 import TextareaAutosize from "react-textarea-autosize";
-import { addComment, getComment, } from "@/firebase";
-import { useCommentsStore, useUserStore } from "@/store";
+import { addComment } from "@/firebase";
+import { useUserStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ProfilePicture from "@/components/General/ProfilePicture";
 
@@ -13,21 +13,15 @@ ReactModal.defaultStyles.content = {};
 
 function AddCommentModal() {
 	const userStore = useUserStore();
-	const commentsDataStore = useCommentsStore();
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
 	const [commentContent, setCommentContent] = useState("");
 	async function handleAddComment() {
 		const newComment = await addComment(commentContent, Timestamp.fromDate(new Date()));
-
 		if (!newComment) {
 			console.error("Error adding comment");
 			return;
 		}
-
-		const newCommentData = (await getComment(newComment.id))!;
-		newCommentData.id = newComment.id;
-		commentsDataStore.setCommentsData([...commentsDataStore.commentsData, newCommentData]);
 
 		textAreaRef.current!.value = "";
 	}

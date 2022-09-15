@@ -44,9 +44,8 @@ function ReplyModal(props: Props) {
 	});
 
 	function handleReply() {
-		(async () => {
-			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
-		})();
+		(async () => await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date())))();
+		props.onCancel();
 	}
 	
 	if(!store.currentUser)
