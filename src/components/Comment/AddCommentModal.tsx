@@ -17,11 +17,7 @@ function AddCommentModal() {
 
 	const [commentContent, setCommentContent] = useState("");
 	async function handleAddComment() {
-		const newComment = await addComment(commentContent, Timestamp.fromDate(new Date()));
-		if (!newComment) {
-			console.error("Error adding comment");
-			return;
-		}
+		await addComment(commentContent, Timestamp.fromDate(new Date()));
 
 		textAreaRef.current!.value = "";
 		setCommentContent("");

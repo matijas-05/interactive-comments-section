@@ -53,12 +53,12 @@ export async function signUpUser(email: string, userName: string, profilePicture
 			await updateProfile(userCredentials.user, { displayName: userName, photoURL: profilePictureRef.fullPath });
 			onSuccess(userCredentials);
 		}
-		catch (err: any) {
-			onError(err);
+		catch (error) {
+			onError(error as FirebaseError);
 		}
 	}
-	catch (err: any) {
-		onError(err);
+	catch (error) {
+		onError(error as FirebaseError);
 	}
 }
 export async function signInUser(email: string, password: string, rememberMe: boolean, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
@@ -77,8 +77,8 @@ export async function signInUser(email: string, password: string, rememberMe: bo
 		if (rememberMe) localStorage.setItem(CURRENT_USER_STORAGE, JSON.stringify(currentUser));
 		else sessionStorage.setItem(CURRENT_USER_STORAGE, JSON.stringify(currentUser));
 	}
-	catch (err: any) {
-		onError(err);
+	catch (error) {
+		onError(error as FirebaseError);
 	}
 }
 export async function signOut() {
@@ -88,8 +88,9 @@ export async function signOut() {
 		localStorage.removeItem(CURRENT_USER_STORAGE);
 		sessionStorage.removeItem(CURRENT_USER_STORAGE);
 	}
-	catch (err: any) {
-		console.error(err);
+	catch (error) {
+		console.error("Error signing out:");
+		throw error;
 	}
 }
 
@@ -117,11 +118,10 @@ export async function addComment(message: string, date: Timestamp) {
 			replies: []
 		} as CommentData);
 
-		console.log(docRef.id);
 		return docRef;
 	} catch (error) {
-		console.error("Error adding comment", error);
-		return null;
+		console.error("Error adding comment:");
+		throw error;
 	}
 }
 export async function addReply(parentCommentID: string, message: string, date: Timestamp) {
@@ -130,11 +130,12 @@ export async function addReply(parentCommentID: string, message: string, date: T
 		const parentCommentRef = doc(commentsCol, parentCommentID);
 
 		const existingData = await getComment(parentCommentID);
-		existingData!.replies.push(replyRef!);
+		existingData.replies.push(replyRef);
 
 		await updateDoc(parentCommentRef, existingData);
 	} catch (error) {
-		console.error("Error adding reply", error);
+		console.error("Error adding reply:");
+		throw error;
 	}
 }
 
@@ -144,8 +145,8 @@ export async function getComment(id: string) {
 		const commentData = (await getDoc(commentRef)).data() as CommentData;
 		return commentData;
 	} catch (error) {
-		console.error("Error getting comment", error);
-		return null;
+		console.error("Error getting comment:");
+		throw error;
 	}
 }
 export async function getRootComments() {
@@ -179,20 +180,26 @@ export async function getRootComments() {
 
 		return comments;
 	} catch (error) {
-		console.error("Error getting comments", error);
-		return null;
+		console.error("Error getting comments:");
+		throw error;
 	}
 }
 
 export async function editComment(id: string, newMessage: string) {
-	const commentRef = doc(commentsCol, id);
-	await updateDoc(commentRef, { message: newMessage } as CommentData);
+	try {
+		const commentRef = doc(commentsCol, id);
+		await updateDoc(commentRef, { message: newMessage } as CommentData);
+	} catch (error) {
+		console.error("Error editing comment:");
+		throw error;
+	}
 }
 export async function removeComment(id: string) {
 	try {
 		const commentRef = doc(commentsCol, id);
 		await deleteDoc(commentRef);
 	} catch (error) {
-		console.error("Error removing comment", error);
+		console.error("Error removing comment:");
+		throw error;
 	}
 }

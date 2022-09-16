@@ -10,7 +10,6 @@ import LoadingDots from "@/components/General/LoadingDots";
 import FormInput from "@/components/Auth/FormInput";
 import styles from "./SignInModal.module.scss";
 
-
 interface Inputs {
 	email: string,
 	password: string,
