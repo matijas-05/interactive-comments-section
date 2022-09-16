@@ -5,7 +5,6 @@ import { useUserStore } from "@/store";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import styles from "./Header.module.scss";
 
-
 interface Props {
 	openSignInModal: () => void,
 	openSignUpModal: () => void,
