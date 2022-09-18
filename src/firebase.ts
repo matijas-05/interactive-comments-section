@@ -162,7 +162,7 @@ export async function addReply(parentCommentID: string, message: string, date: T
 		const existingData = await getComment(parentCommentID);
 		existingData.replies.push(replyRef);
 
-		await updateDoc(parentCommentRef, existingData);
+		updateDoc(parentCommentRef, existingData);
 	} catch (error) {
 		console.error("Error adding reply:");
 		throw error;
@@ -239,10 +239,10 @@ async function getAllComments() {
 	}
 }
 
-export async function editComment(id: string, newMessage: string) {
+export function editComment(id: string, newMessage: string) {
 	try {
 		const commentRef = doc(commentsCol, id);
-		await updateDoc(commentRef, { message: newMessage } as CommentData);
+		updateDoc(commentRef, { message: newMessage } as CommentData);
 	} catch (error) {
 		console.error("Error editing comment:");
 		throw error;
@@ -266,12 +266,12 @@ export async function removeComment(id: string) {
 
 		// Delete all replies
 		for (const reply of (await getComment(id)).replies) {
-			await removeComment(reply.id);
+			removeComment(reply.id);
 		}
 
 		// Delete doc containing comment
 		const commentRef = doc(commentsCol, id);
-		await deleteDoc(commentRef);
+		deleteDoc(commentRef);
 	} catch (error) {
 		console.error("Error removing comment:");
 		throw error;

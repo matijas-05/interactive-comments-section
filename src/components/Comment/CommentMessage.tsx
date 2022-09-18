@@ -1,29 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import TextareaAutosize from "react-textarea-autosize";
 import scrollIntoView from "scroll-into-view";
 
 interface Props {
+	message: string;
 	mention?: string;
 	parentRef?: React.RefObject<HTMLDivElement>;
 	isEditing: boolean;
 	toggleEditing: () => void;
 	editMessageChanged: (newMessage: string) => void;
-	message: string;
 }
 function CommentMessage(props: Props) {
 	const inputRef = useRef<HTMLTextAreaElement>(null);
-	const [mention, setMention] = useState(props.mention);
-	const [commentMessage, setCommentMessage] = useState(props.message);
-	const [editMessage, setEditMessage] = useState("");
-
-	// Init mention
-	useEffect(() => {
-		setMention(commentMessage.split("@")[1]?.split(" ")[0]);
-		if (mention) {
-			setCommentMessage(commentMessage.replace(`@${mention} `, ""));
-		}
-		setEditMessage(commentMessage);
-	}, []);
 
 	// Focus on edit
 	useEffect(() => {
@@ -38,7 +26,7 @@ function CommentMessage(props: Props) {
 
 	return (
 		<p style={{ whiteSpace: "pre-wrap" }}>
-			{!props.isEditing && mention && mention === props.mention && (
+			{!props.isEditing && props.mention && (
 				<span
 					className="text-purple hover-opacity"
 					style={{ cursor: "pointer" }}
@@ -58,17 +46,17 @@ function CommentMessage(props: Props) {
 						parentElement.animate([{ backgroundColor: "#e6e60073" }, {}], { duration: 1000 });
 					}}
 				>
-					@{mention + " "}
+					@{props.mention + " "}
 				</span>
 			)}
 
 			{!props.isEditing ? (
-				commentMessage
+				props.message
 			) : (
 				<TextareaAutosize
 					ref={inputRef}
-					defaultValue={editMessage}
-					onFocus={() => props.editMessageChanged(editMessage)}
+					defaultValue={props.message}
+					onFocus={() => props.editMessageChanged(props.message)}
 					onChange={e => props.editMessageChanged(e.target.value)}
 					onKeyDown={e => e.key === "Escape" && props.toggleEditing()}
 				/>

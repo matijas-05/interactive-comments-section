@@ -43,7 +43,7 @@ class Comment extends React.Component<Props, State> {
 		this.setState({ isEditing: !this.state.isEditing });
 	}
 	private handleEdit() {
-		(async () => await editComment(this.props.id, this.state.editMessage))();
+		editComment(this.props.id, this.state.editMessage);
 		this.toggleEditing();
 	}
 

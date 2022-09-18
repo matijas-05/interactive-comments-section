@@ -42,8 +42,9 @@ function ReplyModal(props: Props) {
 	});
 
 	function handleReply() {
-		(async () => await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date())))();
+		addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
 		props.onCancel();
+		setReplyContent("");
 	}
 
 	if (!store.currentUser) return null;
@@ -64,8 +65,6 @@ function ReplyModal(props: Props) {
 				const cursorPos = textArea.selectionEnd + textArea.value.length;
 				textArea.selectionStart = cursorPos;
 				textArea.selectionEnd = cursorPos;
-
-				setReplyContent(`@${props.userName} `);
 			}}
 			parentSelector={() => props.parent}
 		>
@@ -73,7 +72,6 @@ function ReplyModal(props: Props) {
 				<TextareaAutosize
 					ref={inputRef}
 					placeholder="Add a comment..."
-					defaultValue={`@${props.userName} `}
 					onChange={e => setReplyContent(e.target.value)}
 					autoFocus
 				/>
