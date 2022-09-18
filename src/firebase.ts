@@ -179,7 +179,7 @@ export async function getComment(id: string) {
 		throw error;
 	}
 }
-export async function getRootComments() {
+export async function getTopLevelComments() {
 	try {
 		const snapshot = await getDocs(query(commentsCol, orderBy("date", "asc")));
 		const comments: CommentData[] = [];
@@ -204,13 +204,37 @@ export async function getRootComments() {
 		});
 		for (let i = comments.length - 1; i >= 0; i--) {
 			if (replyIDs.includes(comments[i].id!)) {
-				comments.splice(comments.indexOf(comments[i]), 1);
+				comments.splice(i, 1);
 			}
 		}
 
 		return comments;
 	} catch (error) {
-		console.error("Error getting comments:");
+		console.error("Error getting top-level comments:");
+		throw error;
+	}
+}
+async function getAllComments() {
+	try {
+		const snapshot = await getDocs(query(commentsCol, orderBy("date", "asc")));
+		const comments: CommentData[] = [];
+
+		snapshot.forEach(doc => {
+			const data = doc.data() as CommentData;
+			comments.push({
+				id: doc.id,
+				user: data.user,
+				message: data.message,
+				date: data.date,
+				edited: data.edited,
+				votes: data.votes,
+				replies: data.replies
+			});
+		});
+
+		return comments;
+	} catch (error) {
+		console.error("Error getting all comments:");
 		throw error;
 	}
 }
@@ -226,6 +250,26 @@ export async function editComment(id: string, newMessage: string) {
 }
 export async function removeComment(id: string) {
 	try {
+		// Remove references to deleted doc
+		const allComments = await getAllComments();
+		for (const comment of allComments) {
+			for (let i = 0; i < comment.replies.length; i++) {
+				const reply = comment.replies[i];
+
+				if (id === reply.id) {
+					comment.replies.splice(i, 1);
+					const commentRef = doc(commentsCol, comment.id);
+					await updateDoc(commentRef, { ...comment, replies: comment.replies } as CommentData);
+				}
+			}
+		}
+
+		// Delete all replies
+		for (const reply of (await getComment(id)).replies) {
+			await removeComment(reply.id);
+		}
+
+		// Delete doc containing comment
 		const commentRef = doc(commentsCol, id);
 		await deleteDoc(commentRef);
 	} catch (error) {

@@ -1,6 +1,6 @@
 import { onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { CommentData, commentsCol, getComment, getRootComments, removeComment, signOut } from "@/firebase";
+import { CommentData, commentsCol, getComment, getTopLevelComments, removeComment, signOut } from "@/firebase";
 import { useCommentsStore, useUserStore } from "@/store";
 
 import SignInModal from "./Auth/Modals/SignInModal";
@@ -85,7 +85,7 @@ function App() {
 	useEffect(() => {
 		// Subscribe to db changes
 		onSnapshot(commentsCol, async () => {
-			commentsDataStore.setCommentsData(await getRootComments());
+			commentsDataStore.setCommentsData(await getTopLevelComments());
 		});
 	}, []);
 	useEffect(() => {
