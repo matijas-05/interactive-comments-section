@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import sleep from "sleep-promise";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+
 import { getCurrentUser, signInUser } from "@/firebase";
 import { useUserStore } from "@/store";
 import PopupModal from "@/components/General/Modals/PopupModal";
@@ -11,20 +12,29 @@ import FormInput from "@/components/Auth/FormInput";
 import styles from "./SignInModal.module.scss";
 
 interface Inputs {
-	email: string,
-	password: string,
-	rememberMe: boolean
+	email: string;
+	password: string;
+	rememberMe: boolean;
 }
 interface Props {
-	isOpen: boolean,
-	onRequestClose: () => void
+	isOpen: boolean;
+	onRequestClose: () => void;
 }
 function SignInModal(props: Props) {
-	const { register, formState: { isValid, isSubmitting, isSubmitSuccessful, errors }, handleSubmit, setError, reset } = useForm<Inputs>({ mode: "onChange" });
+	const {
+		register,
+		formState: { isValid, isSubmitting, isSubmitSuccessful, errors },
+		handleSubmit,
+		setError,
+		reset
+	} = useForm<Inputs>({ mode: "onChange" });
 	const store = useUserStore();
 
 	async function signIn(data: Inputs) {
-		await signInUser(data.email, data.password, data.rememberMe,
+		await signInUser(
+			data.email,
+			data.password,
+			data.rememberMe,
 			async () => {
 				await sleep(500);
 				props.onRequestClose();
@@ -34,11 +44,11 @@ function SignInModal(props: Props) {
 			error => {
 				if (error.code === "auth/user-not-found") {
 					setError("email", { type: "manual", message: "Email is not found!" }, { shouldFocus: true });
-				}
-				else if (error.code === "auth/wrong-password") {
+				} else if (error.code === "auth/wrong-password") {
 					setError("password", { type: "manual", message: "Password is incorrect!" }, { shouldFocus: true });
 				}
-			});
+			}
+		);
 		store.setCurrentUser(getCurrentUser());
 	}
 
@@ -52,25 +62,39 @@ function SignInModal(props: Props) {
 			<h1>Sign in</h1>
 			<hr className="horizontal-separator" />
 
-			<form className={`${styles["sign-in-form"]} f-col g-1-5`} onSubmit={handleSubmit(async data => await signIn(data))}>
+			<form
+				className={`${styles["sign-in-form"]} f-col g-1-5`}
+				onSubmit={handleSubmit(async data => await signIn(data))}
+			>
 				<FormInput>
 					<label htmlFor="email">Email:</label>
 					<input
 						className={errors.email && "invalid-input"}
-						type="email" id="email" inputMode="email"
+						type="email"
+						id="email"
+						inputMode="email"
 						{...register("email", { required: true })}
 					/>
-					<ErrorMessage errors={errors} name="email" render={() => <span className="error">{errors.email?.message}</span>} />
+					<ErrorMessage
+						errors={errors}
+						name="email"
+						render={() => <span className="error">{errors.email?.message}</span>}
+					/>
 				</FormInput>
 
 				<FormInput>
 					<label htmlFor="password">Password:</label>
 					<input
 						className={errors.password && "invalid-input"}
-						type="password" id="password"
+						type="password"
+						id="password"
 						{...register("password", { required: true })}
 					/>
-					<ErrorMessage errors={errors} name="password" render={() => <span className="error">{errors.password?.message}</span>} />
+					<ErrorMessage
+						errors={errors}
+						name="password"
+						render={() => <span className="error">{errors.password?.message}</span>}
+					/>
 				</FormInput>
 
 				<FormInput row={true}>
@@ -79,7 +103,9 @@ function SignInModal(props: Props) {
 				</FormInput>
 
 				<ButtonPrimary
-					className="bg-purple" type="submit" disabled={!isValid || isSubmitting || isSubmitSuccessful}
+					className="bg-purple"
+					type="submit"
+					disabled={!isValid || isSubmitting || isSubmitSuccessful}
 					faIcon={isSubmitSuccessful ? faCheck : undefined}
 				>
 					<span style={{ display: isSubmitting ? "none" : "inherit" }}>Sign in</span>

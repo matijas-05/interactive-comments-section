@@ -1,5 +1,5 @@
-@use "./variables"as v;
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+@use "./variables" as v;
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
 
 *,
 *::before,
@@ -60,12 +60,12 @@ textarea {
 		outline: 1px v.$clr-text-primary-500 solid;
 	}
 }
-input:not([type=checkbox]):not([type=radio]) {
-	padding: .5em;
+input:not([type="checkbox"]):not([type="radio"]) {
+	padding: 0.5em;
 	border: 1px solid v.$clr-text-400;
 	border-radius: v.$border-radius-small;
 }
-input:not([type=checkbox]):not([type=radio]):focus {
+input:not([type="checkbox"]):not([type="radio"]):focus {
 	border-color: transparent;
 	outline: 2px solid v.$clr-text-primary-500;
 }

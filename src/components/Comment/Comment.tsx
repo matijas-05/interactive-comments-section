@@ -8,20 +8,20 @@ import CommentButtons from "./CommentButtons";
 import styles from "./Comment.module.scss";
 
 interface Props {
-	id: string,
-	user: UserData,
-	date: string,
-	message: string,
-	votes: number,
-	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void,
-	openDeleteCommentModal: (commentID: string) => void,
-	children?: React.ReactNode,
-	parent?: Comment,
-	parentRef?: React.RefObject<HTMLDivElement>,
+	id: string;
+	user: UserData;
+	date: string;
+	message: string;
+	votes: number;
+	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void;
+	openDeleteCommentModal: (commentID: string) => void;
+	children?: React.ReactNode;
+	parent?: Comment;
+	parentRef?: React.RefObject<HTMLDivElement>;
 }
 interface State {
-	isEditing: boolean,
-	editMessage: string
+	isEditing: boolean;
+	editMessage: string;
 }
 class Comment extends React.Component<Props, State> {
 	private thisRef = React.createRef<HTMLDivElement>();
@@ -29,7 +29,7 @@ class Comment extends React.Component<Props, State> {
 
 	constructor(props: Props) {
 		super(props);
-		
+
 		this.state = { isEditing: false, editMessage: "" };
 		this.thisRef = React.createRef();
 		this.repliesRef = React.createRef();
@@ -60,13 +60,27 @@ class Comment extends React.Component<Props, State> {
 				<Mobile>
 					<div className={"f-col g-1-25 card"}>
 						<CommentInfo user={this.props.user} date={this.props.date} />
-						<CommentMessage message={this.props.message} mention={this.props.parent?.props.user.userName}
-							isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} editMessageChanged={msg => this.setState({ editMessage: msg })} parentRef={this.props.parentRef} />
+						<CommentMessage
+							message={this.props.message}
+							mention={this.props.parent?.props.user.userName}
+							isEditing={this.state.isEditing}
+							toggleEditing={this.toggleEditing}
+							editMessageChanged={msg => this.setState({ editMessage: msg })}
+							parentRef={this.props.parentRef}
+						/>
 
 						<div className="left-right f-span-y g-1">
 							<Votes initialVotes={this.props.votes} />
-							<CommentButtons userName={this.props.user.userName} commentID={this.props.id} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
-								toggleEditing={this.toggleEditing} handleEdit={this.handleEdit} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
+							<CommentButtons
+								userName={this.props.user.userName}
+								commentID={this.props.id}
+								repliesRef={this.repliesRef}
+								isEditing={this.state.isEditing}
+								toggleEditing={this.toggleEditing}
+								handleEdit={this.handleEdit}
+								openDeleteCommentModal={this.props.openDeleteCommentModal}
+								openReplyModal={this.props.openReplyModal}
+							/>
 						</div>
 					</div>
 				</Mobile>
@@ -77,12 +91,26 @@ class Comment extends React.Component<Props, State> {
 						<div className={"f-col g-1-25"} style={{ flexGrow: 1 }}>
 							<div className="f-row f-span-y left-right g-1">
 								<CommentInfo user={this.props.user} date={this.props.date} />
-								<CommentButtons userName={this.props.user.userName} commentID={this.props.id} repliesRef={this.repliesRef} isEditing={this.state.isEditing}
-									toggleEditing={this.toggleEditing} handleEdit={this.handleEdit} openDeleteCommentModal={this.props.openDeleteCommentModal} openReplyModal={this.props.openReplyModal} />
+								<CommentButtons
+									userName={this.props.user.userName}
+									commentID={this.props.id}
+									repliesRef={this.repliesRef}
+									isEditing={this.state.isEditing}
+									toggleEditing={this.toggleEditing}
+									handleEdit={this.handleEdit}
+									openDeleteCommentModal={this.props.openDeleteCommentModal}
+									openReplyModal={this.props.openReplyModal}
+								/>
 							</div>
 
-							<CommentMessage message={this.props.message} mention={this.props.parent?.props.user.userName}
-								isEditing={this.state.isEditing} toggleEditing={this.toggleEditing} editMessageChanged={msg => this.setState({ editMessage: msg })} parentRef={this.props.parentRef} />
+							<CommentMessage
+								message={this.props.message}
+								mention={this.props.parent?.props.user.userName}
+								isEditing={this.state.isEditing}
+								toggleEditing={this.toggleEditing}
+								editMessageChanged={msg => this.setState({ editMessage: msg })}
+								parentRef={this.props.parentRef}
+							/>
 						</div>
 					</div>
 				</Desktop>

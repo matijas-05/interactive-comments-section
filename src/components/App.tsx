@@ -1,14 +1,15 @@
-import { useEffect, useState } from "react";
 import { onSnapshot } from "firebase/firestore";
-import { signOut, CommentData, getRootComments, getComment, removeComment, commentsCol } from "@/firebase";
+import { useEffect, useState } from "react";
+import { CommentData, commentsCol, getComment, getRootComments, removeComment, signOut } from "@/firebase";
 import { useCommentsStore, useUserStore } from "@/store";
-import Header from "./General/Page Sections/Header";
-import Comment from "./Comment/Comment";
-import AddCommentModal from "./Comment/AddCommentModal";
-import ReplyModal from "./Comment/ReplyModal";
-import NoYesModal from "./General/Modals/NoYesModal";
+
 import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
+import AddCommentModal from "./Comment/AddCommentModal";
+import Comment from "./Comment/Comment";
+import ReplyModal from "./Comment/ReplyModal";
+import NoYesModal from "./General/Modals/NoYesModal";
+import Header from "./General/Page Sections/Header";
 
 function App() {
 	//#region MODALS
@@ -91,14 +92,18 @@ function App() {
 		// When comments data store changes, reload comments
 		(async () => {
 			if (commentsDataStore.commentsData) {
-				const commentsRendered = await Promise.all(commentsDataStore.commentsData.map(async data => await renderComment(data)));
+				const commentsRendered = await Promise.all(
+					commentsDataStore.commentsData.map(async data => await renderComment(data))
+				);
 				setComments(commentsRendered);
-				setRefreshComments(new Date().getTime());	// comments don't properly refresh
+				setRefreshComments(new Date().getTime()); // comments don't properly refresh
 			}
 		})();
 	}, [commentsDataStore.commentsData]);
 	useEffect(() => {
-		document.querySelectorAll<HTMLElement>(".comments > div > div").forEach(el => el.style.scrollMargin = `${document.querySelector("header")!.offsetHeight}px`);
+		document
+			.querySelectorAll<HTMLElement>(".comments > div > div")
+			.forEach(el => (el.style.scrollMargin = `${document.querySelector("header")!.offsetHeight}px`));
 	}, [comments]);
 
 	async function renderComment(commentData: CommentData) {
@@ -130,35 +135,49 @@ function App() {
 		// Render replies
 		let replies: JSX.Element[] = [];
 		if (commentData.replies.length > 0) {
-			replies = await Promise.all(commentData.replies.map(async reply => {
-				const data = await getComment(reply.id);
+			replies = await Promise.all(
+				commentData.replies.map(async reply => {
+					const data = await getComment(reply.id);
 
-				if (!data)
-					return <p className="error">Error loading replies!</p>;
+					if (!data) return <p className="error">Error loading replies!</p>;
 
-				data.id = reply.id;
-				return renderComment(data);
-			}));
+					data.id = reply.id;
+					return renderComment(data);
+				})
+			);
 		}
 
-		return <Comment
-			key={commentData.id!} id={commentData.id!} user={commentData.user}
-			date={parsedDate} votes={commentData.votes} message={commentData.message}
-			openReplyModal={handleToggleReplyModal} openDeleteCommentModal={handleOpenDeleteCommentModal}
-		>
-			{replies}
-		</Comment>;
+		return (
+			<Comment
+				key={commentData.id!}
+				id={commentData.id!}
+				user={commentData.user}
+				date={parsedDate}
+				votes={commentData.votes}
+				message={commentData.message}
+				openReplyModal={handleToggleReplyModal}
+				openDeleteCommentModal={handleOpenDeleteCommentModal}
+			>
+				{replies}
+			</Comment>
+		);
 	}
 
 	return (
 		<>
-			<Header openSignInModal={handleToggleSignInModal} openSignUpModal={handleToggleSignUpModal} openSignOutModal={handleToggleSignOutModal} />
+			<Header
+				openSignInModal={handleToggleSignInModal}
+				openSignUpModal={handleToggleSignUpModal}
+				openSignOutModal={handleToggleSignOutModal}
+			/>
 
-			<section className="f-center g-1 pad-1-2" style={{ display: "grid" }} >
+			<section className="f-center g-1 pad-1-2" style={{ display: "grid" }}>
 				{/* Need to wrap in div because if 'refreshComments' key is in section tag,
 				because AddCommentModal disappears after submitting comment */}
 				{/* !!! DON'T REMOVE .comments CLASS. NEEDED FOR querySelector() */}
-				<div key={refreshComments} className="comments f-col g-1">{comments}</div>
+				<div key={refreshComments} className="comments f-col g-1">
+					{comments}
+				</div>
 
 				{/* Needed for AddCommentModal to be rendered after all comments */}
 				<div className="add-comment-modal"></div>
@@ -167,15 +186,19 @@ function App() {
 			{/* Comment related modals */}
 			<AddCommentModal />
 			<ReplyModal
-				isOpen={replyModalIsOpen} onCancel={handleCloseReplyModal}
-				parent={replyModalParent ?? document.getElementById("root")!} userName={replyModalParentUserName}
+				isOpen={replyModalIsOpen}
+				onCancel={handleCloseReplyModal}
+				parent={replyModalParent ?? document.getElementById("root")!}
+				userName={replyModalParentUserName}
 				parentCommentID={replyModalParentCommentID}
 			/>
 			<NoYesModal
 				header="Delete comment"
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
-				noText="NO, CANCEL" yesText="YES, DELETE"
-				onNoClicked={() => handleCloseDeleteCommentModal()} onYesClicked={() => handleDeleteComment(commentToDelete)}
+				noText="NO, CANCEL"
+				yesText="YES, DELETE"
+				onNoClicked={() => handleCloseDeleteCommentModal()}
+				onYesClicked={() => handleDeleteComment(commentToDelete)}
 				isOpen={deleteCommentModalIsOpen}
 			/>
 
@@ -185,8 +208,10 @@ function App() {
 			<NoYesModal
 				header="Sign out"
 				message="Are you sure you want to sign out?"
-				noText="NO, CANCEL" yesText="YES, SIGN OUT"
-				onNoClicked={() => handleToggleSignOutModal()} onYesClicked={() => handleSignOut()}
+				noText="NO, CANCEL"
+				yesText="YES, SIGN OUT"
+				onNoClicked={() => handleToggleSignOutModal()}
+				onYesClicked={() => handleSignOut()}
 				isOpen={signOutModalIsOpen}
 			/>
 		</>

@@ -23,23 +23,33 @@ function AddCommentModal() {
 		setCommentContent("");
 	}
 
-	if (!userStore.currentUser)
-		return null;
+	if (!userStore.currentUser) return null;
 
 	return (
 		<ReactModal
 			bodyOpenClassName="AddCommentModal__Body"
 			portalClassName="AddCommentModalPortal"
-			contentLabel="Add comment" ariaHideApp={false}
+			contentLabel="Add comment"
+			ariaHideApp={false}
 			isOpen={true}
 			parentSelector={() => document.querySelector(".add-comment-modal")!}
 			style={{ content: { outline: "none" } }}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize ref={textAreaRef} onChange={e => setCommentContent(e.target.value)} placeholder="Add a comment..." />
+				<TextareaAutosize
+					ref={textAreaRef}
+					onChange={e => setCommentContent(e.target.value)}
+					placeholder="Add a comment..."
+				/>
 				<div className="left-right">
 					<ProfilePicture src={userStore.currentUser.profilePictureDownloadURL} />
-					<ButtonPrimary className="bg-purple pad-1-2" disabled={commentContent === ""} onClick={async () => await handleAddComment()}>SEND</ButtonPrimary>
+					<ButtonPrimary
+						className="bg-purple pad-1-2"
+						disabled={commentContent === ""}
+						onClick={async () => await handleAddComment()}
+					>
+						SEND
+					</ButtonPrimary>
 				</div>
 			</div>
 		</ReactModal>

@@ -5,13 +5,13 @@ import { ButtonProps } from "react-html-props";
 import styles from "./ButtonSecondary.module.scss";
 
 interface Props extends ButtonProps {
-	iconSrc?: string,
-	iconClassName?: string,
-	faIcon?: IconDefinition,
+	iconSrc?: string;
+	iconClassName?: string;
+	faIcon?: IconDefinition;
 	/** Only needed when child is not a string */
-	alt?: string,
-	noHoverEffect?: boolean,
-	children?: string | React.ReactNode,
+	alt?: string;
+	noHoverEffect?: boolean;
+	children?: string | React.ReactNode;
 }
 function ButtonSecondary(props: Props) {
 	// State change triggers component reload
@@ -25,8 +25,21 @@ function ButtonSecondary(props: Props) {
 	const { iconSrc, iconClassName, faIcon, alt, noHoverEffect, children, ...rest } = props;
 
 	return (
-		<button {...rest} className={`f-center ${styles["btn-secondary"]} ${!props.noHoverEffect && "hover-opacity"} ${props.className}`}>
-			{props.iconSrc && <img className={props.iconClassName} src={props.iconSrc} width={img.width} height={img.height} alt={typeof props.children === "string" ? props.children : props.alt} onLoad={() => setImgLoaded(true)} />}
+		<button
+			{...rest}
+			className={`f-center ${styles["btn-secondary"]} ${!props.noHoverEffect && "hover-opacity"}
+			${props.className}`}
+		>
+			{props.iconSrc && (
+				<img
+					className={props.iconClassName}
+					src={props.iconSrc}
+					width={img.width}
+					height={img.height}
+					alt={typeof props.children === "string" ? props.children : props.alt}
+					onLoad={() => setImgLoaded(true)}
+				/>
+			)}
 			{faIcon && <FontAwesomeIcon className={props.iconClassName} icon={props.faIcon!} />}
 			{props.children}
 		</button>

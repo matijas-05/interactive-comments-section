@@ -1,7 +1,26 @@
-import { initializeApp, FirebaseError } from "firebase/app";
-import { getAuth, createUserWithEmailAndPassword, updateProfile, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { DocumentReference, Timestamp, getFirestore, addDoc, getDocs, collection, query, doc, updateDoc, getDoc, deleteDoc, orderBy } from "firebase/firestore";
+import { FirebaseError, initializeApp } from "firebase/app";
+import {
+	createUserWithEmailAndPassword,
+	getAuth,
+	signInWithEmailAndPassword,
+	updateProfile,
+	UserCredential
+} from "firebase/auth";
+import {
+	addDoc,
+	collection,
+	deleteDoc,
+	doc,
+	DocumentReference,
+	getDoc,
+	getDocs,
+	getFirestore,
+	orderBy,
+	query,
+	Timestamp,
+	updateDoc
+} from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -22,7 +41,7 @@ const storage = getStorage(app);
 const auth = getAuth(app);
 
 export interface UserData {
-	uid: string,
+	uid: string;
 	userName: string;
 	profilePictureDownloadURL: string;
 }
@@ -40,28 +59,41 @@ export const getCurrentUser = () => {
 	return null;
 };
 
-export async function signUpUser(email: string, userName: string, profilePicture: File | null, password: string, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
+export async function signUpUser(
+	email: string,
+	userName: string,
+	profilePicture: File | null,
+	password: string,
+	onSuccess: (user: UserCredential) => void,
+	onError: (error: FirebaseError) => void
+) {
 	try {
 		const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
 
 		// Upload profile picture if set, otherwise use default
-		const profilePicturePath = profilePicture ? `user_data/${userCredentials.user.uid}/profile_picture.${profilePicture.name.split(".")[1]}` : "no_pp.png";
+		const profilePicturePath = profilePicture
+			? `user_data/${userCredentials.user.uid}/profile_picture.${profilePicture.name.split(".")[1]}`
+			: "no_pp.png";
 		const profilePictureRef = ref(storage, profilePicturePath);
 		if (profilePicture) await uploadBytes(profilePictureRef, profilePicture);
 
 		try {
 			await updateProfile(userCredentials.user, { displayName: userName, photoURL: profilePictureRef.fullPath });
 			onSuccess(userCredentials);
-		}
-		catch (error) {
+		} catch (error) {
 			onError(error as FirebaseError);
 		}
-	}
-	catch (error) {
+	} catch (error) {
 		onError(error as FirebaseError);
 	}
 }
-export async function signInUser(email: string, password: string, rememberMe: boolean, onSuccess: (user: UserCredential) => void, onError: (error: FirebaseError) => void) {
+export async function signInUser(
+	email: string,
+	password: string,
+	rememberMe: boolean,
+	onSuccess: (user: UserCredential) => void,
+	onError: (error: FirebaseError) => void
+) {
 	try {
 		const userCredentials = await signInWithEmailAndPassword(auth, email, password);
 		onSuccess(userCredentials);
@@ -76,8 +108,7 @@ export async function signInUser(email: string, password: string, rememberMe: bo
 		};
 		if (rememberMe) localStorage.setItem(CURRENT_USER_STORAGE, JSON.stringify(currentUser));
 		else sessionStorage.setItem(CURRENT_USER_STORAGE, JSON.stringify(currentUser));
-	}
-	catch (error) {
+	} catch (error) {
 		onError(error as FirebaseError);
 	}
 }
@@ -87,8 +118,7 @@ export async function signOut() {
 		currentUser = null;
 		localStorage.removeItem(CURRENT_USER_STORAGE);
 		sessionStorage.removeItem(CURRENT_USER_STORAGE);
-	}
-	catch (error) {
+	} catch (error) {
 		console.error("Error signing out:");
 		throw error;
 	}
@@ -98,14 +128,14 @@ export async function signOut() {
 const db = getFirestore(app);
 export const commentsCol = collection(db, "comments");
 export type CommentData = {
-	id?: string,	// When reading from firebase, id isn't automatically populated, we have to get it from document's id
-	user: UserData,
-	message: string,
-	date: Timestamp,
-	edited: boolean,
-	votes: number,
-	replies: DocumentReference[]
-}
+	id?: string; // When reading from firebase, id isn't automatically populated, we have to get it from document's id
+	user: UserData;
+	message: string;
+	date: Timestamp;
+	edited: boolean;
+	votes: number;
+	replies: DocumentReference[];
+};
 
 export async function addComment(message: string, date: Timestamp) {
 	try {

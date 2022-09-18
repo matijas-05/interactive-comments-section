@@ -13,30 +13,28 @@ ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
 interface Props {
-	isOpen: boolean,
-	onCancel: () => void,
-	parent: HTMLElement,
-	parentCommentID: string,
-	userName: string
+	isOpen: boolean;
+	onCancel: () => void;
+	parent: HTMLElement;
+	parentCommentID: string;
+	userName: string;
 }
 function ReplyModal(props: Props) {
 	const store = useUserStore();
-	
+
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");
-	
+
 	// Hide modal containers when not in use to remove whitespace
 	useEffect(() => {
 		const portal = document.querySelector(".ReplyModalPortal") as HTMLDivElement;
 
-		if (!portal)
-			return;
+		if (!portal) return;
 
 		if (props.isOpen) {
 			portal.style.removeProperty("display");
 			portal.parentElement?.style.removeProperty("display");
-		}
-		else {
+		} else {
 			portal.style.setProperty("display", "none");
 			if (portal.parentElement?.childElementCount === 1)
 				portal.parentElement?.style.setProperty("display", "none");
@@ -47,16 +45,17 @@ function ReplyModal(props: Props) {
 		(async () => await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date())))();
 		props.onCancel();
 	}
-	
-	if(!store.currentUser)
-		return null;
+
+	if (!store.currentUser) return null;
 
 	return (
 		<ReactModal
 			bodyOpenClassName="ReplyModal__Body"
 			portalClassName="ReplyModalPortal"
-			contentLabel="Reply to a comment" ariaHideApp={false}
-			isOpen={props.isOpen} shouldCloseOnEsc={true}
+			contentLabel="Reply to a comment"
+			ariaHideApp={false}
+			isOpen={props.isOpen}
+			shouldCloseOnEsc={true}
 			onAfterOpen={() => {
 				// Focus on input
 				const textArea = inputRef.current!;
@@ -71,14 +70,26 @@ function ReplyModal(props: Props) {
 			parentSelector={() => props.parent}
 		>
 			<div className="f-col g-1 card">
-				<TextareaAutosize ref={inputRef} placeholder="Add a comment..." defaultValue={`@${props.userName} `} onChange={e => setReplyContent(e.target.value)} autoFocus />
+				<TextareaAutosize
+					ref={inputRef}
+					placeholder="Add a comment..."
+					defaultValue={`@${props.userName} `}
+					onChange={e => setReplyContent(e.target.value)}
+					autoFocus
+				/>
 				<div className="left-right">
 					<ProfilePicture src={store.currentUser?.profilePictureDownloadURL ?? ""} />
 					<div className="f-center g-1-5">
 						<ButtonSecondary onClick={props.onCancel} noHoverEffect={true}>
 							<p className="hover-underline">Cancel</p>
 						</ButtonSecondary>
-						<ButtonPrimary className="bg-purple pad-1-2" disabled={replyContent === ""} onClick={handleReply}>SEND</ButtonPrimary>
+						<ButtonPrimary
+							className="bg-purple pad-1-2"
+							disabled={replyContent === ""}
+							onClick={handleReply}
+						>
+							SEND
+						</ButtonPrimary>
 					</div>
 				</div>
 			</div>

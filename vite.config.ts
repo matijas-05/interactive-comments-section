@@ -9,9 +9,7 @@ process.env.BROWSER = "firefox";
 // https://vitejs.dev/config/
 export default defineConfig({
 	base: "/interactive-comments-section/",
-	plugins: [
-		react()
-	],
+	plugins: [react()],
 	server: {
 		host: true,
 		open: true
