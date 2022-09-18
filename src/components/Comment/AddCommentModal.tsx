@@ -16,11 +16,13 @@ function AddCommentModal() {
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
 	const [commentContent, setCommentContent] = useState("");
-	async function handleAddComment() {
-		await addComment(commentContent, Timestamp.fromDate(new Date()));
+	function handleAddComment() {
+		(async () => {
+			await addComment(commentContent, Timestamp.fromDate(new Date()));
 
-		textAreaRef.current!.value = "";
-		setCommentContent("");
+			textAreaRef.current!.value = "";
+			setCommentContent("");
+		})();
 	}
 
 	if (!userStore.currentUser) return null;
@@ -46,7 +48,7 @@ function AddCommentModal() {
 					<ButtonPrimary
 						className="bg-purple pad-1-2"
 						disabled={commentContent === ""}
-						onClick={async () => await handleAddComment()}
+						onClick={handleAddComment}
 					>
 						SEND
 					</ButtonPrimary>

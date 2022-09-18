@@ -1,5 +1,5 @@
 import React from "react";
-import { editComment, UserData } from "@/firebase";
+import { editComment, subscribeFirebase, unsubscribeFirebase, UserData } from "@/firebase";
 import { Desktop, Mobile } from "@/components/General/MediaQueryComponents";
 import Votes from "./Votes";
 import CommentInfo from "./CommentInfo";
@@ -43,8 +43,12 @@ class Comment extends React.Component<Props, State> {
 		this.setState({ isEditing: !this.state.isEditing });
 	}
 	private handleEdit() {
-		editComment(this.props.id, this.state.editMessage);
-		this.toggleEditing();
+		(async () => {
+			unsubscribeFirebase();
+			await editComment(this.props.id, this.state.editMessage);
+			subscribeFirebase();
+			this.toggleEditing();
+		})();
 	}
 
 	render() {

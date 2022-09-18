@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import ReactModal from "react-modal";
 import TextareaAutosize from "react-textarea-autosize";
 import { Timestamp } from "firebase/firestore";
-import { addReply } from "@/firebase";
+import { addReply, subscribeFirebase, unsubscribeFirebase } from "@/firebase";
 import { useUserStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
@@ -20,7 +20,7 @@ interface Props {
 	userName: string;
 }
 function ReplyModal(props: Props) {
-	const store = useUserStore();
+	const userStore = useUserStore();
 
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");
@@ -42,12 +42,17 @@ function ReplyModal(props: Props) {
 	});
 
 	function handleReply() {
-		addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
-		props.onCancel();
-		setReplyContent("");
+		(async () => {
+			unsubscribeFirebase();
+			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
+			subscribeFirebase();
+
+			props.onCancel();
+			setReplyContent("");
+		})();
 	}
 
-	if (!store.currentUser) return null;
+	if (!userStore.currentUser) return null;
 
 	return (
 		<ReactModal
@@ -76,7 +81,7 @@ function ReplyModal(props: Props) {
 					autoFocus
 				/>
 				<div className="left-right">
-					<ProfilePicture src={store.currentUser?.profilePictureDownloadURL ?? ""} />
+					<ProfilePicture src={userStore.currentUser?.profilePictureDownloadURL ?? ""} />
 					<div className="f-center g-1-5">
 						<ButtonSecondary onClick={props.onCancel} noHoverEffect={true}>
 							<p className="hover-underline">Cancel</p>

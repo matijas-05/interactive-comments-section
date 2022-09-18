@@ -13,7 +13,7 @@ export const useUserStore = create<UserDataStore>(
 		} as UserDataStore)
 );
 
-interface CommentsStore {
+export interface CommentsStore {
 	commentsData: CommentData[];
 	setCommentsData: (data: CommentData[]) => void;
 }

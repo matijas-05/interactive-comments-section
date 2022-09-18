@@ -1,6 +1,13 @@
-import { onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { CommentData, commentsCol, getComment, getTopLevelComments, removeComment, signOut } from "@/firebase";
+import {
+	CommentData,
+	getComment,
+	removeComment,
+	setCommentsStore,
+	signOut,
+	subscribeFirebase,
+	unsubscribeFirebase
+} from "@/firebase";
 import { useCommentsStore, useUserStore } from "@/store";
 
 import SignInModal from "./Auth/Modals/SignInModal";
@@ -26,10 +33,11 @@ function App() {
 	}
 	function handleDeleteComment(commentID: string) {
 		(async () => {
+			unsubscribeFirebase();
 			await removeComment(commentID);
+			subscribeFirebase();
+			handleCloseDeleteCommentModal();
 		})();
-
-		handleCloseDeleteCommentModal();
 	}
 
 	// Reply to comment modal
@@ -84,9 +92,8 @@ function App() {
 
 	useEffect(() => {
 		// Subscribe to db changes
-		onSnapshot(commentsCol, async () => {
-			commentsDataStore.setCommentsData(await getTopLevelComments());
-		});
+		setCommentsStore(commentsDataStore);
+		subscribeFirebase();
 	}, []);
 	useEffect(() => {
 		// When comments data store changes, reload comments
