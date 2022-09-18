@@ -98,6 +98,7 @@ function App() {
 	useEffect(() => {
 		// When comments data store changes, reload comments
 		(async () => {
+			handleCloseReplyModal();
 			if (commentsDataStore.commentsData) {
 				const commentsRendered = await Promise.all(
 					commentsDataStore.commentsData.map(async data => await renderComment(data))
