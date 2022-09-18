@@ -78,13 +78,13 @@ function App() {
 
 	// Comments
 	const commentsDataStore = useCommentsStore();
-	const [comments, setComments] = useState<JSX.Element[] | null>(null);
+	const [comments, setComments] = useState<JSX.Element[]>([]);
 	const [refreshComments, setRefreshComments] = useState(0);
 
 	useEffect(() => {
 		// Subscribe to db changes
 		onSnapshot(commentsCol, async () => {
-			commentsDataStore.setCommentsData(await getRootComments() ?? []);
+			commentsDataStore.setCommentsData(await getRootComments());
 		});
 	}, []);
 	useEffect(() => {
@@ -128,7 +128,7 @@ function App() {
 		}
 
 		// Render replies
-		let replies: JSX.Element[] | null = null;
+		let replies: JSX.Element[] = [];
 		if (commentData.replies.length > 0) {
 			replies = await Promise.all(commentData.replies.map(async reply => {
 				const data = await getComment(reply.id);
