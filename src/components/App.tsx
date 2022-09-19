@@ -43,12 +43,13 @@ function App() {
 
 	// Reply to comment modal
 	const [replyModalIsOpen, setReplyModalIsOpen] = useState(false);
-	const [replyModalParent, setReplyModalParent] = useState<HTMLDivElement>();
+	const [replyModalParent, setReplyModalParent] = useState<HTMLDivElement | null>();
 	const [replyModalParentUserName, setReplyModalParentUserName] = useState("");
 	const [replyModalParentCommentID, setReplyModalParentCommentID] = useState("");
 
 	function handleCloseReplyModal() {
 		setReplyModalIsOpen(false);
+		setReplyModalParent(null);
 	}
 	function handleToggleReplyModal(parentComment: HTMLDivElement, userName: string, parentCommentID: string) {
 		setReplyModalParentCommentID(parentCommentID);
@@ -101,7 +102,6 @@ function App() {
 		(async () => {
 			setTopLevelComments(await getTopLevelComments());
 			setAllComments(await getAllComments());
-			handleCloseReplyModal(); // Required for proper comment refreshing
 		})();
 	}, [commentsDataStore.commentsData]);
 	useEffect(() => {

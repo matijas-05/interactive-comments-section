@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import ReactModal from "react-modal";
 import TextareaAutosize from "react-textarea-autosize";
 import { Timestamp } from "firebase/firestore";
@@ -25,28 +25,13 @@ function ReplyModal(props: Props) {
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");
 
-	// Hide modal containers when not in use to remove whitespace
-	useEffect(() => {
-		const portal = document.querySelector(".ReplyModalPortal") as HTMLDivElement;
-
-		if (!portal) return;
-
-		if (props.isOpen) {
-			portal.style.removeProperty("display");
-			portal.parentElement?.style.removeProperty("display");
-		} else {
-			portal.style.setProperty("display", "none");
-			if (portal.parentElement?.childElementCount === 1)
-				portal.parentElement?.style.setProperty("display", "none");
-		}
-	});
-
 	function handleReply() {
 		(async () => {
 			unsubscribeFirebase();
 			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
 			subscribeFirebase();
 
+			props.onCancel();
 			setReplyContent("");
 		})();
 	}
