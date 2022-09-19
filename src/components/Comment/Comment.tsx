@@ -11,6 +11,7 @@ interface Props {
 	id: string;
 	user: UserData;
 	date: string;
+	edited: boolean;
 	message: string;
 	votes: number;
 	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void;
@@ -63,7 +64,7 @@ class Comment extends React.Component<Props, State> {
 			<div ref={this.thisRef} className="f-col g-1 hide-empty">
 				<Mobile>
 					<div className={"f-col g-1-25 card"}>
-						<CommentInfo user={this.props.user} date={this.props.date} />
+						<CommentInfo user={this.props.user} date={this.props.date} edited={this.props.edited} />
 						<CommentMessage
 							message={this.props.message}
 							mention={this.props.parent?.props.user.userName}
@@ -94,7 +95,7 @@ class Comment extends React.Component<Props, State> {
 						<Votes className="f-col" style={{ alignSelf: "flex-start" }} initialVotes={this.props.votes} />
 						<div className={"f-col g-1-25"} style={{ flexGrow: 1 }}>
 							<div className="f-row f-span-y left-right g-1">
-								<CommentInfo user={this.props.user} date={this.props.date} />
+								<CommentInfo user={this.props.user} date={this.props.date} edited={this.props.edited} />
 								<CommentButtons
 									userName={this.props.user.userName}
 									commentID={this.props.id}

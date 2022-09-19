@@ -245,7 +245,7 @@ export async function getAllComments() {
 export async function editComment(id: string, newMessage: string) {
 	try {
 		const commentRef = doc(commentsCol, id);
-		await updateDoc(commentRef, { message: newMessage } as CommentData);
+		await updateDoc(commentRef, { message: newMessage, edited: true } as CommentData);
 	} catch (error) {
 		console.error("Error editing comment:");
 		throw error;

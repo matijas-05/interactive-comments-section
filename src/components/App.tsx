@@ -167,6 +167,7 @@ function App() {
 				date={parsedDate}
 				votes={commentData.votes}
 				message={commentData.message}
+				edited={commentData.edited}
 				openReplyModal={handleToggleReplyModal}
 				openDeleteCommentModal={handleOpenDeleteCommentModal}
 			>

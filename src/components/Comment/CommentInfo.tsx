@@ -6,6 +6,7 @@ import styles from "./CommentInfo.module.scss";
 interface Props {
 	user: UserData;
 	date: string;
+	edited: boolean;
 }
 function CommentInfo(props: Props) {
 	const store = useUserStore();
@@ -20,7 +21,10 @@ function CommentInfo(props: Props) {
 			>
 				{props.user.userName}
 			</p>
-			<p className={styles["date"]}>{props.date}</p>
+			<p className={styles["date"]}>
+				{props.date}
+				{props.edited && <span className="text-info"> (edited)</span>}
+			</p>
 		</div>
 	);
 }
