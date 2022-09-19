@@ -217,7 +217,7 @@ export async function getTopLevelComments() {
 		throw error;
 	}
 }
-async function getAllComments() {
+export async function getAllComments() {
 	try {
 		const snapshot = await getDocs(query(commentsCol, orderBy("date", "asc")));
 		const comments: CommentData[] = [];
@@ -283,6 +283,7 @@ export async function removeComment(id: string) {
 
 let unsub: Unsubscribe | null = null;
 let store: CommentsStore | null = null;
+const onFirebaseUpdate = new Event("onFirebaseUpdate");
 
 export function setCommentsStore(commentsDataStore: CommentsStore) {
 	store = commentsDataStore;
@@ -297,14 +298,13 @@ export function subscribeFirebase() {
 	unsub = onSnapshot(commentsCol, () => {
 		(async () => {
 			store!.setCommentsData(await getTopLevelComments());
+			window.dispatchEvent(onFirebaseUpdate);
 		})();
 	});
-	console.log("subscribed");
 }
 export function unsubscribeFirebase() {
 	if (unsub) {
 		unsub();
 		unsub = null;
-		console.log("unsubscribed");
 	} else throw Error("App wasn't subscribed!");
 }

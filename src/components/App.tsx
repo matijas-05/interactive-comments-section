@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import {
 	CommentData,
-	getComment,
+	getAllComments,
+	getTopLevelComments,
 	removeComment,
 	setCommentsStore,
 	signOut,
@@ -87,8 +88,8 @@ function App() {
 
 	// Comments
 	const commentsDataStore = useCommentsStore();
-	const [comments, setComments] = useState<JSX.Element[]>([]);
-	const [refreshComments, setRefreshComments] = useState(0);
+	const [topLevelComments, setTopLevelComments] = useState<CommentData[]>();
+	const [allComments, setAllComments] = useState<CommentData[]>();
 
 	useEffect(() => {
 		// Subscribe to db changes
@@ -98,23 +99,23 @@ function App() {
 	useEffect(() => {
 		// When comments data store changes, reload comments
 		(async () => {
-			handleCloseReplyModal();
-			if (commentsDataStore.commentsData) {
-				const commentsRendered = await Promise.all(
-					commentsDataStore.commentsData.map(async data => await renderComment(data))
-				);
-				setComments(commentsRendered);
-				setRefreshComments(new Date().getTime()); // comments don't properly refresh
-			}
+			setTopLevelComments(await getTopLevelComments());
+			setAllComments(await getAllComments());
+			handleCloseReplyModal(); // Required for proper comment refreshing
 		})();
 	}, [commentsDataStore.commentsData]);
 	useEffect(() => {
 		document
 			.querySelectorAll<HTMLElement>(".comments > div > div")
 			.forEach(el => (el.style.scrollMargin = `${document.querySelector("header")!.offsetHeight}px`));
-	}, [comments]);
+	}, [topLevelComments]);
 
-	async function renderComment(commentData: CommentData) {
+	function renderComment(commentData: CommentData, isReply: boolean) {
+		if (!topLevelComments) return null;
+
+		// Remove comments from list of top-level comments if they are replies
+		if (!isReply && !topLevelComments.some(topLevel => topLevel.id === commentData.id)) return null;
+
 		// Parse date
 		const minutes = Math.round((new Date().getTime() - commentData.date.toDate().getTime()) / 1000 / 60);
 		const hours = Math.round(minutes / 60);
@@ -141,18 +142,21 @@ function App() {
 		}
 
 		// Render replies
-		let replies: JSX.Element[] = [];
+		let replies: (JSX.Element | null)[] = [];
 		if (commentData.replies.length > 0) {
-			replies = await Promise.all(
-				commentData.replies.map(async reply => {
-					const data = await getComment(reply.id);
+			replies = commentData.replies.map(reply => {
+				const data = allComments?.find(comment => comment.id === reply.id);
 
-					if (!data) return <p className="error">Error loading replies!</p>;
+				if (!data)
+					return (
+						<p key={commentData.id!} className="error">
+							Error loading replies!
+						</p>
+					);
 
-					data.id = reply.id;
-					return renderComment(data);
-				})
-			);
+				data.id = reply.id;
+				return renderComment(data, true);
+			});
 		}
 
 		return (
@@ -183,8 +187,8 @@ function App() {
 				{/* Need to wrap in div because if 'refreshComments' key is in section tag,
 				because AddCommentModal disappears after submitting comment */}
 				{/* !!! DON'T REMOVE .comments CLASS. NEEDED FOR querySelector() */}
-				<div key={refreshComments} className="comments f-col g-1">
-					{comments}
+				<div className="comments f-col g-1">
+					{allComments?.map(data => renderComment(data, false)) ?? <p>Loading comments...</p>}
 				</div>
 
 				{/* Needed for AddCommentModal to be rendered after all comments */}

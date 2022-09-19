@@ -47,7 +47,6 @@ function ReplyModal(props: Props) {
 			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
 			subscribeFirebase();
 
-			props.onCancel();
 			setReplyContent("");
 		})();
 	}
