@@ -34,7 +34,7 @@ function CommentButtons(props: Props) {
 				<ButtonSecondary
 					className="text-purple"
 					iconClassName="fa-sm"
-					faIcon={faReply}
+					faIcon={faEdit}
 					onClick={props.toggleEditing}
 				>
 					Edit
@@ -42,7 +42,7 @@ function CommentButtons(props: Props) {
 				<ButtonSecondary
 					className="text-purple"
 					iconClassName="fa-sm"
-					faIcon={faEdit}
+					faIcon={faReply}
 					onClick={() => props.openReplyModal(props.repliesRef.current!, props.userName, props.commentID)}
 				>
 					Reply
