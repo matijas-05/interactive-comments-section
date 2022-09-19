@@ -54,7 +54,7 @@ function App() {
 	function handleToggleReplyModal(parentComment: HTMLDivElement, userName: string, parentCommentID: string) {
 		setReplyModalParentCommentID(parentCommentID);
 		setReplyModalParentUserName(userName);
-		setReplyModalParent(parentComment);
+		setReplyModalParent(!replyModalIsOpen ? parentComment : null);
 		setReplyModalIsOpen(!replyModalIsOpen);
 	}
 
