@@ -289,10 +289,6 @@ export function setCommentsStore(commentsDataStore: CommentsStore) {
 	store = commentsDataStore;
 }
 export function subscribeFirebase() {
-	// When using strict mode, react renders app twice, so useEffect() will subscribe twice
-	if (unsub) {
-		return;
-	}
 	if (!store) throw Error("Set comment store first with setCommentsStore()");
 
 	unsub = onSnapshot(commentsCol, () => {

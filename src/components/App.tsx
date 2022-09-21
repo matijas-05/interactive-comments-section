@@ -96,6 +96,11 @@ function App() {
 		// Subscribe to db changes
 		setCommentsStore(commentsDataStore);
 		subscribeFirebase();
+
+		// Unsubscribe when component unmounts
+		return () => {
+			unsubscribeFirebase();
+		};
 	}, []);
 	useEffect(() => {
 		// When comments data store changes, reload comments
