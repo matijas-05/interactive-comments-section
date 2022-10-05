@@ -1,14 +1,20 @@
 import { CSSProperties } from "react";
-import { DivProps } from "react-html-props";
 import styles from "./LoadingDots.module.scss";
 
-function LoadingDots(props: DivProps) {
-	return (
-		<div {...props} className={`${styles["loading-dots"]} ${props.className}`}>
+interface Props {
+	enabled: boolean;
+	disabledMessage: string;
+	padding?: string;
+}
+function LoadingDots(props: Props) {
+	return props.enabled ? (
+		<div style={{ padding: props.padding ?? "0.2625rem 0" }} className={`${styles["loading-dots"]}`}>
 			<div className={styles["dot"]} style={{ "--order": 1 } as CSSProperties}></div>
 			<div className={styles["dot"]} style={{ "--order": 2 } as CSSProperties}></div>
 			<div className={styles["dot"]} style={{ "--order": 3 } as CSSProperties}></div>
 		</div>
+	) : (
+		<span>{props.disabledMessage}</span>
 	);
 }
 

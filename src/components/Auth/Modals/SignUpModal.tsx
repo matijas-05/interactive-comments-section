@@ -57,6 +57,7 @@ function SignUpModal(props: Props) {
 			contentLabel="Sign up"
 			isOpen={props.isOpen}
 			shouldCloseOnEsc={false}
+			shouldCloseOnOverlayClick={!isSubmitting}
 			onRequestClose={() => props.onRequestClose()}
 		>
 			<h1>Sign up</h1>
@@ -173,8 +174,7 @@ function SignUpModal(props: Props) {
 					disabled={!isValid || isSubmitting || isSubmitSuccessful}
 					faIcon={isSubmitSuccessful ? faCheck : undefined}
 				>
-					<span style={{ display: isSubmitting ? "none" : "inherit" }}>Sign up</span>
-					<LoadingDots style={{ display: isSubmitting ? "inherit" : "none", padding: "0.2625rem 0" }} />
+					<LoadingDots enabled={isSubmitting} disabledMessage={"Sign up"} />
 				</ButtonPrimary>
 			</form>
 		</PopupModal>

@@ -32,13 +32,11 @@ function App() {
 	function handleCloseDeleteCommentModal() {
 		setDeleteCommentModalIsOpen(false);
 	}
-	function handleDeleteComment(commentID: string) {
-		(async () => {
-			unsubscribeFirebase();
-			await removeComment(commentID);
-			subscribeFirebase();
-			handleCloseDeleteCommentModal();
-		})();
+	async function handleDeleteComment(commentID: string) {
+		unsubscribeFirebase();
+		await removeComment(commentID);
+		subscribeFirebase();
+		handleCloseDeleteCommentModal();
 	}
 
 	// Reply to comment modal
@@ -215,21 +213,22 @@ function App() {
 				message="Are you sure you want to delete this comment? This will remove the comment and can't be undone."
 				noText="NO, CANCEL"
 				yesText="YES, DELETE"
-				onNoClicked={() => handleCloseDeleteCommentModal()}
+				usesPromise={true}
+				onNoClicked={handleCloseDeleteCommentModal}
 				onYesClicked={() => handleDeleteComment(commentToDelete)}
 				isOpen={deleteCommentModalIsOpen}
 			/>
 
 			{/* Auth related modals */}
-			<SignInModal isOpen={signInModalIsOpen} onRequestClose={() => handleToggleSignInModal()} />
-			<SignUpModal isOpen={signUpModalIsOpen} onRequestClose={() => handleToggleSignUpModal()} />
+			<SignInModal isOpen={signInModalIsOpen} onRequestClose={handleToggleSignInModal} />
+			<SignUpModal isOpen={signUpModalIsOpen} onRequestClose={handleToggleSignUpModal} />
 			<NoYesModal
 				header="Sign out"
 				message="Are you sure you want to sign out?"
 				noText="NO, CANCEL"
 				yesText="YES, SIGN OUT"
-				onNoClicked={() => handleToggleSignOutModal()}
-				onYesClicked={() => handleSignOut()}
+				onNoClicked={handleToggleSignOutModal}
+				onYesClicked={handleSignOut}
 				isOpen={signOutModalIsOpen}
 			/>
 		</>

@@ -56,6 +56,8 @@ function SignInModal(props: Props) {
 		<PopupModal
 			className={`SignInModal f-center f-col g-1 card`}
 			isOpen={props.isOpen}
+			shouldCloseOnEsc={!isSubmitting}
+			shouldCloseOnOverlayClick={!isSubmitting}
 			onRequestClose={props.onRequestClose}
 			contentLabel="Sign in"
 		>
@@ -108,8 +110,7 @@ function SignInModal(props: Props) {
 					disabled={!isValid || isSubmitting || isSubmitSuccessful}
 					faIcon={isSubmitSuccessful ? faCheck : undefined}
 				>
-					<span style={{ display: isSubmitting ? "none" : "inherit" }}>Sign in</span>
-					<LoadingDots style={{ display: isSubmitting ? "inherit" : "none", padding: "0.2625rem 0" }} />
+					<LoadingDots enabled={isSubmitting} disabledMessage={"Sign in"} />
 				</ButtonPrimary>
 			</form>
 		</PopupModal>
