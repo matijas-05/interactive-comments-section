@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import {
 	CommentData,
 	getAllComments,
-	getTopLevelComments,
 	removeComment,
 	setCommentsStore,
 	signOut,
@@ -87,7 +86,7 @@ function App() {
 
 	// Comments
 	const commentsDataStore = useCommentsStore();
-	const [topLevelComments, setTopLevelComments] = useState<CommentData[]>();
+	const topLevelComments = useRef<CommentData[]>();
 	const [allComments, setAllComments] = useState<CommentData[]>();
 
 	useEffect(() => {
@@ -103,7 +102,7 @@ function App() {
 	useEffect(() => {
 		// When comments data store changes, reload comments
 		(async () => {
-			setTopLevelComments(await getTopLevelComments());
+			topLevelComments.current = commentsDataStore.commentsData;
 			setAllComments(await getAllComments());
 		})();
 	}, [commentsDataStore.commentsData]);
@@ -114,10 +113,10 @@ function App() {
 	}, [topLevelComments]);
 
 	function renderComment(commentData: CommentData, isReply: boolean) {
-		if (!topLevelComments) return null;
+		if (!topLevelComments.current) return null;
 
 		// Remove comments from list of top-level comments if they are replies
-		if (!isReply && !topLevelComments.some(topLevel => topLevel.id === commentData.id)) return null;
+		if (!isReply && !topLevelComments.current.some(topLevel => topLevel.id === commentData.id)) return null;
 
 		// Parse date
 		const minutes = Math.round((new Date().getTime() - commentData.date.toDate().getTime()) / 1000 / 60);
@@ -188,8 +187,6 @@ function App() {
 			/>
 
 			<section className="f-center g-1 pad-1-2" style={{ display: "grid" }}>
-				{/* Need to wrap in div because if 'refreshComments' key is in section tag,
-				because AddCommentModal disappears after submitting comment */}
 				{/* !!! DON'T REMOVE .comments CLASS. NEEDED FOR querySelector() */}
 				<div className="comments f-col g-1">
 					{allComments?.map(data => renderComment(data, false)) ?? <p>Loading comments...</p>}
