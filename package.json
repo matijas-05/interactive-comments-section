@@ -7,7 +7,8 @@
 		"build": "tsc && vite build && du -d0 -h dist",
 		"preview": "vite preview",
 		"deploy": "push-dir --dir=dist --branch=gh-pages --cleanup && gh-pages -d dist",
-		"global": "npm i -g npm-check-updates git-open && ncu -g"
+		"global": "npm i -g npm-check-updates git-open && ncu -g",
+		"check": "tsc -p . --noEmit"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-svg-core": "^6.2.0",
