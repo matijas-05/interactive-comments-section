@@ -16,12 +16,10 @@ function AddCommentModal() {
 
 	const [commentContent, setCommentContent] = useState("");
 	function handleAddComment() {
-		(async () => {
-			await addComment(commentContent, Timestamp.fromDate(new Date()));
+		addComment(commentContent, Timestamp.fromDate(new Date()));
 
-			textAreaRef.current!.value = "";
-			setCommentContent("");
-		})();
+		textAreaRef.current!.value = "";
+		setCommentContent("");
 	}
 
 	if (!currentUser) return null;
