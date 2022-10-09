@@ -131,12 +131,14 @@ export async function signOut() {
 const db = getFirestore(app);
 export const commentsCol = collection(db, "comments");
 export type CommentData = {
-	id?: string; // When reading from firebase, id isn't automatically populated, we have to get it from document's id
+	/** When reading from firebase, id isn't automatically populated, we have to get it from document's id */
+	id?: string;
 	user: UserData;
 	message: string;
 	date: Timestamp;
 	edited: boolean;
-	votes: number;
+	upvotes: string[];
+	downvotes: string[];
 	replies: DocumentReference[];
 };
 
@@ -147,7 +149,8 @@ export async function addComment(message: string, date: Timestamp) {
 			message: message,
 			date: date,
 			edited: false,
-			votes: 0,
+			upvotes: [],
+			downvotes: [],
 			replies: []
 		} as CommentData);
 
@@ -195,7 +198,8 @@ export async function getTopLevelComments() {
 				message: data.message,
 				date: data.date,
 				edited: data.edited,
-				votes: data.votes,
+				upvotes: data.upvotes,
+				downvotes: data.downvotes,
 				replies: data.replies
 			});
 		});
@@ -230,7 +234,8 @@ export async function getAllComments() {
 				message: data.message,
 				date: data.date,
 				edited: data.edited,
-				votes: data.votes,
+				upvotes: data.upvotes,
+				downvotes: data.downvotes,
 				replies: data.replies
 			});
 		});
@@ -281,9 +286,71 @@ export async function removeComment(id: string) {
 	}
 }
 
+export async function upvoteComment(commentID: string, userID: string) {
+	try {
+		const commentRef = doc(commentsCol, commentID);
+		const existingData = await getComment(commentID);
+
+		// Remove upvote if user already upvoted
+		if (existingData.upvotes.includes(userID)) {
+			updateDoc(commentRef, {
+				...existingData,
+				upvotes: existingData.upvotes.filter(id => id !== userID)
+			} as CommentData);
+		} else {
+			updateDoc(commentRef, {
+				...existingData,
+				upvotes: [...existingData.upvotes, userID],
+				downvotes: existingData.downvotes.filter(id => id !== userID)
+			} as CommentData);
+		}
+	} catch (error) {
+		console.error("Error upvoting comment:");
+		throw error;
+	}
+}
+export async function downvoteComment(commentID: string, userID: string) {
+	try {
+		const commentRef = doc(commentsCol, commentID);
+		const existingData = await getComment(commentID);
+
+		// Remove downvote if user already downvoted
+		if (existingData.downvotes.includes(userID)) {
+			updateDoc(commentRef, {
+				...existingData,
+				downvotes: existingData.downvotes.filter(id => id !== userID)
+			} as CommentData);
+		} else {
+			updateDoc(commentRef, {
+				...existingData,
+				downvotes: [...existingData.downvotes, userID],
+				upvotes: existingData.upvotes.filter(id => id !== userID)
+			} as CommentData);
+		}
+	} catch (error) {
+		console.error("Error downvoting comment:");
+		throw error;
+	}
+}
+export async function removeVote(commentID: string, userID: string) {
+	try {
+		const existingData = await getComment(commentID);
+		const commentRef = doc(commentsCol, commentID);
+
+		updateDoc(commentRef, {
+			...existingData,
+			upvotes: existingData.upvotes.filter(id => id !== userID),
+			downvotes: existingData.downvotes.filter(id => id !== userID)
+		} as CommentData);
+	} catch (error) {
+		console.error("Error removing vote:");
+		throw error;
+	}
+}
+
+// Database refreshing
 let unsub: Unsubscribe | null = null;
 let store: CommentsStore | null = null;
-const onFirebaseUpdate = new Event("onFirebaseUpdate");
 
 export function setCommentsStore(commentsDataStore: CommentsStore) {
 	store = commentsDataStore;
@@ -294,7 +361,6 @@ export function subscribeFirebase() {
 	unsub = onSnapshot(commentsCol, () => {
 		(async () => {
 			store!.setCommentsData(await getTopLevelComments());
-			window.dispatchEvent(onFirebaseUpdate);
 		})();
 	});
 }

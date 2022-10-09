@@ -170,7 +170,7 @@ function App() {
 				id={commentData.id!}
 				user={commentData.user}
 				date={parsedDate}
-				votes={commentData.votes}
+				votes={commentData.upvotes.length - commentData.downvotes.length}
 				message={commentData.message}
 				edited={commentData.edited}
 				openReplyModal={handleToggleReplyModal}

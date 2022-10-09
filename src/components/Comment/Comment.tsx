@@ -1,5 +1,13 @@
 import React from "react";
-import { editComment, subscribeFirebase, unsubscribeFirebase, UserData } from "@/firebase";
+import {
+	downvoteComment,
+	editComment,
+	getCurrentUser,
+	subscribeFirebase,
+	unsubscribeFirebase,
+	upvoteComment,
+	UserData
+} from "@/firebase";
 import { Desktop, Mobile } from "@/components/General/MediaQueryComponents";
 import Votes from "./Votes";
 import CommentInfo from "./CommentInfo";
@@ -38,6 +46,8 @@ class Comment extends React.Component<Props, State> {
 		// Make 'this' keyword work in functions
 		this.toggleEditing = this.toggleEditing.bind(this);
 		this.handleEdit = this.handleEdit.bind(this);
+		this.handleUpvote = this.handleUpvote.bind(this);
+		this.handleDownvote = this.handleDownvote.bind(this);
 	}
 
 	private toggleEditing() {
@@ -50,6 +60,13 @@ class Comment extends React.Component<Props, State> {
 			subscribeFirebase();
 			this.toggleEditing();
 		})();
+	}
+
+	private handleUpvote() {
+		upvoteComment(this.props.id, getCurrentUser()!.uid);
+	}
+	private handleDownvote() {
+		downvoteComment(this.props.id, getCurrentUser()!.uid);
 	}
 
 	render() {
@@ -75,7 +92,11 @@ class Comment extends React.Component<Props, State> {
 						/>
 
 						<div className="left-right f-span-y g-1">
-							<Votes initialVotes={this.props.votes} />
+							<Votes
+								initialVotes={this.props.votes}
+								onUpvote={this.handleUpvote}
+								onDownvote={this.handleDownvote}
+							/>
 							<CommentButtons
 								userName={this.props.user.userName}
 								commentID={this.props.id}
@@ -92,7 +113,13 @@ class Comment extends React.Component<Props, State> {
 
 				<Desktop>
 					<div className="f-row g-1-25 card">
-						<Votes className="f-col" style={{ alignSelf: "flex-start" }} initialVotes={this.props.votes} />
+						<Votes
+							className="f-col"
+							style={{ alignSelf: "flex-start" }}
+							initialVotes={this.props.votes}
+							onUpvote={this.handleUpvote}
+							onDownvote={this.handleDownvote}
+						/>
 						<div className={"f-col g-1-25"} style={{ flexGrow: 1 }}>
 							<div className="f-row f-span-y left-right g-1">
 								<CommentInfo user={this.props.user} date={this.props.date} edited={this.props.edited} />
