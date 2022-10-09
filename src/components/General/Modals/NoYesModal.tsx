@@ -47,7 +47,7 @@ function NoYesModal(props: Props) {
 						}
 					}}
 				>
-					<LoadingDots enabled={promisePending} disabledMessage={"SIGN OUT"} />
+					<LoadingDots enabled={promisePending} disabledMessage={props.yesText} />
 				</ButtonPrimary>
 			</div>
 		</PopupModal>
