@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	CommentData,
 	getAllComments,
@@ -24,10 +24,11 @@ function App() {
 
 	// Delete comment modal
 	const [deleteCommentModalIsOpen, setDeleteCommentModalIsOpen] = useState(false);
-	const [commentToDelete, setCommentToDelete] = useState("");
+	const commentToDelete = useRef("");
+
 	function handleOpenDeleteCommentModal(commentID: string) {
 		setDeleteCommentModalIsOpen(true);
-		setCommentToDelete(commentID);
+		commentToDelete.current = commentID;
 	}
 	function handleCloseDeleteCommentModal() {
 		setDeleteCommentModalIsOpen(false);
@@ -41,18 +42,19 @@ function App() {
 
 	// Reply to comment modal
 	const [replyModalIsOpen, setReplyModalIsOpen] = useState(false);
-	const [replyModalParent, setReplyModalParent] = useState<HTMLDivElement | null>();
-	const [replyModalParentUserName, setReplyModalParentUserName] = useState("");
-	const [replyModalParentCommentID, setReplyModalParentCommentID] = useState("");
+	const replyModalParent = useRef<HTMLDivElement | null>(null);
+	const replyModalParentUserName = useRef("");
+	const replyModalParentCommentID = useRef("");
 
 	function handleCloseReplyModal() {
 		setReplyModalIsOpen(false);
-		setReplyModalParent(null);
+		// setReplyModalParent(null);
+		replyModalParent.current = null;
 	}
 	function handleToggleReplyModal(parentComment: HTMLDivElement, userName: string, parentCommentID: string) {
-		setReplyModalParentCommentID(parentCommentID);
-		setReplyModalParentUserName(userName);
-		setReplyModalParent(!replyModalIsOpen ? parentComment : null);
+		replyModalParentCommentID.current = parentCommentID;
+		replyModalParentUserName.current = userName;
+		replyModalParent.current = !replyModalIsOpen ? parentComment : null;
 		setReplyModalIsOpen(!replyModalIsOpen);
 	}
 
@@ -204,9 +206,9 @@ function App() {
 			<ReplyModal
 				isOpen={replyModalIsOpen}
 				onCancel={handleCloseReplyModal}
-				parent={replyModalParent ?? document.getElementById("root")!}
-				userName={replyModalParentUserName}
-				parentCommentID={replyModalParentCommentID}
+				parent={replyModalParent.current ?? document.getElementById("root")!}
+				userName={replyModalParentUserName.current}
+				parentCommentID={replyModalParentCommentID.current}
 			/>
 			<NoYesModal
 				header="Delete comment"
@@ -215,7 +217,7 @@ function App() {
 				yesText="YES, DELETE"
 				usesPromise={true}
 				onNoClicked={handleCloseDeleteCommentModal}
-				onYesClicked={() => handleDeleteComment(commentToDelete)}
+				onYesClicked={() => handleDeleteComment(commentToDelete.current)}
 				isOpen={deleteCommentModalIsOpen}
 			/>
 
