@@ -29,6 +29,7 @@ function ButtonSecondary(props: Props) {
 			{...rest}
 			className={`f-center ${styles["btn-secondary"]} ${!props.noHoverEffect && "hover-opacity"}
 			${props.className}`}
+			aria-label={typeof props.children === "string" ? props.children : props.alt}
 		>
 			{props.iconSrc && (
 				<img

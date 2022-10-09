@@ -21,5 +21,20 @@ export default defineConfig({
 		alias: {
 			"@": fileURLToPath(new URL("src/", import.meta.url))
 		}
+	},
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					firebase: ["firebase/app", "firebase/auth", "firebase/storage"],
+					firestore: ["firebase/firestore"],
+					fortawesome: [
+						"@fortawesome/fontawesome-svg-core",
+						"@fortawesome/free-solid-svg-icons",
+						"@fortawesome/react-fontawesome"
+					]
+				}
+			}
+		}
 	}
 });
