@@ -332,21 +332,6 @@ export async function downvoteComment(commentID: string, userID: string) {
 		throw error;
 	}
 }
-export async function removeVote(commentID: string, userID: string) {
-	try {
-		const existingData = await getComment(commentID);
-		const commentRef = doc(commentsCol, commentID);
-
-		updateDoc(commentRef, {
-			...existingData,
-			upvotes: existingData.upvotes.filter(id => id !== userID),
-			downvotes: existingData.downvotes.filter(id => id !== userID)
-		} as CommentData);
-	} catch (error) {
-		console.error("Error removing vote:");
-		throw error;
-	}
-}
 
 // Database refreshing
 let unsub: Unsubscribe | null = null;
