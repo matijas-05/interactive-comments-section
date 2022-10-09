@@ -2,8 +2,7 @@ import { useRef, useState } from "react";
 import ReactModal from "react-modal";
 import { Timestamp } from "firebase/firestore";
 import TextareaAutosize from "react-textarea-autosize";
-import { addComment } from "@/firebase";
-import { useUserStore } from "@/store";
+import { addComment, getCurrentUser } from "@/firebase";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ProfilePicture from "@/components/General/ProfilePicture";
 
@@ -12,7 +11,7 @@ ReactModal.defaultStyles.overlay = {};
 ReactModal.defaultStyles.content = {};
 
 function AddCommentModal() {
-	const userStore = useUserStore();
+	const currentUser = getCurrentUser();
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
 	const [commentContent, setCommentContent] = useState("");
@@ -25,7 +24,7 @@ function AddCommentModal() {
 		})();
 	}
 
-	if (!userStore.currentUser) return null;
+	if (!currentUser) return null;
 
 	return (
 		<ReactModal
@@ -44,7 +43,7 @@ function AddCommentModal() {
 					placeholder="Add a comment..."
 				/>
 				<div className="left-right">
-					<ProfilePicture src={userStore.currentUser.profilePictureDownloadURL} />
+					<ProfilePicture src={currentUser.profilePictureDownloadURL} />
 					<ButtonPrimary
 						className="bg-purple pad-1-2"
 						disabled={commentContent === ""}

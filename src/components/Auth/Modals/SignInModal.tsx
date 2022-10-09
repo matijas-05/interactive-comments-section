@@ -3,8 +3,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import sleep from "sleep-promise";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 
-import { getCurrentUser, signInUser } from "@/firebase";
-import { useUserStore } from "@/store";
+import { signInUser } from "@/firebase";
 import PopupModal from "@/components/General/Modals/PopupModal";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import LoadingDots from "@/components/General/LoadingDots";
@@ -28,7 +27,6 @@ function SignInModal(props: Props) {
 		setError,
 		reset
 	} = useForm<Inputs>({ mode: "onChange" });
-	const store = useUserStore();
 
 	async function signIn(data: Inputs) {
 		await signInUser(
@@ -49,7 +47,6 @@ function SignInModal(props: Props) {
 				}
 			}
 		);
-		store.setCurrentUser(getCurrentUser());
 	}
 
 	return (

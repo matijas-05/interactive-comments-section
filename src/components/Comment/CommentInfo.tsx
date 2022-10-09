@@ -1,5 +1,4 @@
-import { UserData } from "@/firebase";
-import { useUserStore } from "@/store";
+import { getCurrentUser, UserData } from "@/firebase";
 import ProfilePicture from "@/components/General/ProfilePicture";
 import styles from "./CommentInfo.module.scss";
 
@@ -9,14 +8,12 @@ interface Props {
 	edited: boolean;
 }
 function CommentInfo(props: Props) {
-	const store = useUserStore();
-
 	return (
 		<div className={`${styles["comment-info"]} f-ai-c g-1`}>
 			<ProfilePicture src={props.user.profilePictureDownloadURL} />
 			<p
 				className={`${styles["user-name"]} ${
-					props.user.uid === store.currentUser?.uid && styles["current-user"]
+					props.user.uid === getCurrentUser()?.uid && styles["current-user"]
 				} f-ai-c`}
 			>
 				{props.user.userName}

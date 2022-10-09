@@ -9,7 +9,7 @@ import {
 	subscribeFirebase,
 	unsubscribeFirebase
 } from "@/firebase";
-import { useCommentsStore, useUserStore } from "@/store";
+import { useCommentsStore } from "@/store";
 
 import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
@@ -74,14 +74,12 @@ function App() {
 
 	// Sign out modal
 	const [signOutModalIsOpen, setSignOutModalIsOpen] = useState(false);
-	const userStore = useUserStore();
 
 	function handleToggleSignOutModal() {
 		setSignOutModalIsOpen(!signOutModalIsOpen);
 	}
 	async function handleSignOut() {
 		await signOut();
-		userStore.setCurrentUser(null);
 		handleToggleSignOutModal();
 	}
 

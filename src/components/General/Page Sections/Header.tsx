@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import MediaQuery from "react-responsive";
 import { faArrowRightToBracket, faArrowRightFromBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
-import { useUserStore } from "@/store";
+import { getCurrentUser } from "@/firebase";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import styles from "./Header.module.scss";
 
@@ -14,7 +14,7 @@ function Header(props: Props) {
 	const btnTextBreakpoint = 650;
 	const headerRef = useRef<HTMLDivElement>(null);
 
-	const store = useUserStore();
+	const currentUser = getCurrentUser();
 
 	return (
 		<header ref={headerRef} className={`${styles["header"]} left-right g-1`}>
@@ -24,7 +24,7 @@ function Header(props: Props) {
 					<hr className="vertical-separator" />
 				</MediaQuery>
 
-				{store.currentUser ? (
+				{currentUser ? (
 					<ButtonSecondary
 						className="text-purple"
 						iconClassName={`${styles["icon"]} fa-lg`}
@@ -46,7 +46,7 @@ function Header(props: Props) {
 					</ButtonSecondary>
 				)}
 
-				{!store.currentUser && (
+				{!currentUser && (
 					<>
 						<MediaQuery minWidth={btnTextBreakpoint}>
 							<hr className="vertical-separator" />

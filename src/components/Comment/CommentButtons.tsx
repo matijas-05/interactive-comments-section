@@ -1,7 +1,7 @@
-import { useUserStore } from "@/store";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import { Desktop } from "@/components/General/MediaQueryComponents";
+import { getCurrentUser } from "@/firebase";
 import { faReply, faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 interface Props {
@@ -15,11 +15,11 @@ interface Props {
 	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void;
 }
 function CommentButtons(props: Props) {
-	const store = useUserStore();
+	const currentUser = getCurrentUser();
 
-	if (!store.currentUser) return null;
+	if (!currentUser) return null;
 
-	return props.userName === store.currentUser?.userName ? (
+	return props.userName === currentUser.userName ? (
 		!props.isEditing ? (
 			<div className="f-jc-fe f-ai-c f-wrap-rev g-1">
 				<ButtonSecondary

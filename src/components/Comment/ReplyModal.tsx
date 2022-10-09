@@ -2,8 +2,7 @@ import { useRef, useState } from "react";
 import ReactModal from "react-modal";
 import TextareaAutosize from "react-textarea-autosize";
 import { Timestamp } from "firebase/firestore";
-import { addReply, subscribeFirebase, unsubscribeFirebase } from "@/firebase";
-import { useUserStore } from "@/store";
+import { addReply, getCurrentUser, subscribeFirebase, unsubscribeFirebase } from "@/firebase";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import ProfilePicture from "@/components/General/ProfilePicture";
@@ -20,7 +19,7 @@ interface Props {
 	userName: string;
 }
 function ReplyModal(props: Props) {
-	const userStore = useUserStore();
+	const currentUser = getCurrentUser();
 
 	const inputRef = useRef<HTMLTextAreaElement>(null);
 	const [replyContent, setReplyContent] = useState("");
@@ -36,7 +35,7 @@ function ReplyModal(props: Props) {
 		})();
 	}
 
-	if (!userStore.currentUser) return null;
+	if (!currentUser) return null;
 
 	return (
 		<ReactModal
@@ -65,7 +64,7 @@ function ReplyModal(props: Props) {
 					autoFocus
 				/>
 				<div className="left-right">
-					<ProfilePicture src={userStore.currentUser?.profilePictureDownloadURL ?? ""} />
+					<ProfilePicture src={currentUser?.profilePictureDownloadURL ?? ""} />
 					<div className="f-center g-1-5">
 						<ButtonSecondary onClick={props.onCancel} noHoverEffect={true}>
 							<p className="hover-underline">Cancel</p>
