@@ -25,7 +25,7 @@ function CommentMessage(props: Props) {
 	}, [props.isEditing]);
 
 	return (
-		<p style={{ whiteSpace: "pre-wrap" }}>
+		<p style={{ wordBreak: "break-all", whiteSpace: "normal" }}>
 			{!props.isEditing && props.mention && (
 				<span
 					className="text-purple hover-opacity"
