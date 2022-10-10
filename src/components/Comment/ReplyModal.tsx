@@ -30,8 +30,12 @@ function ReplyModal(props: Props) {
 			await addReply(props.parentCommentID, replyContent, Timestamp.fromDate(new Date()));
 			subscribeFirebase();
 
-			props.onCancel();
-			setReplyContent("");
+			const listener = () => {
+				props.onCancel();
+				setReplyContent("");
+				window.removeEventListener("onFirebaseUpdate", listener);
+			};
+			window.addEventListener("onFirebaseUpdate", listener);
 		})();
 	}
 

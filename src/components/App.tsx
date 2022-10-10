@@ -84,7 +84,7 @@ function App() {
 
 	//#endregion
 
-	// Comments
+	// #region COMMENTS
 	const commentsDataStore = useCommentsStore();
 	const topLevelComments = useRef<CommentData[]>();
 	const [allComments, setAllComments] = useState<CommentData[]>();
@@ -177,6 +177,8 @@ function App() {
 			</Comment>
 		);
 	}
+
+	//#endregion
 
 	return (
 		<>

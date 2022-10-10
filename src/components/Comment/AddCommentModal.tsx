@@ -13,13 +13,17 @@ ReactModal.defaultStyles.content = {};
 function AddCommentModal() {
 	const currentUser = getCurrentUser();
 	const textAreaRef = useRef<HTMLTextAreaElement>(null);
-
 	const [commentContent, setCommentContent] = useState("");
+
 	function handleAddComment() {
 		addComment(commentContent, Timestamp.fromDate(new Date()));
 
-		textAreaRef.current!.value = "";
-		setCommentContent("");
+		const listener = () => {
+			textAreaRef.current!.value = "";
+			setCommentContent("");
+			window.removeEventListener("onFirebaseUpdate", listener);
+		};
+		window.addEventListener("onFirebaseUpdate", listener);
 	}
 
 	if (!currentUser) return null;

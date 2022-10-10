@@ -24,6 +24,7 @@ import {
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { CommentsStore } from "@/store";
+import sleep from "sleep-promise";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -168,7 +169,7 @@ export async function addReply(parentCommentID: string, message: string, date: T
 		const existingData = await getComment(parentCommentID);
 		existingData.replies.push(replyRef);
 
-		await updateDoc(parentCommentRef, existingData);
+		updateDoc(parentCommentRef, existingData);
 	} catch (error) {
 		console.error("Error adding reply:");
 		throw error;
@@ -336,6 +337,7 @@ export async function downvoteComment(commentID: string, userID: string) {
 // Database refreshing
 let unsub: Unsubscribe | null = null;
 let store: CommentsStore | null = null;
+const onFirebaseUpdate = new Event("onFirebaseUpdate");
 
 export function setCommentsStore(commentsDataStore: CommentsStore) {
 	store = commentsDataStore;
@@ -343,10 +345,11 @@ export function setCommentsStore(commentsDataStore: CommentsStore) {
 export function subscribeFirebase() {
 	if (!store) throw Error("Set comment store first with setCommentsStore()");
 
-	unsub = onSnapshot(commentsCol, () => {
-		(async () => {
-			store!.setCommentsData(await getTopLevelComments());
-		})();
+	unsub = onSnapshot(commentsCol, async () => {
+		store!.setCommentsData(await getTopLevelComments());
+		await sleep(125);
+		window.dispatchEvent(onFirebaseUpdate);
+		console.log("Firebase updated");
 	});
 }
 export function unsubscribeFirebase() {
