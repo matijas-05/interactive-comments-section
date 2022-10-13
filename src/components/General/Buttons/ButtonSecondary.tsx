@@ -1,7 +1,7 @@
+import React, { useState } from "react";
+import { ButtonProps } from "react-html-props";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { useState } from "react";
-import { ButtonProps } from "react-html-props";
 import styles from "./ButtonSecondary.module.scss";
 
 interface Props extends ButtonProps {

@@ -84,7 +84,7 @@ function App() {
 
 	//#endregion
 
-	// #region COMMENTS
+	//#region COMMENTS
 	const commentsDataStore = useCommentsStore();
 	const topLevelComments = useRef<CommentData[]>();
 	const [allComments, setAllComments] = useState<CommentData[]>();
@@ -126,7 +126,7 @@ function App() {
 		const months = Math.round(weeks / 4);
 		const years = Math.round(months / 12);
 
-		let parsedDate = "";
+		let parsedDate: string;
 		if (years > 0) {
 			parsedDate = `${years} year${years > 1 ? "s" : ""} ago`;
 		} else if (months > 0) {

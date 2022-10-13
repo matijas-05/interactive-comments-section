@@ -21,6 +21,7 @@ interface Props {
 	isOpen: boolean;
 	onRequestClose: () => void;
 }
+
 function SignUpModal(props: Props) {
 	const {
 		register,
@@ -53,7 +54,7 @@ function SignUpModal(props: Props) {
 
 	return (
 		<PopupModal
-			className={`SignUpModal f-center f-col g-1 card`}
+			className="SignUpModal f-center f-col g-1 card"
 			contentLabel="Sign up"
 			isOpen={props.isOpen}
 			shouldCloseOnEsc={false}

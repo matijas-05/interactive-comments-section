@@ -1,5 +1,6 @@
-import styles from "./Votes.module.scss";
+import React from "react";
 
+import styles from "./Votes.module.scss";
 import iconPlus from "@/assets/images/icon-plus.svg";
 import iconMinus from "@/assets/images/icon-minus.svg";
 

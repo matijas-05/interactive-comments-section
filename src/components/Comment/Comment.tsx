@@ -33,8 +33,8 @@ interface State {
 	editMessage: string;
 }
 class Comment extends React.Component<Props, State> {
-	private thisRef = React.createRef<HTMLDivElement>();
-	private repliesRef = React.createRef<HTMLDivElement>();
+	private readonly thisRef = React.createRef<HTMLDivElement>();
+	private readonly repliesRef = React.createRef<HTMLDivElement>();
 
 	constructor(props: Props) {
 		super(props);
@@ -75,12 +75,13 @@ class Comment extends React.Component<Props, State> {
 	}
 
 	render() {
-		const childrenWithProps = React.Children.map(this.props.children, child => {
-			if (React.isValidElement(child)) {
-				return React.cloneElement(child, { parent: this, parentRef: this.thisRef } as unknown as Props);
-			}
-			return child;
-		});
+		const childrenWithProps = React.Children.map(this.props.children,
+			child => {
+				if (React.isValidElement(child)) {
+					return React.cloneElement(child, { parent: this, parentRef: this.thisRef } as unknown as Props);
+				}
+				return child;
+			});
 
 		return (
 			<div ref={this.thisRef} className="f-col g-1 hide-empty">

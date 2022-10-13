@@ -1,3 +1,4 @@
+import React from "react";
 import ButtonPrimary from "@/components/General/Buttons/ButtonPrimary";
 import ButtonSecondary from "@/components/General/Buttons/ButtonSecondary";
 import { Desktop } from "@/components/General/MediaQueryComponents";

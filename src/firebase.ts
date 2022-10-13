@@ -145,7 +145,7 @@ export type CommentData = {
 
 export async function addComment(message: string, date: Timestamp) {
 	try {
-		const docRef = await addDoc(commentsCol, {
+		return await addDoc(commentsCol, {
 			user: getCurrentUser()!,
 			message: message,
 			date: date,
@@ -154,8 +154,6 @@ export async function addComment(message: string, date: Timestamp) {
 			downvotes: [],
 			replies: []
 		} as CommentData);
-
-		return docRef;
 	} catch (error) {
 		console.error("Error adding comment:");
 		throw error;
@@ -179,8 +177,7 @@ export async function addReply(parentCommentID: string, message: string, date: T
 export async function getComment(id: string) {
 	try {
 		const commentRef = doc(commentsCol, id);
-		const commentData = (await getDoc(commentRef)).data() as CommentData;
-		return commentData;
+		return (await getDoc(commentRef)).data() as CommentData;
 	} catch (error) {
 		console.error("Error getting comment:");
 		throw error;
@@ -349,7 +346,6 @@ export function subscribeFirebase() {
 		store!.setCommentsData(await getTopLevelComments());
 		await sleep(125);
 		window.dispatchEvent(onFirebaseUpdate);
-		console.log("Firebase updated");
 	});
 }
 export function unsubscribeFirebase() {
