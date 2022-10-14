@@ -21,7 +21,8 @@ interface Props {
 	date: string;
 	edited: boolean;
 	message: string;
-	votes: number;
+	upvotes: string[];
+	downvotes: string[];
 	openReplyModal: (ref: HTMLDivElement, userName: string, parentCommentID: string) => void;
 	openDeleteCommentModal: (commentID: string) => void;
 	children?: React.ReactNode;
@@ -32,6 +33,7 @@ interface State {
 	isEditing: boolean;
 	editMessage: string;
 }
+
 class Comment extends React.Component<Props, State> {
 	private readonly thisRef = React.createRef<HTMLDivElement>();
 	private readonly repliesRef = React.createRef<HTMLDivElement>();
@@ -75,13 +77,12 @@ class Comment extends React.Component<Props, State> {
 	}
 
 	render() {
-		const childrenWithProps = React.Children.map(this.props.children,
-			child => {
-				if (React.isValidElement(child)) {
-					return React.cloneElement(child, { parent: this, parentRef: this.thisRef } as unknown as Props);
-				}
-				return child;
-			});
+		const childrenWithProps = React.Children.map(this.props.children, child => {
+			if (React.isValidElement(child)) {
+				return React.cloneElement(child, { parent: this, parentRef: this.thisRef } as unknown as Props);
+			}
+			return child;
+		});
 
 		return (
 			<div ref={this.thisRef} className="f-col g-1 hide-empty">
@@ -99,7 +100,8 @@ class Comment extends React.Component<Props, State> {
 
 						<div className="left-right f-span-y g-1">
 							<Votes
-								initialVotes={this.props.votes}
+								upvotes={this.props.upvotes}
+								downvotes={this.props.downvotes}
 								onUpvote={this.handleUpvote}
 								onDownvote={this.handleDownvote}
 							/>
@@ -122,7 +124,8 @@ class Comment extends React.Component<Props, State> {
 						<Votes
 							className="f-col"
 							style={{ alignSelf: "flex-start" }}
-							initialVotes={this.props.votes}
+							upvotes={this.props.upvotes}
+							downvotes={this.props.downvotes}
 							onUpvote={this.handleUpvote}
 							onDownvote={this.handleDownvote}
 						/>

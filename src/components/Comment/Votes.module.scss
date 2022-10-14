@@ -19,4 +19,17 @@
 			filter: saturate(2000%) brightness(0.7);
 		}
 	}
+
+	.selected {
+		@extend img, :hover;
+	}
 }
+// .disabled {
+// 	> img {
+// 		cursor: default;
+
+// 		&:hover {
+// 			filter: none;
+// 		}
+// 	}
+// }

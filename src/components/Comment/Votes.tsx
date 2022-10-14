@@ -1,24 +1,50 @@
 import React from "react";
+import { getCurrentUser } from "@/firebase";
+import { useSignInModalStore } from "@/store";
 
-import styles from "./Votes.module.scss";
 import iconPlus from "@/assets/images/icon-plus.svg";
 import iconMinus from "@/assets/images/icon-minus.svg";
+import styles from "./Votes.module.scss";
 
 interface Props {
 	className?: string;
-	initialVotes: number;
 	style?: React.CSSProperties;
+	upvotes: string[];
+	downvotes: string[];
 	onUpvote: () => void;
 	onDownvote: () => void;
 }
 function Votes(props: Props) {
+	const votesCount = props.upvotes.length - props.downvotes.length;
+	const currentUser = getCurrentUser();
+	const signInModalStore = useSignInModalStore();
+
 	return (
-		<div className={`${styles["votes"]} ${props.className} f-center`} style={props.style}>
-			<img src={iconPlus} alt="+" onClick={props.onUpvote} width="11" height="11" />
-			<p className="text-purple" style={{ width: `${props.initialVotes.toString().length}ch` }}>
-				{props.initialVotes}
+		<div
+			className={`${styles["votes"]} ${!currentUser && styles["disabled"]} ${props.className} f-center`}
+			style={props.style}
+		>
+			<img
+				className={props.upvotes.includes(currentUser?.uid ?? "") ? styles["selected"] : undefined}
+				src={iconPlus}
+				alt="+"
+				onClick={currentUser ? props.onUpvote : () => signInModalStore.setIsOpen(true)}
+				width="11"
+				height="11"
+			/>
+
+			<p className="text-purple" style={{ width: `${votesCount.toString().length}ch` }}>
+				{votesCount}
 			</p>
-			<img src={iconMinus} alt="-" onClick={props.onDownvote} width="11" height="3" />
+
+			<img
+				className={props.downvotes.includes(currentUser?.uid ?? "") ? styles["selected"] : undefined}
+				src={iconMinus}
+				alt="-"
+				onClick={currentUser ? props.onDownvote : () => signInModalStore.setIsOpen(true)}
+				width="11"
+				height="3"
+			/>
 		</div>
 	);
 }

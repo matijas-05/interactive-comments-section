@@ -8,7 +8,7 @@ import {
 	subscribeFirebase,
 	unsubscribeFirebase
 } from "@/firebase";
-import { useCommentsStore } from "@/store";
+import { useCommentsStore, useSignInModalStore } from "@/store";
 
 import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
@@ -58,10 +58,10 @@ function App() {
 	}
 
 	// Sign in modal
-	const [signInModalIsOpen, setSignInModalIsOpen] = useState(false);
+	const signInModalStore = useSignInModalStore();
 
 	function handleToggleSignInModal() {
-		setSignInModalIsOpen(!signInModalIsOpen);
+		signInModalStore.setIsOpen(!signInModalStore.isOpen);
 	}
 
 	// Sign up modal
@@ -167,7 +167,8 @@ function App() {
 				id={commentData.id!}
 				user={commentData.user}
 				date={parsedDate}
-				votes={commentData.upvotes.length - commentData.downvotes.length}
+				upvotes={commentData.upvotes}
+				downvotes={commentData.downvotes}
 				message={commentData.message}
 				edited={commentData.edited}
 				openReplyModal={handleToggleReplyModal}
@@ -219,7 +220,7 @@ function App() {
 			/>
 
 			{/* Auth related modals */}
-			<SignInModal isOpen={signInModalIsOpen} onRequestClose={handleToggleSignInModal} />
+			<SignInModal isOpen={signInModalStore.isOpen} onRequestClose={handleToggleSignInModal} />
 			<SignUpModal isOpen={signUpModalIsOpen} onRequestClose={handleToggleSignUpModal} />
 			<NoYesModal
 				header="Sign out"
