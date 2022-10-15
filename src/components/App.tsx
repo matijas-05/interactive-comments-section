@@ -195,7 +195,11 @@ function App() {
 				{/* !!! DON'T REMOVE .comments CLASS. NEEDED FOR querySelector() */}
 				<div className="comments f-col g-1">
 					{allComments?.map(data => renderComment(data, false)) ?? (
-						<CommentSkeleton isLoggedIn={getCurrentUser() !== null} />
+						<>
+							<CommentSkeleton isLoggedIn={getCurrentUser() !== null} />
+							<CommentSkeleton isLoggedIn={getCurrentUser() !== null} />
+							<CommentSkeleton isLoggedIn={getCurrentUser() !== null} />
+						</>
 					)}
 				</div>
 
