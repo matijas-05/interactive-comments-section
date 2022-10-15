@@ -129,8 +129,8 @@ class Comment extends React.Component<Props, State> {
 							onUpvote={this.handleUpvote}
 							onDownvote={this.handleDownvote}
 						/>
-						<div className={"f-col g-1-25"} style={{ flexGrow: 1 }}>
-							<div className="f-row f-span-y left-right g-1">
+						<div className="f-col g-1-25" style={{ flexGrow: 1 }}>
+							<div className="f-span-y left-right g-1">
 								<CommentInfo user={this.props.user} date={this.props.date} edited={this.props.edited} />
 								<CommentButtons
 									userName={this.props.user.userName}

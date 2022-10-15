@@ -70,7 +70,20 @@ input:not([type="checkbox"]):not([type="radio"]):focus {
 	outline: 2px solid v.$clr-text-primary-500;
 }
 
+// Fix react-loading-skeleton <br> tags on webkit browsers
+.skeleton {
+	span[aria-live="polite"] {
+		br {
+			content: "";
+		}
+	}
+}
+
 #root {
 	// Required for navbar <hr> to have height (for some reason)
 	display: grid;
+}
+
+vite-error-overlay {
+	z-index: 999;
 }

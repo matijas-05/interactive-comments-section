@@ -10,7 +10,6 @@ import {
 	unsubscribeFirebase
 } from "@/firebase";
 import { useCommentsStore, useSignInModalStore } from "@/store";
-import ContentLoader from "react-content-loader";
 
 import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
@@ -19,6 +18,7 @@ import Comment from "./Comment/Comment";
 import ReplyModal from "./Comment/ReplyModal";
 import NoYesModal from "./General/Modals/NoYesModal";
 import Header from "./General/Page Sections/Header";
+import CommentSkeleton from "@/components/Comment/CommentSkeleton";
 
 function App() {
 	//#region MODALS
@@ -183,52 +183,6 @@ function App() {
 
 	//#endregion
 
-	const currentUser = getCurrentUser();
-	const skeletonElement = (
-		<ContentLoader
-			speed={1}
-			width={730}
-			height={137}
-			backgroundColor="#fff"
-			foregroundColor="#ababab"
-			preserveAspectRatio="xMidYMin"
-			viewBox={currentUser ? "-10 -22 730 137" : "-125 -22 730 137"}
-		>
-			{/* Votes */}
-			<rect x="0" y="0" rx="8" ry="8" width="36.6" height="90" />
-
-			{/* Profile picture */}
-			<circle cx="65" cy="16" r="16" />
-
-			{/* Username */}
-			<rect x="90" y="8" rx="2" ry="2" width="130" height="6" />
-			<rect x="90" y="18" rx="2" ry="2" width="130" height="6" />
-
-			{/* Draw buttons when logged in */}
-			{currentUser ? (
-				<>
-					{/* Message */}
-					<rect x="50" y="50" rx="2" ry="2" width="660" height="6" />
-					<rect x="50" y="64" rx="2" ry="2" width="660" height="6" />
-					<rect x="50" y="78" rx="2" ry="2" width="660" height="6" />
-
-					{/* Buttons */}
-					<rect x="480" y="8" rx="2" ry="2" width="70" height="20" />
-					<rect x="560" y="8" rx="2" ry="2" width="70" height="20" />
-					<rect x="640" y="8" rx="2" ry="2" width="70" height="20" />
-				</>
-			) : (
-				<>
-					{/* Message */}
-					<rect x="50" y="50" rx="2" ry="2" width="380" height="6" />
-					<rect x="50" y="64" rx="2" ry="2" width="380" height="6" />
-					<rect x="50" y="78" rx="2" ry="2" width="380" height="6" />
-				</>
-			)}
-		</ContentLoader>
-	);
-	const skeleton = Array.from(Array(3).keys()).map((_, i) => <div key={i}>{skeletonElement}</div>);
-
 	return (
 		<>
 			<Header
@@ -240,7 +194,9 @@ function App() {
 			<section className="f-center g-1 pad-1-2" style={{ display: "grid" }}>
 				{/* !!! DON'T REMOVE .comments CLASS. NEEDED FOR querySelector() */}
 				<div className="comments f-col g-1">
-					{allComments?.map(data => renderComment(data, false)) ?? skeleton}
+					{allComments?.map(data => renderComment(data, false)) ?? (
+						<CommentSkeleton isLoggedIn={getCurrentUser() !== null} />
+					)}
 				</div>
 
 				{/* Needed for AddCommentModal to be rendered after all comments */}
