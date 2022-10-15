@@ -74,3 +74,8 @@ input:not([type="checkbox"]):not([type="radio"]):focus {
 	// Required for navbar <hr> to have height (for some reason)
 	display: grid;
 }
+
+.skeleton {
+	padding-top: 1em;
+	padding-left: 0.5em;
+}
