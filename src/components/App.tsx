@@ -184,22 +184,15 @@ function App() {
 	//#endregion
 
 	const currentUser = getCurrentUser();
-	const screenWidth = window.innerWidth;
-	const screenHeight = window.innerHeight;
-
 	const skeletonElement = (
 		<ContentLoader
 			speed={1}
-			width={700}
-			height={130}
+			width={730}
+			height={137}
 			backgroundColor="#fff"
 			foregroundColor="#ababab"
 			preserveAspectRatio="xMidYMin"
-			viewBox={
-				currentUser
-					? `${screenWidth / -100} ${screenHeight / -37.5} 700 130`
-					: `${screenWidth / -10.75} ${screenHeight / -37.5} 700 130`
-			}
+			viewBox={currentUser ? "-10 -22 730 137" : "-125 -22 730 137"}
 		>
 			{/* Votes */}
 			<rect x="0" y="0" rx="8" ry="8" width="36.6" height="90" />
@@ -215,21 +208,21 @@ function App() {
 			{currentUser ? (
 				<>
 					{/* Message */}
-					<rect x="50" y="50" rx="2" ry="2" width="630" height="6" />
-					<rect x="50" y="64" rx="2" ry="2" width="630" height="6" />
-					<rect x="50" y="78" rx="2" ry="2" width="630" height="6" />
+					<rect x="50" y="50" rx="2" ry="2" width="660" height="6" />
+					<rect x="50" y="64" rx="2" ry="2" width="660" height="6" />
+					<rect x="50" y="78" rx="2" ry="2" width="660" height="6" />
 
 					{/* Buttons */}
-					<rect x="450" y="8" rx="2" ry="2" width="70" height="20" />
-					<rect x="530" y="8" rx="2" ry="2" width="70" height="20" />
-					<rect x="610" y="8" rx="2" ry="2" width="70" height="20" />
+					<rect x="480" y="8" rx="2" ry="2" width="70" height="20" />
+					<rect x="560" y="8" rx="2" ry="2" width="70" height="20" />
+					<rect x="640" y="8" rx="2" ry="2" width="70" height="20" />
 				</>
 			) : (
 				<>
 					{/* Message */}
-					<rect x="50" y="50" rx="2" ry="2" width="350" height="6" />
-					<rect x="50" y="64" rx="2" ry="2" width="350" height="6" />
-					<rect x="50" y="78" rx="2" ry="2" width="350" height="6" />
+					<rect x="50" y="50" rx="2" ry="2" width="380" height="6" />
+					<rect x="50" y="64" rx="2" ry="2" width="380" height="6" />
+					<rect x="50" y="78" rx="2" ry="2" width="380" height="6" />
 				</>
 			)}
 		</ContentLoader>
