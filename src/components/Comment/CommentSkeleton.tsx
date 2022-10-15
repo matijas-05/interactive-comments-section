@@ -69,9 +69,9 @@ function CommentSkeleton(props: Props) {
 
 						{/* Message */}
 						<div className="f-col g-0-25">
-							<Skeleton containerClassName="f-ai-c" width={350} height={10} />
-							<Skeleton containerClassName="f-ai-c" width={350} height={10} />
-							<Skeleton containerClassName="f-ai-c" width={262.5} height={10} />
+							<Skeleton containerClassName="f-ai-c" width="100%" height={10} />
+							<Skeleton containerClassName="f-ai-c" width="100%" height={10} />
+							<Skeleton containerClassName="f-ai-c" width="75%" height={10} />
 						</div>
 					</div>
 				</div>
