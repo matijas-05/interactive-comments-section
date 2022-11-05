@@ -1,6 +1,5 @@
 {
 	"name": "interactive-comments-section",
-	"private": true,
 	"version": "0.1.0",
 	"scripts": {
 		"start": "vite",
@@ -37,7 +36,6 @@
 		"@typescript-eslint/eslint-plugin": "^5.38.0",
 		"@typescript-eslint/parser": "^5.38.0",
 		"@vitejs/plugin-react": "^2.1.0",
-		"eslint": "^8.23.1",
 		"eslint-plugin-react": "^7.31.8",
 		"gh-pages": "^4.0.0",
 		"push-dir": "^0.4.1",
