@@ -1,9 +1,9 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import { fileURLToPath, URL } from "url";
+import path from "path";
+import isWsl from "is-wsl";
 
 process.env.BROWSER = "firefox";
-
 export default defineConfig({
 	base: "/interactive-comments-section/",
 	plugins: [react()],
@@ -11,12 +11,12 @@ export default defineConfig({
 		host: true,
 		open: true,
 		watch: {
-			usePolling: true
+			usePolling: isWsl
 		}
 	},
 	resolve: {
 		alias: {
-			"@": fileURLToPath(new URL("src/", import.meta.url))
+			"@": path.join(__dirname, "src")
 		}
 	},
 	build: {

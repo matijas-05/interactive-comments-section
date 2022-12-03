@@ -12,19 +12,17 @@ import {
 	collection,
 	deleteDoc,
 	doc,
+	DocumentData,
 	DocumentReference,
-	getDoc,
-	getDocs,
 	getFirestore,
 	onSnapshot,
 	orderBy,
 	query,
+	QuerySnapshot,
 	Timestamp,
 	updateDoc
 } from "firebase/firestore";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
-import { CommentsStore } from "@/store";
-import sleep from "sleep-promise";
 
 // Initialize firebase
 const firebaseConfig = {
@@ -162,7 +160,8 @@ export async function addReply(parentCommentID: string, message: string, date: T
 		const replyRef = await addComment(message, date);
 		const parentCommentRef = doc(commentsCol, parentCommentID);
 
-		const existingData = await getComment(parentCommentID);
+		const existingData = getComment(parentCommentID);
+		if (!existingData) throw new Error("Parent comment doesn't exist!");
 		existingData.replies.push(replyRef);
 
 		updateDoc(parentCommentRef, existingData);
@@ -172,18 +171,40 @@ export async function addReply(parentCommentID: string, message: string, date: T
 	}
 }
 
-export async function getComment(id: string) {
+function getComment(id: string): CommentData | undefined {
 	try {
-		const commentRef = doc(commentsCol, id);
-		return (await getDoc(commentRef)).data() as CommentData;
+		return onFirebaseUpdate?.detail.allComments.find(comment => comment.id === id);
 	} catch (error) {
 		console.error("Error getting comment:");
 		throw error;
 	}
 }
-export async function getTopLevelComments() {
+function getAllCommentsFromQuery(snapshot: QuerySnapshot<DocumentData>) {
 	try {
-		const snapshot = await getDocs(query(commentsCol, orderBy("date", "asc")));
+		const comments: CommentData[] = [];
+
+		snapshot.forEach(doc => {
+			const data = doc.data() as CommentData;
+			comments.push({
+				id: doc.id,
+				user: data.user,
+				message: data.message,
+				date: data.date,
+				edited: data.edited,
+				upvotes: data.upvotes,
+				downvotes: data.downvotes,
+				replies: data.replies
+			});
+		});
+
+		return comments;
+	} catch (error) {
+		console.error("Error getting all comments:");
+		throw error;
+	}
+}
+function getTopLevelCommentsFromQuery(snapshot: QuerySnapshot<DocumentData>) {
+	try {
 		const comments: CommentData[] = [];
 
 		snapshot.forEach(doc => {
@@ -220,31 +241,6 @@ export async function getTopLevelComments() {
 		throw error;
 	}
 }
-export async function getAllComments() {
-	try {
-		const snapshot = await getDocs(query(commentsCol, orderBy("date", "asc")));
-		const comments: CommentData[] = [];
-
-		snapshot.forEach(doc => {
-			const data = doc.data() as CommentData;
-			comments.push({
-				id: doc.id,
-				user: data.user,
-				message: data.message,
-				date: data.date,
-				edited: data.edited,
-				upvotes: data.upvotes,
-				downvotes: data.downvotes,
-				replies: data.replies
-			});
-		});
-
-		return comments;
-	} catch (error) {
-		console.error("Error getting all comments:");
-		throw error;
-	}
-}
 
 export async function editComment(id: string, newMessage: string) {
 	try {
@@ -257,23 +253,28 @@ export async function editComment(id: string, newMessage: string) {
 }
 export async function removeComment(id: string) {
 	try {
+		const commentDataToRemove = getComment(id);
+		if (!commentDataToRemove) {
+			throw new Error("Comment doesn't exist!");
+		}
+
+		// Delete all replies
+		for (let i = commentDataToRemove.replies.length - 1; i >= 0; i--) {
+			await removeComment(commentDataToRemove.replies[i].id);
+		}
+
 		// Remove references to deleted doc
-		const allComments = await getAllComments();
+		const allComments = onFirebaseUpdate!.detail.allComments;
 		for (const comment of allComments) {
 			for (let i = 0; i < comment.replies.length; i++) {
 				const reply = comment.replies[i];
 
-				if (id === reply.id) {
+				if (reply.id === id) {
 					comment.replies.splice(i, 1);
 					const commentRef = doc(commentsCol, comment.id);
 					await updateDoc(commentRef, { ...comment, replies: comment.replies } as CommentData);
 				}
 			}
-		}
-
-		// Delete all replies
-		for (const reply of (await getComment(id)).replies) {
-			await removeComment(reply.id);
 		}
 
 		// Delete doc containing comment
@@ -285,10 +286,12 @@ export async function removeComment(id: string) {
 	}
 }
 
-export async function upvoteComment(commentID: string, userID: string) {
+export function upvoteComment(commentID: string, userID: string) {
 	try {
 		const commentRef = doc(commentsCol, commentID);
-		const existingData = await getComment(commentID);
+		const existingData = getComment(commentID);
+
+		if (!existingData) throw new Error("Comment doesn't exist!");
 
 		// Remove upvote if user already upvoted
 		if (existingData.upvotes.includes(userID)) {
@@ -308,10 +311,12 @@ export async function upvoteComment(commentID: string, userID: string) {
 		throw error;
 	}
 }
-export async function downvoteComment(commentID: string, userID: string) {
+export function downvoteComment(commentID: string, userID: string) {
 	try {
 		const commentRef = doc(commentsCol, commentID);
-		const existingData = await getComment(commentID);
+		const existingData = getComment(commentID);
+
+		if (!existingData) throw new Error("Comment doesn't exist!");
 
 		// Remove downvote if user already downvoted
 		if (existingData.downvotes.includes(userID)) {
@@ -333,19 +338,22 @@ export async function downvoteComment(commentID: string, userID: string) {
 }
 
 // Database refreshing
-let unsub: Unsubscribe | null = null;
-let store: CommentsStore | null = null;
-const onFirebaseUpdate = new Event("onFirebaseUpdate");
-
-export function setCommentsStore(commentsDataStore: CommentsStore) {
-	store = commentsDataStore;
+export interface OnFirebaseUpdateEventData {
+	allComments: CommentData[];
+	topLevelComments: CommentData[];
 }
-export function subscribeFirebase() {
-	if (!store) throw Error("Set comment store first with setCommentsStore()");
 
-	unsub = onSnapshot(commentsCol, async () => {
-		store!.setCommentsData(await getTopLevelComments());
-		await sleep(125);
+let unsub: Unsubscribe | null = null;
+let onFirebaseUpdate: CustomEvent<OnFirebaseUpdateEventData> | null = null;
+
+export function subscribeFirebase() {
+	unsub = onSnapshot(query(commentsCol, orderBy("date", "asc")), snapshot => {
+		onFirebaseUpdate = new CustomEvent<OnFirebaseUpdateEventData>("onFirebaseUpdate", {
+			detail: {
+				allComments: getAllCommentsFromQuery(snapshot),
+				topLevelComments: getTopLevelCommentsFromQuery(snapshot)
+			}
+		});
 		window.dispatchEvent(onFirebaseUpdate);
 	});
 }

@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import {
 	CommentData,
-	getAllComments,
 	getCurrentUser,
+	OnFirebaseUpdateEventData,
 	removeComment,
-	setCommentsStore,
 	signOut,
 	subscribeFirebase,
 	unsubscribeFirebase
 } from "@/firebase";
-import { useCommentsStore, useSignInModalStore } from "@/store";
+import { useSignInModalStore } from "@/store";
 
 import SignInModal from "./Auth/Modals/SignInModal";
 import SignUpModal from "./Auth/Modals/SignUpModal";
@@ -87,35 +86,27 @@ function App() {
 	//#endregion
 
 	//#region COMMENTS
-	const commentsDataStore = useCommentsStore();
 	const topLevelComments = useRef<CommentData[]>();
 	const [allComments, setAllComments] = useState<CommentData[]>();
 
 	useEffect(() => {
-		// Subscribe to db changes
-		setCommentsStore(commentsDataStore);
+		// Subscribe to db changes when component mounts
 		subscribeFirebase();
+		window.addEventListener("onFirebaseUpdate", onFirebaseUpdate);
 
 		// Unsubscribe when component unmounts
 		return () => {
 			unsubscribeFirebase();
+			window.removeEventListener("onFirebaseUpdate", onFirebaseUpdate);
 		};
 	}, []);
-	useEffect(() => {
-		// When comments data store changes, reload comments
-		(async () => {
-			topLevelComments.current = commentsDataStore.commentsData;
-			setAllComments(await getAllComments());
-		})();
-	}, [commentsDataStore.commentsData]);
-	useEffect(() => {
-		document
-			.querySelectorAll<HTMLElement>(".comments > div > div")
-			.forEach(el => (el.style.scrollMargin = `${document.querySelector("header")!.offsetHeight}px`));
-	}, [topLevelComments]);
+	function onFirebaseUpdate(e: CustomEventInit<OnFirebaseUpdateEventData>) {
+		setAllComments(e.detail?.allComments);
+		topLevelComments.current = e.detail?.topLevelComments;
+	}
 
 	function renderComment(commentData: CommentData, isReply: boolean) {
-		if (!topLevelComments.current) return null;
+		if (!topLevelComments.current) throw new Error("'topLevelComments' can't be null!");
 
 		// Remove comments from list of top-level comments if they are replies
 		if (!isReply && !topLevelComments.current.some(topLevel => topLevel.id === commentData.id)) return null;
