@@ -58,9 +58,7 @@ export const getCurrentUser = () => {
 	if (currentUserJSON) {
 		currentUser = JSON.parse(currentUserJSON);
 		return currentUser;
-	}
-
-	return null;
+	} else return null;
 };
 
 export async function signUpUser(
@@ -190,6 +188,7 @@ export async function getTopLevelComments() {
 
 		snapshot.forEach(doc => {
 			const data = doc.data() as CommentData;
+
 			comments.push({
 				id: doc.id,
 				user: data.user,
@@ -204,9 +203,11 @@ export async function getTopLevelComments() {
 
 		// Remove comments from list of top-level comments if they are replies
 		const replyIDs: string[] = [];
-		comments.forEach(comment => {
-			comment.replies.forEach(reply => replyIDs.push(reply.id));
-		});
+		for (const comment of comments) {
+			for (const reply of comment.replies) {
+				replyIDs.push(reply.id);
+			}
+		}
 		for (let i = comments.length - 1; i >= 0; i--) {
 			if (replyIDs.includes(comments[i].id!)) {
 				comments.splice(i, 1);
