@@ -3,6 +3,7 @@ import {
 	CommentData,
 	getCurrentUser,
 	OnFirebaseUpdateEventData,
+	ON_FIREBASE_UPDATE_EVENT_NAME,
 	removeComment,
 	signOut,
 	subscribeFirebase,
@@ -92,12 +93,12 @@ function App() {
 	useEffect(() => {
 		// Subscribe to db changes when component mounts
 		subscribeFirebase();
-		window.addEventListener("onFirebaseUpdate", onFirebaseUpdate);
+		window.addEventListener(ON_FIREBASE_UPDATE_EVENT_NAME, onFirebaseUpdate);
 
 		// Unsubscribe when component unmounts
 		return () => {
 			unsubscribeFirebase();
-			window.removeEventListener("onFirebaseUpdate", onFirebaseUpdate);
+			window.removeEventListener(ON_FIREBASE_UPDATE_EVENT_NAME, onFirebaseUpdate);
 		};
 	}, []);
 	function onFirebaseUpdate(e: CustomEventInit<OnFirebaseUpdateEventData>) {

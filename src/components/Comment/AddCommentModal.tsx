@@ -16,14 +16,11 @@ function AddCommentModal() {
 	const [commentContent, setCommentContent] = useState("");
 
 	function handleAddComment() {
-		addComment(commentContent, Timestamp.fromDate(new Date()));
-
-		const listener = () => {
+		(async () => {
+			await addComment(commentContent, Timestamp.fromDate(new Date()));
 			textAreaRef.current!.value = "";
 			setCommentContent("");
-			window.removeEventListener("onFirebaseUpdate", listener);
-		};
-		window.addEventListener("onFirebaseUpdate", listener);
+		})();
 	}
 
 	if (!currentUser) return null;

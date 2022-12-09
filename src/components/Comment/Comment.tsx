@@ -59,13 +59,7 @@ class Comment extends React.Component<Props, State> {
 		(async () => {
 			unsubscribeFirebase();
 			await editComment(this.props.id, this.state.editMessage);
-			subscribeFirebase();
-
-			const listener = () => {
-				this.toggleEditing();
-				window.removeEventListener("onFirebaseUpdate", listener);
-			};
-			window.addEventListener("onFirebaseUpdate", listener);
+			subscribeFirebase(() => this.toggleEditing());
 		})();
 	}
 

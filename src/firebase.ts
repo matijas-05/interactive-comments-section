@@ -345,16 +345,22 @@ export interface OnFirebaseUpdateEventData {
 
 let unsub: Unsubscribe | null = null;
 let onFirebaseUpdate: CustomEvent<OnFirebaseUpdateEventData> | null = null;
+export const ON_FIREBASE_UPDATE_EVENT_NAME = "onFirebaseUpdate";
 
-export function subscribeFirebase() {
+export function subscribeFirebase(callback?: (data: OnFirebaseUpdateEventData) => void) {
 	unsub = onSnapshot(query(commentsCol, orderBy("date", "asc")), snapshot => {
-		onFirebaseUpdate = new CustomEvent<OnFirebaseUpdateEventData>("onFirebaseUpdate", {
+		onFirebaseUpdate = new CustomEvent<OnFirebaseUpdateEventData>(ON_FIREBASE_UPDATE_EVENT_NAME, {
 			detail: {
 				allComments: getAllCommentsFromQuery(snapshot),
 				topLevelComments: getTopLevelCommentsFromQuery(snapshot)
 			}
 		});
+
 		window.dispatchEvent(onFirebaseUpdate);
+		if (callback) {
+			callback(onFirebaseUpdate.detail);
+			callback = undefined;
+		}
 	});
 }
 export function unsubscribeFirebase() {
