@@ -28,6 +28,7 @@ interface Props {
 	children?: React.ReactNode;
 	parent?: Comment;
 	parentRef?: React.RefObject<HTMLDivElement>;
+	style?: React.CSSProperties;
 }
 interface State {
 	isEditing: boolean;
@@ -81,7 +82,7 @@ class Comment extends React.Component<Props, State> {
 		return (
 			<div ref={this.thisRef} className="f-col g-1 hide-empty">
 				<Mobile>
-					<div className={"f-col g-1-25 card"}>
+					<div className={"f-col g-1-25 card"} style={this.props.style}>
 						<CommentInfo user={this.props.user} date={this.props.date} edited={this.props.edited} />
 						<CommentMessage
 							message={this.props.message}
@@ -114,7 +115,7 @@ class Comment extends React.Component<Props, State> {
 				</Mobile>
 
 				<Desktop>
-					<div className="f-row g-1-25 card">
+					<div className="f-row g-1-25 card" style={this.props.style}>
 						<Votes
 							className="f-col"
 							style={{ alignSelf: "flex-start" }}

@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import MediaQuery from "react-responsive";
 import { faArrowRightToBracket, faArrowRightFromBracket, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { getCurrentUser } from "@/firebase";
@@ -9,12 +9,16 @@ interface Props {
 	openSignInModal: () => void;
 	openSignUpModal: () => void;
 	openSignOutModal: () => void;
+	getHeaderHeight: (height: number) => void;
 }
 function Header(props: Props) {
 	const btnTextBreakpoint = 650;
 	const headerRef = useRef<HTMLDivElement>(null);
-
 	const currentUser = getCurrentUser();
+
+	useEffect(() => {
+		if (headerRef.current) props.getHeaderHeight(headerRef.current.clientHeight);
+	}, []);
 
 	return (
 		<header ref={headerRef} className={`${styles["header"]} left-right g-1`}>

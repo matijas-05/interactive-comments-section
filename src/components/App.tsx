@@ -49,7 +49,6 @@ function App() {
 
 	function handleCloseReplyModal() {
 		setReplyModalIsOpen(false);
-		// setReplyModalParent(null);
 		replyModalParent.current = null;
 	}
 	function handleToggleReplyModal(parentComment: HTMLDivElement, userName: string, parentCommentID: string) {
@@ -89,6 +88,7 @@ function App() {
 	//#region COMMENTS
 	const topLevelComments = useRef<CommentData[]>();
 	const [allComments, setAllComments] = useState<CommentData[]>();
+	const headerHeight = useRef(0);
 
 	useEffect(() => {
 		// Subscribe to db changes when component mounts
@@ -167,6 +167,7 @@ function App() {
 				edited={commentData.edited}
 				openReplyModal={handleToggleReplyModal}
 				openDeleteCommentModal={handleOpenDeleteCommentModal}
+				style={{ scrollMarginTop: `${headerHeight.current + 16}px` }}
 			>
 				{replies}
 			</Comment>
@@ -181,6 +182,7 @@ function App() {
 				openSignInModal={handleToggleSignInModal}
 				openSignUpModal={handleToggleSignUpModal}
 				openSignOutModal={handleToggleSignOutModal}
+				getHeaderHeight={height => (headerHeight.current = height)}
 			/>
 
 			<section className="f-center g-1 pad-1-2" style={{ display: "grid" }}>
